@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自动化光伏空调系统软件</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/public.css">
+    <link rel="stylesheet" href="../css/pagetwo.css">
+</head>
+
+<body>
+    <div class="air-wraper">
+        <h3 class="text-center" style="margin-bottom:20px;">自动化光伏空调系统能量平衡计算</h3>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 left-aside">
+                    <h4>开始计算</h4>
+                    <ul class="list-unstyled">
+                        <li style="color:#000">1、请选择地点</li>
+                        <li style="color:#000">2、空调系统耗电量计算</li>
+                        <li>3、方阵面太阳能辐照量计算</li>
+                        <li>4、计算各月发电盈亏量</li>
+                        <li>5、计算方阵输出电流、蓄电池容量、光伏方阵容量</li>
+                        <li>6、光伏阵列最大安装容量计算</li>
+                        <li>7、光伏空调建筑自持化判定</li>
+                    </ul>
+                    <h4>小工具</h4>
+                    <ul class="list-unstyled public">
+                        <li>1、太阳能资源分布图</li>
+                        <li>2、倾斜面太阳辐射面计算</li>
+                    </ul>
+                </div>
+                <div class="col-sm-9 right-aside">
+                    <div class="form-head">
+                        <div class="location">
+                            <span>陕西省</span>
+                            <span>西安市</span>
+                        </div>
+                        <div class="coordinate">
+                            <span>北纬34.12°</span>
+                            <span>东经108°</span>
+                        </div>
+                    </div>
+                    <div class="form-button">
+                        <ul id="myTab" class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#cooling-index" data-toggle="tab" class="btn navbar-btn">
+                                    &bull;根据冷指标估算
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#cooling-load" data-toggle="tab" class="btn navbar-btn">&bull;根据各月冷负荷计算</a>
+                            </li>
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                            <div class="tab-pane fade in active" id="cooling-index">
+                                <h4>请输入：</h4>
+                                <div class="cooling-q clearfix">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <label for="coolingIndex">1.冷指标q</label>
+                                            <input type="text" class="form-control" placeholder="冷指标q" id="coolingIndex">
+                                            <span>W/㎡</span>
+                                        </div>
+                                    </form>
+                                    <div class="note-cooling-q note right">
+                                        <p>注：建议冷指标按15K519《暖通空调设计常用数据》表5.1.2夏、冬季空调冷热负荷指标值选取</p>
+                                        <div class="form-table table-responsive">
+                                            <table class="table table-bordered">
+                                                <caption class="text-center">表5.1.2夏、冬季空调冷热负荷指标值</caption>
+                                                <thead>
+                                                    <tr>
+                                                        <th>建筑物</th>
+                                                        <th>热指标(W/㎡)</th>
+                                                        <th>冷指标(W/㎡)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>办公</td>
+                                                        <td>80-100</td>
+                                                        <td>80-110</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>医院</td>
+                                                        <td>90-120</td>
+                                                        <td>70-100</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>旅馆、宾馆</td>
+                                                        <td>90-120</td>
+                                                        <td>80-110</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>商店、展览馆</td>
+                                                        <td>100-120</td>
+                                                        <td>125-180</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>影剧院</td>
+                                                        <td>115-140</td>
+                                                        <td>150-200</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>体育馆</td>
+                                                        <td>130-190</td>
+                                                        <td>140-200</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cooling-k clearfix">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <label for="coefficient">2.系数k</label>
+                                            <input type="text" class="form-control" placeholder="系数k" id="coefficient">
+                                        </div>
+                                    </form>
+                                    <div class="note right">
+                                        <p>
+                                            注：系数k为空调计算冷负荷指标折算成日平均计算冷负荷指标的系数。按空调负荷视为起始终止值非零的正弦波，因此其平均值0.60~0.75；
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="cooling-h clearfix">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <label for="hour">3.日空调开启时长h</label>
+                                            <input type="text" class="form-control" placeholder="空调开启时长h" id="hour" style="width:150px">
+                                            <span>小时</span>
+                                        </div>
+                                    </form>
+                                    <div class="note right">
+                                        <p>
+                                            注：住宅建筑建议取值24小时；办公建筑建议取值10小时
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="cooling-Nmax clearfix">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <label for="Nmax">4.冷负荷最大月天数Nmax</label>
+                                            <input type="text" class="form-control" placeholder="冷负荷最大月天数Nmax" id="Nmax">
+                                            <span>天</span>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="cooling-z clearfix">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <label for="floor">5.建筑层数z</label>
+                                            <input type="text" class="form-control" placeholder="建筑层数z" id="floor">
+                                            <span>层</span>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="cooling-m clearfix">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <label for="month-begin">6.系数ki</label>
+                                            <input type="text" class="form-control" placeholder="开始月份" id="month-begin">
+                                            <span>月</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="month-end">——</label>
+                                            <input type="text" class="form-control" placeholder="结束月份" id="month-end" style="margin-left:0">
+                                            <span>月</span>
+                                        </div>
+                                    </form>
+                                    <form class="form-inline" style="margin-top:20px">
+                                        <div class="form-group">
+                                            <label for="k4">4月</label>
+                                            <input type="text" class="form-control" placeholder="" id="k4" style="margin-left:0;width:60px;">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="k5">5月</label>
+                                            <input type="text" class="form-control" placeholder="" id="k5" style="margin-left:0;width:60px;">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="k6">6月</label>
+                                            <input type="text" class="form-control" placeholder="" id="k6" style="margin-left:0;width:60px;">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="k7">7月</label>
+                                            <input type="text" class="form-control" placeholder="" id="k7" style="margin-left:0;width:60px;">
+                                        </div>
+                                    </form>
+                                    <button class="btn btn-primary" style="background:#5bc0de;border:none;margin-top:20px">点击计算各月冷负荷</button>
+                                    <div class="month-cooling">
+                                        <span>4月</span>
+                                        <span></span>
+                                        <span>5月</span>
+                                        <span></span>
+                                        <span>6月</span>
+                                        <span></span>
+                                        <span>7月</span>
+                                        <span></span>
+                                    </div>
+                                    <div class="note right">
+                                        <p>
+                                            注：系数ki为空调期各月冷负荷占最大月冷负荷的比值
+                                        </p>
+                                        <div class="form-table table-responsive">
+                                            <table class="table table-bordered">
+                                                <caption class="text-center">表5.1.2夏、冬季空调冷热负荷指标值</caption>
+                                                <thead>
+                                                    <tr>
+                                                        <th>4月</th>
+                                                        <th>5月</th>
+                                                        <th>6月</th>
+                                                        <th>7月</th>
+                                                        <th>8月</th>
+                                                        <th>9月</th>
+                                                        <th>10月</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>40%-70%</td>
+                                                        <td>50%-85%</td>
+                                                        <td>95%-100%</td>
+                                                        <td>95%-100%</td>
+                                                        <td>80%-100%</td>
+                                                        <td>60%-90%</td>
+                                                        <td>40%-70%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cooling-COP clearfix">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <label for="COP">7.制冷机组COP</label>
+                                            <input type="text" class="form-control" placeholder="制冷机组COP" id="COP">
+                                        </div>
+                                    </form>
+                                    <div class="note right">
+                                        <p>
+                                            注：制冷机组COP取值按《公共建筑节能设计标准》GB50189-2015第4.2.10条COP限制标准；
+                                        </p>
+                                        <div class="form-table table-responsive">
+                                            <table class="table table-bordered">
+                                                <caption class="text-center">制冷机组COP建议取值</caption>
+                                                <thead>
+                                                    <tr>
+                                                        <th>风冷</th>
+                                                        <th colspan="3">水冷</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>活塞/涡旋/螺杆</td>
+                                                        <td>活塞/涡旋</td>
+                                                        <td>螺杆</td>
+                                                        <td>离心</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>COP</td>
+                                                        <td>COP</td>
+                                                        <td>COP</td>
+                                                        <td>COP</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2.9</td>
+                                                        <td>4.4</td>
+                                                        <td>5.3</td>
+                                                        <td>5.7</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cooling-voltage clearfix">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <label for="voltage">8.制冷机工作电压U</label>
+                                            <input type="text" class="form-control" value="380" id="voltage" disabled>
+                                            <span>V</span>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="cooling-COP clearfix">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <label for="scale">9.制冷机能耗比例ζ</label>
+                                            <input type="text" class="form-control" placeholder="制冷机能耗比例ζ" id="scale">
+                                        </div>
+                                    </form>
+                                    <div class="note right">
+                                        <p>注：考虑由水泵和风机组成的输配系统以及末端风机盘管耗电量的存在，系数ζ为制冷机组能耗占整个空调系统能耗的比例。建议取值≥0.4</p>
+                                    </div>
+                                </div>
+                                <div class="cooling-COP clearfix">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <p style="margin-bottom: 5px;font-weight: 700;">10.空调系统耗电量计算Qc</p>
+                                        </div>
+                                    </form>
+                                    <button class="btn btn-primary" id="everyQc" style="background:#5bc0de;border:none;margin-top:10px">点击进行计算</button>
+                                    <div class="note right" id="Qc-echart" style="height:400px;">
+                                    </div>
+                                    <div class="left">
+                                        <span style="margin-bottom: 5px;font-weight: 700;">单位建筑基底面积空调系统年日均耗电量QL:QL = </span>
+                                        <span style="display:inline-block;width:50px;"></span>
+                                        <span>(A·h/d/㎡)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="cooling-load">
+                                <div class="cooling-m clearfix">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <label for="month-begin-tab">1.请输入各月冷负荷(W)</label>
+                                            <input type="text" class="form-control" placeholder="开始月份" id="month-begin-tab">
+                                            <span>月</span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="month-end-tab">——</label>
+                                            <input type="text" class="form-control" placeholder="结束月份" id="month-end-tab" style="margin-left:0">
+                                            <span>月</span>
+                                        </div>
+                                    </form>
+                                    <form class="form-inline" style="margin-top:20px">
+                                        <div class="form-group">
+                                            <label for="k4-tab">4月</label>
+                                            <input type="text" class="form-control" placeholder="" id="k4-tab" style="margin-left:0;width:60px;">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="k5-tab">5月</label>
+                                            <input type="text" class="form-control" placeholder="" id="k5-tab" style="margin-left:0;width:60px;">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="k6-tab">6月</label>
+                                            <input type="text" class="form-control" placeholder="" id="k6-tab" style="margin-left:0;width:60px;">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="k7-tab">7月</label>
+                                            <input type="text" class="form-control" placeholder="" id="k7-tab" style="margin-left:0;width:60px;">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="cooling-COP clearfix">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <label for="COP-tab">2.制冷机组COP-tab</label>
+                                            <input type="text" class="form-control" placeholder="制冷机组COP" id="COP-tab">
+                                        </div>
+                                    </form>
+                                    <div class="note right">
+                                        <p>
+                                            注：制冷机组COP取值按《公共建筑节能设计标准》GB50189-2015第4.2.10条COP限制标准；
+                                        </p>
+                                        <div class="form-table table-responsive">
+                                            <table class="table table-bordered">
+                                                <caption class="text-center">制冷机组COP建议取值</caption>
+                                                <thead>
+                                                    <tr>
+                                                        <th>风冷</th>
+                                                        <th colspan="3">水冷</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>活塞/涡旋/螺杆</td>
+                                                        <td>活塞/涡旋</td>
+                                                        <td>螺杆</td>
+                                                        <td>离心</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>COP</td>
+                                                        <td>COP</td>
+                                                        <td>COP</td>
+                                                        <td>COP</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2.9</td>
+                                                        <td>4.4</td>
+                                                        <td>5.3</td>
+                                                        <td>5.7</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cooling-voltage clearfix">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <label for="voltage-tab">3.制冷机工作电压U</label>
+                                            <input type="text" class="form-control" value="380" id="voltage-tab" disabled>
+                                            <span>V</span>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="cooling-COP clearfix">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <label for="scale-tab">4.制冷机能耗比例ζ</label>
+                                            <input type="text" class="form-control" placeholder="制冷机能耗比例ζ" id="scale-tab">
+                                        </div>
+                                    </form>
+                                    <div class="note right">
+                                        <p>注：考虑由水泵和风机组成的输配系统以及末端风机盘管耗电量的存在，系数ζ为制冷机组能耗占整个空调系统能耗的比例。建议取值≥0.4</p>
+                                    </div>
+                                </div>
+                                <div class="cooling-COP clearfix">
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <p style="margin-bottom: 5px;font-weight: 700;">5.空调系统耗电量计算Qc</p>
+                                        </div>
+                                    </form>
+                                    <button class="btn btn-primary" id="everyQc-tab" style="background:#5bc0de;border:none;margin-top:10px">点击进行计算</button>
+                                    <div class="note right" id="Qc-echart-tab" style="height:400px;">
+                                    </div>
+                                    <div class="left">
+                                        <span style="margin-bottom: 5px;font-weight: 700;">单位建筑基底面积空调系统年日均耗电量QL:QL = </span>
+                                        <span style="display:inline-block;width:50px;"></span>
+                                        <span>(A·h/d/㎡)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="../js/lab/jquery-3.2.1.min.js"></script>
+<script src="../js/lab/bootstrap.min.js"></script>
+<script src="../js/lab/echarts.min.js"></script>
+<script src="../js/src/pagetwo.js"></script>

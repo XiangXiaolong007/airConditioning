@@ -1,0 +1,74 @@
+/* 侧边栏 */
+
+.left-aside li {
+    line-height: 30px;
+}
+
+.left-aside h4 {
+    font-size: 16px;
+    color: #000
+}
+
+.public {
+    color: #000
+}
+
+
+/* 右边内容 */
+
+
+
+
+
+.nav-tabs {
+    border: none
+}
+
+a {
+    color: #000000
+}
+
+
+/* tab左 冷指标 */
+
+.active a {
+    background: #5bc0de !important
+}
+
+#cooling-index .form-control {
+    margin-left: 20px;
+    width: 100px
+}
+
+.form-table th,
+.form-table td {
+    text-align: center
+}
+
+.note {
+    width: 600px;
+    margin-top: 20px;
+    margin-right: 50px;
+}
+
+#cooling-index>div,
+#cooling-load>div {
+    margin-bottom: 20px;
+}
+
+#myTabContent>div {
+    display: none;
+}
+
+#myTabContent .active {
+    display: block
+}
+
+.month-cooling span {
+    display: inline-block;
+    width: 50px;
+    margin-top: 20px;
+}
+
+
+/* tab右 冷负荷 */
