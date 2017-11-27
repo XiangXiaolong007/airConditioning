@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>自持化光伏空调系统</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<style type="text/css">
+			.btn{
+				margin-bottom: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<form role="form" class="form-horizontal" style="padding: 30px 50px;">
+			<div class="form-group">
+				<label for="coolingIndex" class="control-label col-sm-3" style="text-align: center;">冷指标q</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="coolingIndex" value="60" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="coefficient" class="control-label col-sm-3" style="text-align: center;">系数k</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="coefficient" value="0.6" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="hour" class="control-label col-sm-3" style="text-align: center;">空调开启时长h</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="hour" value="24" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="Nmax" class="control-label col-sm-3" style="text-align: center;">最大月天数</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="Nmax" value="30" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="floor" class="control-label col-sm-3" style="text-align: center;">建筑层数z</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="floor" value="1" />
+				</div>
+			</div>
+			<!-- <button type="button" class="btn btn-danger" id="juneCooling">点击计算最大月总冷负荷Qmax</button> -->
+			<div class="form-group" style="display: none;" id="juneCooling-calculate">
+				<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算最大月总冷负荷Qmax(W·h/㎡)为：</strong>
+				<span class="col-sm-9" id="june-cooling-number" style="color: deeppink;"></span>
+			</div>
+			<div class="form-group">
+				<label for="k4" class="control-label col-sm-3" style="text-align: center;">4月份系数k4</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="k4" value="0.64" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="k5" class="control-label col-sm-3" style="text-align: center;">5月份系数k5</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="k5" value="0.815" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="k6" class="control-label col-sm-3" style="text-align: center;">6月份系数k6</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="k6" value="0.8" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="k7" class="control-label col-sm-3" style="text-align: center;">7月份系数k7</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="k7" value="1" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="k8" class="control-label col-sm-3" style="text-align: center;">8月份系数k8</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="k8" value="0.93" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="k9" class="control-label col-sm-3" style="text-align: center;">9月份系数k9</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="k9" value="0.76" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="k10" class="control-label col-sm-3" style="text-align: center;">10月份系数k10</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="k10" value="0.58" />
+				</div>
+			</div>
+			<div>
+				<!-- <button type="button" class="btn btn-danger" id="elseCooling">点击计算各月总冷负荷Q</button> -->
+				<div style="display: none;" id="elseCooling-load">
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算4月总冷负荷Q4为：</strong>
+						<span class="col-sm-9" style="color: deeppink;" id="april-cooling-number"></span>
+					</div>
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算5月总冷负荷Q5为：</strong>
+						<span class="col-sm-9" style="color: deeppink;" id="may-cooling-number"></span>
+					</div>
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算6月总冷负荷Q6为：</strong>
+						<span class="col-sm-9" style="color: deeppink;" id="june1-cooling-number"></span>
+					</div>
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算7月总冷负荷Q7为：</strong>
+						<span class="col-sm-9" style="color: deeppink;" id="july-cooling-number"></span>
+					</div>
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算8月总冷负荷Q8为：</strong>
+						<span class="col-sm-9" style="color: deeppink;" id="august-cooling-number"></span>
+					</div>
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算9月总冷负荷Q9为：</strong>
+						<span class="col-sm-9" style="color: deeppink;" id="september-cooling--number"></span>
+					</div>
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算10月总冷负荷Q10为：</strong>
+						<span class="col-sm-9" style="color: deeppink;" id="october-cooling-number"></span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="COP" class="control-label col-sm-3" style="text-align: center;">制冷机组性能系数COP</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="COP" value="5.5" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="voltage" class="control-label col-sm-3" style="text-align: center;">蓄电池工作电压U</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="voltage" value="380" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="scale" class="control-label col-sm-3" style="text-align: center;">制冷机组能耗占整个空调系统能耗的比例ζ</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="scale" value="0.5" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="days" class="control-label col-sm-3" style="text-align: center;">蓄电池维持天数n</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="days" value="1"/>
+				</div>
+			</div>
+			<!-- <button type="button" class="btn btn-danger" id="Qc">点击获取单位建筑面积空调系统各月耗电量Qc值</button> -->
+			<div style="display: none;" id="everyQc">
+				<div class="form-group">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">单位建筑面积空调系统4月耗电量Qc4：</strong>
+					<span class="col-sm-9" id="Qc4" style="color: deeppink;"></span>
+				</div>
+				<div class="form-group">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">单位建筑面积空调系统5月耗电量Qc5：</strong>
+					<span class="col-sm-9" id="Qc5" style="color: deeppink;"></span>
+				</div>
+				<div class="form-group">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">单位建筑面积空调系统6月耗电量Qc6：</strong>
+					<span class="col-sm-9" id="Qc6" style="color: deeppink;"></span>
+				</div>
+				<div class="form-group">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">单位建筑面积空调系统7月耗电量Qc7：</strong>
+					<span class="col-sm-9" id="Qc7" style="color: deeppink;"></span>
+				</div>
+				<div class="form-group">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">单位建筑面积空调系统8月耗电量Qc8：</strong>
+					<span class="col-sm-9" id="Qc8" style="color: deeppink;"></span>
+				</div>
+				<div class="form-group">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">单位建筑面积空调系统9月耗电量Qc9：</strong>
+					<span class="col-sm-9" id="Qc9" style="color: deeppink;"></span>
+				</div>
+				<div class="form-group">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">单位建筑面积空调系统10月耗电量Qc10：</strong>
+					<span class="col-sm-9" id="Qc10" style="color: deeppink;"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="april" class="control-label col-sm-3" style="text-align: center;">请输入4月份天数：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="april" value="30" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="may" class="control-label col-sm-3" style="text-align: center;">请输入5月份天数：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="may" value="31" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="june" class="control-label col-sm-3" style="text-align: center;">请输入6月份天数：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="june" value="30" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="july" class="control-label col-sm-3" style="text-align: center;">请输入7月份天数：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="july" value="31" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="august" class="control-label col-sm-3" style="text-align: center;">请输入8月份天数：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="august" value="31" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="september" class="control-label col-sm-3" style="text-align: center;">请输入9月份天数：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="september" value="30" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="october" class="control-label col-sm-3" style="text-align: center;">请输入10月份天数：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="october" value="31" />
+				</div>
+			</div>
+			<!-- <button type="button" class="btn btn-danger" id="btn-Ql">点击计算单位面积空调系统年日均耗电量Ql</button> -->
+			<div class="form-group" style="display: none;" id="Ql-number">
+				<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算单位面积空调系统年日均耗电量Ql(A·h/d/㎡)为：</strong>
+				<span class="col-sm-9" id="Ql" style="color: deeppink;"></span>
+			</div>
+			<div class="form-group">
+				<label for="Hz4" class="control-label col-sm-3" style="text-align: center;">4月份平均太阳总辐照量H4：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="Hz4" value="6.26"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="Hs4" class="control-label col-sm-3" style="text-align: center;">4月份平均太阳散射辐照量Hd4：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="Hs4" value="2.29"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="Hz5" class="control-label col-sm-3" style="text-align: center;">5月份平均太阳总辐照量H5：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="Hz5" value="6.48"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="Hs5" class="control-label col-sm-3" style="text-align: center;">5月份平均太阳散射辐照量Hd5：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="Hs5" value="2.42"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="Hz6" class="control-label col-sm-3" style="text-align: center;">6月份平均太阳总辐照量H6：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="Hz6" value="6.55"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="Hs6" class="control-label col-sm-3" style="text-align: center;">6月份平均太阳散射辐照量Hd6：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="Hs6" value="2.41"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="Hz7" class="control-label col-sm-3" style="text-align: center;">7月份平均太阳总辐照量H7：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="Hz7" value="6.84"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="Hs7" class="control-label col-sm-3" style="text-align: center;">7月份平均太阳散射辐照量Hd7：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="Hs7" value="2.38"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="Hz8" class="control-label col-sm-3" style="text-align: center;">8月份平均太阳总辐照量H8：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="Hz8" value="6.18"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="Hs8" class="control-label col-sm-3" style="text-align: center;">8月份平均太阳散射辐照量Hd8：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="Hs8" value="2.33"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="Hz9" class="control-label col-sm-3" style="text-align: center;">9月份平均太阳总辐照量H9：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="Hz9" value="5.46"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="Hs9" class="control-label col-sm-3" style="text-align: center;">9月份平均太阳散射辐照量Hd9：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="Hs9" value="2.15"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="Hz10" class="control-label col-sm-3" style="text-align: center;">10月份平均太阳总辐照量H10：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="Hz10" value="4.92"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="Hs10" class="control-label col-sm-3" style="text-align: center;">10月份平均太阳散射辐照量Hd10：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="Hs10" value="1.87"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="dip" class="control-label col-sm-3" style="text-align: center;">倾角β</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="dip" value="15" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="azimuth" class="control-label col-sm-3" style="text-align: center;">倾斜面方位角γ</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="azimuth" value="0" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="latitude" class="control-label col-sm-3" style="text-align: center;">当地纬度φ</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="latitude" value="18" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="reflectivity" class="control-label col-sm-3" style="text-align: center;">地面反射率ρ</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="reflectivity" value="0.2" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="n4" class="control-label col-sm-3" style="text-align: center;">请输入4日期序号n4：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="n4" value="105" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="n5" class="control-label col-sm-3" style="text-align: center;">请输入5月份日期序号n5：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="n5" value="135" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="n6" class="control-label col-sm-3" style="text-align: center;">请输入6月份日期序号n6：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="n6" value="166" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="n7" class="control-label col-sm-3" style="text-align: center;">请输入7月份日期序号n7：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="n7" value="196" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="n8" class="control-label col-sm-3" style="text-align: center;">请输入8月份日期序号n8：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="n8" value="227" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="n9" class="control-label col-sm-3" style="text-align: center;">请输入9月份日期序号n9：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="n9" value="258" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="n10" class="control-label col-sm-3" style="text-align: center;">请输入10月份日期序号n10：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="n10" value="288" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="eff-loop-one" class="control-label col-sm-3" style="text-align: center;">从方阵到蓄电池输入回路效率η1：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="eff-loop-one" value="0.9"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="eff-loop-two" class="control-label col-sm-3" style="text-align: center;">蓄电池到负载的输出回路效率η2：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="eff-loop-two" value="0.9"/>
+				</div>
+			</div>
+			<!-- <button type="button" class="btn btn-danger" id="btn-Ht-Hm">点击计算倾斜面上各月日均太阳辐射量Ht(kW·h/(㎡·d))以及全年平均日总辐照量Hm(kW·h/(㎡·d))</button> -->
+			<div style="display: none;" id="ht-and-hm">
+				<div class="form-group">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算倾斜面上4月日均太阳辐射量Ht(kW·h/(㎡·d))为：</strong>
+					<span class="col-sm-9" id="Ht4" style="color: deeppink;"></span>
+				</div>
+				<div class="form-group">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算倾斜面上5月日均太阳辐射量Ht(kW·h/(㎡·d))为：</strong>
+					<span class="col-sm-9" id="Ht5" style="color: deeppink;"></span>
+				</div>
+				<div class="form-group">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算倾斜面上6月日均太阳辐射量Ht(kW·h/(㎡·d))为：</strong>
+					<span class="col-sm-9" id="Ht6" style="color: deeppink;"></span>
+				</div>
+				<div class="form-group">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算倾斜面上7月日均太阳辐射量Ht(kW·h/(㎡·d))为：</strong>
+					<span class="col-sm-9" id="Ht7" style="color: deeppink;"></span>
+				</div>
+				<div class="form-group">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算倾斜面上8月日均太阳辐射量Ht(kW·h/(㎡·d))为：</strong>
+					<span class="col-sm-9" id="Ht8" style="color: deeppink;"></span>
+				</div>
+				<div class="form-group">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算倾斜面上9月日均太阳辐射量Ht(kW·h/(㎡·d))为：</strong>
+					<span class="col-sm-9" id="Ht9" style="color: deeppink;"></span>
+				</div>
+				<div class="form-group">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算倾斜面上10月日均太阳辐射量Ht(kW·h/(㎡·d))为：</strong>
+					<span class="col-sm-9" id="Ht10" style="color: deeppink;"></span>
+				</div>
+				<div class="form-group">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算倾斜面上全年平均日总辐照量Hm(kW·h/(㎡·d))为：</strong>
+					<span class="col-sm-9" id="Hm" style="color: deeppink;"></span>
+				</div>
+			</div>
+			<!-- <div class="form-group">
+				<label for="eff-loop-one" class="control-label col-sm-3" style="text-align: center;">从方阵到蓄电池输入回路效率η1：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="eff-loop-one" value="0.9"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="eff-loop-two" class="control-label col-sm-3" style="text-align: center;">蓄电池到负载的输出回路效率η2：</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="eff-loop-two" value="0.9"/>
+				</div>
+			</div> -->
+			<div>
+				<!-- <button type="button" class="btn btn-danger" id="btn-Imax">点击计算单位建筑面积方阵输出的最大电流Imax</button> -->
+				<div class="form-group" style="display: none;" id="Imax-number">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算单位建筑面积方阵输出的最大电流Imax为：</strong>
+					<span class="col-sm-9" id="Imax" style="color: deeppink;"></span>
+				</div>
+			</div>
+			<div>
+				<!-- <button type="button" class="btn btn-danger" id="btn-Imin">点击计算单位建筑面积方阵输出的最小电流Imin</button> -->
+				<div class="form-group" style="display: none;" id="Imin-number">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算单位建筑面积方阵输出的最小电流Imin为：</strong>
+					<span class="col-sm-9" id="Imin" style="color: deeppink;"></span>
+				</div>
+			</div>
+			<!-- <button type="button" class="btn btn-danger" id="btn-electricity">点击得出符合要求的实际工作电流I</button> -->
+			<div class="form-group" id="electricity-number" style="display: none;">
+				<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">实际工作电流I为：</strong>
+				<span class="col-sm-9" id="electricity" style="color: deeppink;"></span>
+				<!--<label for="electricity" class="control-label col-sm-3" style="text-align: center;">实际工作电流I</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="electricity" placeholder="请输入单位建筑面积方阵实际工作电流I(Imin<I<Imax)" />-->
+				<!--</div>-->
+			</div>
+			<!--计算单位建筑面积方阵各月发电量-->
+			<div>
+				<!-- <button type="button" class="btn btn-danger" id="btn-Qg">点击计算单位建筑面积方阵各月发电量Qg</button> -->
+				<div style="display: none;" id="every-Qg">
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算单位建筑面积方阵4月发电量Qg为：</strong>
+						<span class="col-sm-9" id="Qg4" style="color: deeppink;"></span>
+					</div>
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算单位建筑面积方阵5月发电量Qg为：</strong>
+						<span class="col-sm-9" id="Qg5" style="color: deeppink;"></span>
+					</div>
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算单位建筑面积方阵6月发电量Qg为：</strong>
+						<span class="col-sm-9" id="Qg6" style="color: deeppink;"></span>
+					</div>
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算单位建筑面积方阵7月发电量Qg为：</strong>
+						<span class="col-sm-9" id="Qg7" style="color: deeppink;"></span>
+					</div>
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算单位建筑面积方阵8月发电量Qg为：</strong>
+						<span class="col-sm-9" id="Qg8" style="color: deeppink;"></span>
+					</div>
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算单位建筑面积方阵9月发电量Qg为：</strong>
+						<span class="col-sm-9" id="Qg9" style="color: deeppink;"></span>
+					</div>
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算单位建筑面积方阵10月发电量Qg为：</strong>
+						<span class="col-sm-9" id="Qg10" style="color: deeppink;"></span>
+					</div>
+				</div>
+			</div>
+			<div>
+				<!-- <button type="button" class="btn btn-danger" id="btn-Q">点击计算单位建筑面积各月发电盈亏量ΔQ</button> -->
+				<div style="display: none;" id="Q-number">
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算单位建筑面积4月发电盈亏量ΔQ4为：</strong>
+						<span class="col-sm-9" id="loss-april" style="color:deeppink"></span>
+					</div>
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算单位建筑面积5月发电盈亏量ΔQ5为：</strong>
+						<span class="col-sm-9" id="loss-may" style="color:deeppink"></span>
+					</div>
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算单位建筑面积6月发电盈亏量ΔQ6为：</strong>
+						<span class="col-sm-9" id="loss-june" style="color:deeppink"></span>
+					</div>
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算单位建筑面积7月发电盈亏量ΔQ7为：</strong>
+						<span class="col-sm-9" id="loss-july" style="color:deeppink"></span>
+					</div>
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算单位建筑面积8月发电盈亏量ΔQ8为：</strong>
+						<span class="col-sm-9" id="loss-august" style="color:deeppink"></span>
+					</div>
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算单位建筑面积9月发电盈亏量ΔQ9为：</strong>
+						<span class="col-sm-9" id="loss-september" style="color:deeppink"></span>
+					</div>
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算单位建筑面积10月发电盈亏量ΔQ9为：</strong>
+						<span class="col-sm-9" id="loss-october" style="color:deeppink"></span>
+					</div>
+				</div>
+			</div>
+			<!--确定累计亏欠量-->
+			<div>
+				<!-- <button type="button" class="btn btn-danger" id="btn-total">点击确定累计亏欠量Σ|-ΔQi|</button> -->
+				<div class="form-group" style="display: none;" id="total-loss">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算累计亏欠量Σ|-ΔQi|为：</strong>
+					<span class="col-sm-9" id="all-loss" style="color:deeppink"></span>
+				</div>
+			</div>
+			<!--决定方阵输出电流-->
+			<div>
+				<!-- <button type="button" class="btn btn-danger" id="btn-n1">点击获取n1与指定的蓄电池维持天数做比较</button> -->
+				<button type="button" class="btn btn-danger" id="btn-n1">点击开始进行计算</button>
+				<div class="form-group" style="display: none;" id="n1-number">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算n1为：</strong>
+					<span class="col-sm-9" id="n1" style="color: deeppink;"></span>
+				</div>
+			</div>
+			<!--决定方阵最佳倾角-->
+			<div class="form-group">
+				<label for="roof" class="control-label col-sm-3" style="text-align: center;">请确定建筑屋面类型</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="roof" placeholder="坡屋面请输入0，平屋面请输入1"/>
+				</div>
+			</div>
+			<button type="button" class="btn btn-danger" id="btn-Im">点击开始计算单位面积方阵输出电流Im</button>
+			<div style="display: none;" id="dip-Im">
+				<div class="form-group">
+					<strong class="col-sm-4 control-label" style="text-align: center;color: deepskyblue;">方阵输出电流不变，即<span id="get-Im" style="color: deeppink;"></span></strong>
+				</div>
+			</div>
+			<div style="display: none;" id="dip-range">
+				<div class="form-group">
+					<label for="dipmin" class="control-label col-sm-3" style="text-align: center;">请确定最佳倾角范围下线</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="dipmin" value="0"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="dipmax" class="control-label col-sm-3" style="text-align: center;">请确定最佳倾角范围上线</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="dipmax" value="90"/>
+					</div>
+				</div>
+				<button type="button" class="btn btn-danger" id="btn-Im-get">点击得到单位面积方阵输出电流Im以及最佳倾角</button>
+				<div style="display: none;" id="Im-number-1">
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">单位面积方阵输出电流Im为：</strong>
+						<span class="col-sm-9" id="Im-1" style="color: deeppink;"></span>
+					</div>
+					<div class="form-group">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">最佳倾角β为：</strong>
+						<span class="col-sm-9" id="dip-1" style="color: deeppink;"></span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group" style="display: none;" id="Im-number-2">
+				<strong class="col-sm-3 control-label" style="text-align: center;">计算单位面积方阵输出电流Im为：</strong>
+				<span class="col-sm-9" id="Im-2"></span>
+			</div>
+				<!--<div class="form-group" style="display: none;" id="Im-number">
+					<strong class="col-sm-3 control-label" style="text-align: center;">单位面积方阵输出电流Im为：</strong>
+					<span class="col-sm-9" id="Im"></span>
+				</div>-->
+			<!--计算蓄电池及方阵容量-->
+			<div class="form-group">
+				<label for="accumulator" class="control-label col-sm-3" style="text-align: center;">请确定蓄电池的放电深度</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="accumulator" value="0.8"/>
+				</div>
+			</div>
+			<div>
+				<button type="button" class="btn btn-danger" id="btn-Bn">点击输出单位面积蓄电池容量Bn</button>
+				<div class="form-group" style="display: none;" id="Bn-number">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">单位面积蓄电池容量Bn为：</strong>
+					<span class="col-sm-9" id="Bn" style="color: deeppink;"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="safe-eff" class="control-label col-sm-3" style="text-align: center;">安全系数</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="safe-eff" value="1.2"/>
+				</div>
+			</div>
+			<div class="form-group" id="bn-num">
+				<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">蓄电池充电电压Ub为：</strong>
+				<span class="col-sm-9" id="ub-number" style="color: deeppink;"></span>
+			</div>
+			<div class="form-group">
+				<label for="voltageDrop" class="control-label col-sm-3" style="text-align: center;">电压降Ud</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="voltageDrop" value="1"/>
+				</div>
+			</div>
+			<button type="button" class="btn btn-danger" id="btn-Pn">点击计算单位建筑面积方阵容量Pn</button>
+			<div class="form-group" style="display: none;" id="pn-number">
+				<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算出单位建筑面积方阵容量Pn(W/㎡)为：</strong>
+				<span class="col-sm-9" id="Pn" style="color: deeppink;"></span>
+			</div>
+			<!--光伏阵列最大安装容量Pm计算-->
+			<div class="form-group">
+				<label for="roof-1" class="control-label col-sm-3" style="text-align: center;">请确定光伏组件屋面安装方式</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="roof-1" placeholder="平屋面倾斜支架安装输入1，平屋面平行架空安装输入2，平屋面平铺安装输入3，坡屋面平行架空安装输入4，坡屋面顺坡镶嵌安装输入5"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="sunHeight" class="control-label col-sm-3" style="text-align: center;">太阳能电池组件高度L</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="sunHeight" value="1.64"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="sunWidth" class="control-label col-sm-3" style="text-align: center;">太阳能电池组组件宽度W</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="sunWidth" value="0.8" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="sunPower" class="control-label col-sm-3" style="text-align: center;">单片太阳能电池组件功率Wp</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="sunPower" value="280"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="usefulArea" class="control-label col-sm-3" style="text-align: center;">光伏组件有效面积系数ρ</label>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" id="usefulArea" value="0.9" />
+				</div>
+			</div>
+			<div>
+				<button type="button" class="btn btn-danger" id="btn-Spv">点击输出光伏组件投影面积Spv</button>
+				<div class="form-group" style="display: none;" id="Spv-number">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算出光伏组件投影面积Spv(㎡)为：</strong>
+					<span class="col-sm-9" id="Spv" style="color: deeppink;"></span>
+				</div>
+			</div>
+			<button type="button" class="btn btn-danger" id="btn-Pm">点击开始计算光伏阵列最大安装容量Pm</button>
+			<!--平屋面倾斜支架安装-->
+			<div style="display: none;" id="install-1">
+				<h3 style="color: royalblue;">平屋面倾斜支架安装：</h3>
+				<button type="button" class="btn btn-danger" id="btn-D">点击输出光伏阵列前后排间距D</button>
+				<div class="form-group" style="display: none;" id="D-number">
+					<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算出光伏阵列前后排间距D为：</strong>
+					<span class="col-sm-9" id="D" style="color: deeppink;"></span>
+				</div>
+				<div>
+					<button type="button" class="btn btn-danger" id="btn-y">点击计算屋面光伏组件间距系数γ</button>
+					<div class="form-group" style="display: none;"  id="yy-number">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算出光伏组件间距系数γ为：</strong>
+						<span class="col-sm-9"  id="yy" style="color: deeppink;"></span>
+					</div>
+				</div>
+				<div>
+					<button type="button" class="btn btn-danger" id="btn-pm1">点击得出光伏阵列最大安装容量Pm</button>
+					<div class="form-group" style="display: none;" id="pm1-number">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">计算出光伏阵列最大安装容量Pm(W/㎡)为：</strong>
+						<span class="col-sm-9" id="pm1" style="color: deeppink;"></span>
+					</div>
+				</div>
+			</div>
+			<!--平屋面平行架空安装-->
+			<div style="display: none;" id="install-2">
+				<h3 style="color: royalblue;">平屋面平行架空安装：</h3>
+				<div>
+					<button type="button" class="btn btn-danger" id="btn-pm2">点击得出光伏阵列最大安装容量Pm</button>
+					<div class="form-group" style="display: none;" id="pm2-number">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">光伏阵列最大安装容量Pm(W/㎡)为：</strong>
+						<span class="col-sm-9" id="pm2" style="color: deeppink;"></span>
+					</div>
+				</div>
+			</div>
+			<!--平屋面平铺安装-->
+			<div style="display: none;" id="install-3">
+				<h3 style="color: royalblue;">平屋面平铺安装：<small>(方阵倾角β=0°)</small></h3>
+				<div>
+					<button type="button" class="btn btn-danger" id="btn-pm3">点击得出光伏阵列最大安装容量Pm</button>
+					<div class="form-group" style="display: none;" id="pm3-number">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">光伏阵列最大安装容量Pm(W/㎡)为：</strong>
+						<span class="col-sm-9" id="pm3" style="color: deeppink;"></span>
+					</div>
+				</div>
+			</div>
+			<div style="display: none;" id="install-4">
+				<h3 style="color: royalblue;">坡屋面平行架空安装：</h3>
+				<div class="form-group">
+					<label for="location1" class="control-label col-sm-3" style="text-align: center;">屋面安装方位系数Γ</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="location1" value="0.5" />
+					</div>
+				</div>
+				<div>
+					<button type="button" class="btn btn-danger" id="btn-pm4">点击得出光伏阵列最大安装容量Pm</button>
+					<div class="form-group" style="display: none;" id="pm4-number">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">光伏阵列最大安装容量Pm(W/㎡)为：</strong>
+						<span class="col-sm-9" id="pm4" style="color: deeppink;"></span>
+					</div>
+				</div>
+			</div>
+			<div style="display: none;" id="install-5">
+				<h3 style="color: royalblue;">坡屋面顺坡镶嵌安装：</h3>
+				<div class="form-group">
+					<label for="location2" class="control-label col-sm-3" style="text-align: center;">屋面安装方位系数Γ</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="location2" value="0.5" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="temperature" class="control-label col-sm-3" style="text-align: center;">温度修正系数μ</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="temperature" value="0.9" />
+					</div>
+				</div>
+				<div>
+					<button type="button" class="btn btn-danger" id="btn-pm5">点击得出光伏阵列最大安装容量Pm</button>
+					<div class="form-group" style="display: none;" id="pm5-number">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">光伏阵列最大安装容量Pm(W/㎡)为：</strong>
+						<span class="col-sm-9" id="pm5" style="color:deeppink;"></span>
+					</div>
+				</div>
+			</div> 	
+			<div>
+				<button type="button" class="btn btn-danger" id="btn-judge">判断是否满足用电量要求</button>
+				<div class="form-group" style="display: none;" id="judge1">
+					<strong class="col-sm-12 control-label" style="text-align: center;color: darkgoldenrod;">Pn>Pm,屋面光伏方阵发电量不能满足建筑空调系统用电量要求，需要对建筑进行仅能改造，降低建筑冷负荷，或选择性能系数更高的制冷机组，重新计算，直至Pn<=Pm</strong>
+				</div>
+				<div style="display: none;" id="judge2">
+					<div class="form-group">
+						<label for="areaF" class="control-label col-sm-3" style="text-align: center;">建筑面积</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" id="areaF" value="120" />
+						</div>
+					</div>
+					<button type="button" class="btn btn-danger" id="btn-BP">点击得出自持化光伏空调建筑光伏方阵容量和蓄电池容量</button>
+					<div class="form-group" style="display: none;" id="B-number">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">方阵容量B为：</strong>
+						<span class="col-sm-9" id="B" style="color: deeppink;"></span>
+					</div>
+					<div class="form-group" style="display: none;" id="P-number">
+						<strong class="col-sm-3 control-label" style="text-align: center;color: deepskyblue;">蓄电池容量P为：</strong>
+						<span class="col-sm-9" id="P" style="color: deeppink;"></span>
+					</div>
+				</div>
+			</div>
+		</form>
+	</body>
+	<script type="text/javascript" src="js/jquery-3.2.1.min.js" ></script>
+	<script type="text/javascript" src="js/bootstrap.min.js" ></script>
+	<script type="text/javascript" src="js/index.js" ></script>
+</html>
