@@ -10,7 +10,11 @@
     <link rel="stylesheet" href="../css/public.css">
     <link rel="stylesheet" href="../css/pagetwo.css">
 </head>
-
+<style>
+    .right {
+        margin-right: 10%
+    }
+</style>
 <body>
     <div class="air-wraper">
         <h3 class="text-center" style="margin-bottom:20px;">自动化光伏空调系统能量平衡计算</h3>
@@ -163,12 +167,12 @@
                                     <form class="form-inline">
                                         <div class="form-group">
                                             <label for="month-begin">6.系数ki</label>
-                                            <input type="text" class="form-control" placeholder="开始月份" id="month-begin">
+                                            <input type="text" class="form-control" placeholder="开始月份" id="month-begin" style="width:80px;">
                                             <span>月</span>
                                         </div>
                                         <div class="form-group">
                                             <label for="month-end">——</label>
-                                            <input type="text" class="form-control" placeholder="结束月份" id="month-end" style="margin-left:0">
+                                            <input type="text" class="form-control" placeholder="结束月份" id="month-end" style="width:80px;margin-left:0">
                                             <span>月</span>
                                         </div>
                                     </form>
@@ -307,7 +311,7 @@
                                     <button class="btn btn-primary" id="everyQc" style="background:#5bc0de;border:none;margin-top:10px">点击进行计算</button>
                                     <div class="note right" id="Qc-echart" style="height:400px;">
                                     </div>
-                                    <div class="left">
+                                    <div class="left" style="width:100%">
                                         <span style="margin-bottom: 5px;font-weight: 700;">单位建筑基底面积空调系统年日均耗电量QL:QL = </span>
                                         <span style="display:inline-block;width:50px;"></span>
                                         <span>(A·h/d/㎡)</span>
@@ -319,12 +323,12 @@
                                     <form class="form-inline">
                                         <div class="form-group">
                                             <label for="month-begin-tab">1.请输入各月冷负荷(W)</label>
-                                            <input type="text" class="form-control" placeholder="开始月份" id="month-begin-tab">
+                                            <input type="text" class="form-control" placeholder="开始月份" id="month-begin-tab" style="width:80px;">
                                             <span>月</span>
                                         </div>
                                         <div class="form-group">
                                             <label for="month-end-tab">——</label>
-                                            <input type="text" class="form-control" placeholder="结束月份" id="month-end-tab" style="margin-left:0">
+                                            <input type="text" class="form-control" placeholder="结束月份" id="month-end-tab" style="width:80px;margin-left:0">
                                             <span>月</span>
                                         </div>
                                     </form>
@@ -420,7 +424,7 @@
                                     <button class="btn btn-primary" id="everyQc-tab" style="background:#5bc0de;border:none;margin-top:10px">点击进行计算</button>
                                     <div class="note right" id="Qc-echart-tab" style="height:400px;">
                                     </div>
-                                    <div class="left">
+                                    <div class="left" style="width:100%">
                                         <span style="margin-bottom: 5px;font-weight: 700;">单位建筑基底面积空调系统年日均耗电量QL:QL = </span>
                                         <span style="display:inline-block;width:50px;"></span>
                                         <span>(A·h/d/㎡)</span>

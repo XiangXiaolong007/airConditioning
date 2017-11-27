@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自动化光伏空调系统软件</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/public.css">
+</head>
+<style type="text/css">
+    /* 侧边栏 */
+
+    .left-aside li {
+        line-height: 30px;
+    }
+
+    .left-aside h4 {
+        font-size: 16px;
+        color: #000
+    }
+
+    .public {
+        color: #000
+    }
+    /* 右边内容 */
+
+    .right-aside input {
+        width: 100px !important;
+    }
+</style>
+
+<body>
+    <div class="air-wraper">
+        <h3 class="text-center">自动化光伏空调系统能量平衡计算</h3>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-3 left-aside">
+                    <h4>开始计算</h4>
+                    <ul class="list-unstyled">
+                        <li style="color:#000">1、请选择地点</li>
+                        <li style="color:#000">2、空调系统耗电量计算</li>
+                        <li style="color:#000">3、方阵面太阳能辐照量计算</li>
+                        <li style="color:#000">4、计算各月发电盈亏量</li>
+                        <li>5、计算方阵输出电流、蓄电池容量、光伏方阵容量</li>
+                        <li>6、光伏阵列最大安装容量计算</li>
+                        <li>7、光伏空调建筑自持化判定</li>
+                    </ul>
+                    <h4>小工具</h4>
+                    <ul class="list-unstyled public">
+                        <li>1、太阳能资源分布图</li>
+                        <li>2、倾斜面太阳辐射面计算</li>
+                    </ul>
+                </div>
+                <div class="col-sm-9 right-aside">
+                    <div class="form-head">
+                        <div class="location">
+                            <span>陕西省</span>
+                            <span>西安市</span>
+                        </div>
+                        <div class="coordinate">
+                            <span>北纬34.12°</span>
+                            <span>东经108°</span>
+                        </div>
+                    </div>
+                    <div class="form-table">
+                        <h4>请输入：</h4>
+                        <div class="efficiency">
+                            <p class="strong">效率η1、η2</p>
+                            <form class="form-inline" style="display:inline-block;margin-left:60px;">
+                                <div class="form-group">
+                                    <label for="η1">η1</label>
+                                    <input type="text" class="form-control" id="η1">
+                                </div>
+                                <div class="form-group" style="margin-left:20px">
+                                    <label for="η2">η2</label>
+                                    <input type="text" class="form-control" id="η2">
+                                </div>
+                            </form>
+                        </div>
+                        <button class="btn btn-calculate distance-top">开始计算各月发电盈亏量</button>
+                        <p class="distance-top" style="font-weight:700">方阵输出的最小电流Imin=
+                            <span class="inline-block"></span>A/㎡</p>
+                        <p class="distance-top" style="font-weight:700">方阵输出的最大电流Imax=
+                            <span class="inline-block"></span>A/㎡</p>
+                        <p class="distance-top" style="font-weight:700">方阵输出的实际电流I=
+                            <span class="inline-block"></span>A/㎡</p>
+                        <div class="Qg">
+                            <table class="table table-bordered">
+                                <caption class="text-center">方阵各月发电量Qg(A·h/㎡)</caption>
+                                <thead>
+                                    <tr>
+                                        <th>月份</th>
+                                        <th>1月</th>
+                                        <th>2月</th>
+                                        <th>3月</th>
+                                        <th>4月</th>
+                                        <th>5月</th>
+                                        <th>6月</th>
+                                        <th>7月</th>
+                                        <th>8月</th>
+                                        <th>9月</th>
+                                        <th>10月</th>
+                                        <th>11月</th>
+                                        <th>12月</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>方阵各月发电量Qg</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="ΔQ">
+                            <table class="table table-bordered">
+                                <caption class="text-center">方阵各月发电盈亏量ΔQ(A·h/㎡)</caption>
+                                <thead>
+                                    <tr>
+                                        <th>月份</th>
+                                        <th>1月</th>
+                                        <th>2月</th>
+                                        <th>3月</th>
+                                        <th>4月</th>
+                                        <th>5月</th>
+                                        <th>6月</th>
+                                        <th>7月</th>
+                                        <th>8月</th>
+                                        <th>9月</th>
+                                        <th>10月</th>
+                                        <th>11月</th>
+                                        <th>12月</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>方阵各月发电盈亏量ΔQ</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                        <td>6.15</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="distance-top" style="font-weight:700">累计亏欠量Σ|-ΔQi|=
+                            <span class="inline-block"></span>(A·h/㎡)</p>
+                        <p>
+                            说明：当出现1个月份ΔQ &lt; 0，则累计亏欠量为该月亏欠量；当出现2个及以上连续亏欠月份，则累计亏欠量为该连续月份亏欠量之和；当出现2个及以上不连续亏欠期，则累计亏欠量为不连续亏欠期中各亏欠期亏欠量之和最大的值，其中亏欠期的计算原则为：若两个不连续亏欠期之间的ΔQi为正的月份的盈余量之和大于前一个亏欠期亏欠量，则两个亏欠期分开计算；若两个不连续亏欠期之间的ΔQi为正的月份的盈余量之和小于前一个亏欠期亏欠量，则两个亏欠期合并为一个亏欠期，其亏欠量应扣除盈余量部分；
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="next">
+            <button class="btn btn-primary">NEXT</button>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="../js/lab/jquery-3.2.1.min.js"></script>
+<script src="../js/lab/bootstrap.min.js"></script>

@@ -1,11 +1,15 @@
 /* 初始化样式 */
+
 * {
     margin: 0;
     padding: 0;
     text-decoration: none;
     list-style: none;
 }
-img{border: 0px;}
+
+img {
+    border: 0px;
+}
 
 body,
 html,
@@ -13,42 +17,47 @@ html,
     width: 100%;
     height: 100%;
     font-size: 16px;
-    font-family: "微软雅黑"
+    font-family: "微软雅黑";
 }
 
 .air-wraper {
     padding-top: 20px;
 }
+
 .right {
-    float: right
+    float: right;
 }
+
 .left {
-    float: left
+    float: left;
 }
 
 .distance-top {
-    margin-top: 20px
+    margin-top: 20px;
 }
 
+
 /* 左右分线 */
+
 .right-aside {
     width: 83%;
     padding-left: 50px;
 }
-
 
 .left-aside {
     padding-right: 20px;
     font-size: 16px;
     color: #ccc;
     border: 1px solid #000;
-    width: 17%
+    width: 17%;
 }
 
+
 /* 地理位置 */
+
 .location,
 .coordinate {
-    display: inline-block
+    display: inline-block;
 }
 
 .location {
@@ -58,10 +67,39 @@ html,
 .location>span {
     line-height: 24px;
 }
+
+
 /* 下一步 */
 
 .next {
     position: absolute;
     top: 30px;
     right: 30px;
+}
+
+
+/* 表头 */
+
+caption {
+    font-size: 16px;
+    color: #000;
+}
+
+
+/* 加粗 */
+
+.strong {
+    font-weight: 700;
+    display: inline-block
+}
+/* 计算按钮 */
+.btn-calculate {
+    background: #5bc0de;
+    border: none;
+}
+/* span内联 */
+
+.inline-block{
+    display: inline-block;
+    width: 40px;
 }

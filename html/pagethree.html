@@ -12,14 +12,6 @@
 <style type="text/css">
     /* 侧边栏 */
 
-    .left-aside {
-        padding-right: 20px;
-        font-size: 16px;
-        color: #ccc;
-        border: 1px solid #000;
-        width: 17%
-    }
-
     .left-aside li {
         line-height: 30px;
     }
@@ -34,19 +26,14 @@
     }
     /* 右边内容 */
 
-    .right-aside {
-        width: 83%
-    }
-
     .right-aside input {
         width: 100px !important;
     }
 
-    caption {
-        font-size: 16px;
-        color: #000
+
+    .right {
+        margin-right: 10%
     }
-    
 </style>
 
 <body>
@@ -83,8 +70,42 @@
                         </div>
                     </div>
                     <div class="form-table">
+                        <h4>请输入：</h4>
+                        <div class="dip-angle clearfix distance-top">
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <label for="dip-angle">1.倾斜面倾角β</label>
+                                    <input type="text" class="form-control" id="dip-angle">
+                                    <span>°</span>
+                                </div>
+                            </form>
+                            <div class="note right">
+                                <p>若为坡屋面请输入屋面倾角</p>
+                            </div>
+                        </div>
+                        <div class="dip-azimuth distance-top">
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <label for="dip-azimuth">2.倾斜面方位角γ</label>
+                                    <input type="text" class="form-control" id="dip-azimuth">
+                                    <span>°</span>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="surface-albedo distance-top">
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <label for="surface-albedo">3.地面反射率ρ＇</label>
+                                    <input type="text" class="form-control" id="surface-albedo">
+                                </div>
+                            </form>
+                        </div>
+                        <button class="btn btn-primary distance-top btn-calculate">点击计算倾斜面太阳辐照量Ht(kW·h/(㎡·d))</button>
                         <table class="table table-bordered">
-                            <caption class="text-center">倾斜面太阳辐照量Ht(kW·h/(㎡·d))倾角β=<span></span></caption>
+                            <caption class="text-center">倾斜面太阳辐照量Ht(kW·h/(㎡·d))倾角β=
+                                <span style="width:40px;display:inline-block"></span>
+                                <span>°</span>
+                            </caption>
                             <thead>
                                 <tr>
                                     <th>月份</th>
@@ -122,6 +143,8 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <h4>全年平均太阳日总辐照量Hm(kW·h/(㎡·d))</h4>
+                        <p>Hm=<span style="display:inline-block;width:50px"></span>(kW·h/(㎡·d))</p>
                     </div>
                 </div>
             </div>
