@@ -70,7 +70,7 @@
                                             <span>W/㎡</span>
                                         </div>
                                     </form>
-                                    <div class="note-cooling-q note right">
+                                    <div class="note-cooling-q note right" style="display:none" id="coolingIndex-note">
                                         <p>注：建议冷指标按15K519《暖通空调设计常用数据》表5.1.2夏、冬季空调冷热负荷指标值选取</p>
                                         <div class="form-table table-responsive">
                                             <table class="table table-bordered">
@@ -125,7 +125,7 @@
                                             <input type="text" class="form-control" placeholder="系数k" id="coefficient">
                                         </div>
                                     </form>
-                                    <div class="note right">
+                                    <div class="note right" id="coefficient-note" style="display:none">
                                         <p>
                                             注：系数k为空调计算冷负荷指标折算成日平均计算冷负荷指标的系数。按空调负荷视为起始终止值非零的正弦波，因此其平均值0.60~0.75；
                                         </p>
@@ -139,7 +139,7 @@
                                             <span>小时</span>
                                         </div>
                                     </form>
-                                    <div class="note right">
+                                    <div class="note right" style="display:none" id="hour-note">
                                         <p>
                                             注：住宅建筑建议取值24小时；办公建筑建议取值10小时
                                         </p>
@@ -175,6 +175,7 @@
                                             <input type="text" class="form-control" placeholder="结束月份" id="month-end" style="width:80px;margin-left:0">
                                             <span>月</span>
                                         </div>
+                                        <button class="btn btn-calculate" id="confirm">确认</button>
                                     </form>
                                     <form class="form-inline" style="margin-top:20px">
                                         <div class="form-group">
@@ -205,7 +206,7 @@
                                         <span>7月</span>
                                         <span></span>
                                     </div>
-                                    <div class="note right">
+                                    <div class="note right" id="cooling-m-note">
                                         <p>
                                             注：系数ki为空调期各月冷负荷占最大月冷负荷的比值
                                         </p>

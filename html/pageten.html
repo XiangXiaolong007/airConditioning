@@ -10,16 +10,6 @@
     <link rel="stylesheet" href="../css/public.css">
 </head>
 <style type="text/css">
-    /* 侧边栏 */
-
-    .left-aside {
-        padding-right: 20px;
-        font-size: 16px;
-        color: #ccc;
-        border: 1px solid #000;
-        width: 17%
-    }
-
     .left-aside li {
         line-height: 30px;
     }
@@ -34,36 +24,20 @@
     }
     /* 右边内容 */
 
-    .right-aside {
-        width: 83%
-    }
-
     .right-aside input {
         width: 100px !important;
-    }
-
-    caption {
-        font-size: 16px;
-        color: #000
-    }
-    /* 下一步 */
-
-    .next {
-        position: absolute;
-        top: 30px;
-        right: 30px;
     }
 </style>
 
 <body>
     <div class="air-wraper">
-        <h3 class="text-center" style="margin-bottom:20px;">自动化光伏空调系统能量平衡计算</h3>
+        <h3 class="text-center">自动化光伏空调系统能量平衡计算</h3>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-3 left-aside">
                     <h4>开始计算</h4>
                     <ul class="list-unstyled">
-                        <li style="color:#000">1、请选择地点</li>
+                        <li>1、请选择地点</li>
                         <li>2、空调系统耗电量计算</li>
                         <li>3、方阵面太阳能辐照量计算</li>
                         <li>4、计算各月发电盈亏量</li>
@@ -73,42 +47,56 @@
                     </ul>
                     <h4>小工具</h4>
                     <ul class="list-unstyled public">
-                        <li>1、太阳能资源分布图</li>
+                        <li style="color:#ccc">1、太阳能资源分布图</li>
                         <li>2、倾斜面太阳辐射面计算</li>
                     </ul>
                 </div>
                 <div class="col-sm-9 right-aside">
-                    <div class="form-head">
+                    <div class="form-head clearfix">
                         <form class="form-inline">
                             <div class="form-group col-sm-3">
-                                <label for="selProvince">省份</label>
-                                <!-- <input type="text" class="form-control" id="province" value="陕西省"> -->
-                                <select name="" id="selProvince" onchange="provinceChange()"></select>
+                                <label for="exampleInputName2">省份</label>
+                                <input type="text" class="form-control" id="exampleInputName2">
                             </div>
                             <div class="form-group col-sm-3">
-                                <label for="selCity">城市</label>
-                                <!-- <input type="text" class="form-control" id="city" value="西安市"> -->
-                                <select id="selCity"></select> 
+                                <label for="exampleInputEmail2">城市</label>
+                                <input type="email" class="form-control" id="exampleInputEmail2">
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label for="exampleInputEmail2">经度：</label>
+                                <span></span>
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label for="exampleInputEmail2">纬度：</label>
+                                <span></span>
                             </div>
                         </form>
-                        <button class="btn btn-calculate" id="longitude-and-latitude">查看经纬度</button>
-                        <div id="longi-lati-value" style="display:none">
-                            <form class="form-inline">
-                                <div class="form-group col-sm-3">
-                                    <label for="longitude">经度：</label>
-                                    <!-- <span id="longitude">34.12°</span> -->
-                                    <span id="longitude">34.12°</span>
-                                </div>
-                                <div class="form-group col-sm-3">
-                                    <label for="latitude">纬度：</label>
-                                    <span id="latitude">108°</span>
-                                </div>
-                            </form>
-                        </div>
                     </div>
-                    <div class="form-table">
+                    <div class="form-table" style="padding-left:15px;">
+                        <h4>请输入：</h4>
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <label for="dip">1.倾斜面倾角β</label>
+                                <input type="text" class="form-control" placeholder="" id="dip">
+                                <span>°</span>
+                            </div>
+                        </form>
+                        <form class="form-inline distance-top">
+                            <div class="form-group">
+                                <label for="azimuth">2.倾斜面方位角γ</label>
+                                <input type="text" class="form-control" placeholder="" id="azimuth">
+                                <span>°</span>
+                            </div>
+                        </form>
+                        <form class="form-inline distance-top">
+                            <div class="form-group">
+                                <label for="reflectivity">3.地面反射率ρ＇</label>
+                                <input type="text" class="form-control" placeholder="" id="reflectivity">
+                            </div>
+                        </form>
+                        <button class="btn btn-calculate distance-top">点击计算倾斜面太阳辐照量Ht(kW·h/(㎡·d))</button>
                         <table class="table table-bordered">
-                            <caption class="text-center">水平面月均太阳辐照量(kWh/㎡/day)</caption>
+                            <caption class="text-center">倾斜面太阳辐照量Ht(kW·h/㎡/d)倾角β=<span class="inline-block"></span></caption>
                             <thead>
                                 <tr>
                                     <th>月份</th>
@@ -128,25 +116,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>平均太阳总辐照量
-                                        <span style="text-decoration:overline">H</span>
-                                    </td>
-                                    <td>6.15</td>
-                                    <td>6.15</td>
-                                    <td>6.15</td>
-                                    <td>6.15</td>
-                                    <td>6.15</td>
-                                    <td>6.15</td>
-                                    <td>6.15</td>
-                                    <td>6.15</td>
-                                    <td>6.15</td>
-                                    <td>6.15</td>
-                                    <td>6.15</td>
-                                    <td>6.15</td>
-                                </tr>
-                                <tr>
-                                    <td>平均太阳散射辐照量
-                                        <span style="text-decoration:overline">Hd</span>
+                                    <td>倾斜面太阳辐照量Ht
                                     </td>
                                     <td>6.15</td>
                                     <td>6.15</td>
@@ -163,20 +133,18 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-                    <div class="img text-center">
-                        <img src="../img/chinaspread.png" alt="" style="width:50%">
+                        <button class="btn btn-calculate distance-top">点击计算全年平均日总辐照量Hm(kW·h/(㎡·d))</button>
+                        <p>Hm=<span class="inline-block distance-top"></span>(kW·h/(㎡·d))</p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="next">
-        <button class="btn btn-primary" id="next-one">NEXT</button>
+        <div class="next">
+            <button class="btn btn-primary">NEXT</button>
+        </div>
     </div>
 </body>
 
 </html>
 <script src="../js/lab/jquery-3.2.1.min.js"></script>
 <script src="../js/lab/bootstrap.min.js"></script>
-<script src="../js/src/pageone.js"></script>

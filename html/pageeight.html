@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="../css/public.css">
 </head>
 <style type="text/css">
-    
     .left-aside li {
         line-height: 30px;
     }
@@ -25,11 +24,9 @@
     }
     /* 右边内容 */
 
-
     .right-aside input {
         width: 100px !important;
     }
-
 </style>
 
 <body>
@@ -66,7 +63,37 @@
                         </div>
                     </div>
                     <div class="form-table">
-                        <p></p>
+                        <p class="distance-top">
+                            <strong>建筑层数：</strong>
+                            <span class="inline-block"></span>层</p>
+                        <p>
+                            <strong>屋面形式：</strong>
+                            <span class="inline-block"></span>
+                        </p>
+                        <p>
+                            <strong>制冷机组COP=</strong>
+                            <span class="inline-block"></span>
+                        </p>
+                        <p>
+                            <strong>蓄电池维持天数n=</strong>
+                            <span class="inline-block"></span>
+                        </p>
+                        <p>
+                            <strong>光伏方阵安装方式=</strong>
+                            <span class="inline-block"></span>
+                        </p>
+                        <p>
+                            <strong>光伏方阵倾角β=</strong>
+                            <span class="inline-block"></span>
+                        </p>
+                        <div class="col-sm-6" style="padding:20px 10px 20px 20px;height:400px;" id="PV-content"></div>
+                        <div class="col-sm-6" style="padding:20px 10px 20px 20px;height:400px;" id="accumulator-content"></div>
+                        <p><strong>冷指标q=</strong><span class="inline-block"></span>W/㎡时：</p>
+                        <p><strong>单位面积蓄电池容量Bn=</strong><span class="inline-block"></span>A·h/㎡；</p>
+                        <p><strong>单位面积光伏方阵容量Pn=</strong><span class="inline-block"></span>W/㎡；</p>
+                        <p><strong>单位面积光伏阵列最大安装容量Pm=</strong><span class="inline-block"></span>W/㎡；</p>
+                        <p class="alert alert-success">Pm&gt;Pn，满足自持化要求</p>
+                        <p class="alert alert-danger">Pm&lt;Pn，不满足自持化要求</p>
                     </div>
                 </div>
             </div>
@@ -80,3 +107,5 @@
 </html>
 <script src="../js/lab/jquery-3.2.1.min.js"></script>
 <script src="../js/lab/bootstrap.min.js"></script>
+<script src="../js/lab/echarts.min.js"></script>
+<script src="../js/src/pageeight.js"></script>

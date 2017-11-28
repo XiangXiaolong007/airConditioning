@@ -10,13 +10,17 @@
 <link rel="stylesheet" href="./css/bootstrap.min.css">
 <style>
     /* 初始化样式 */
+
     * {
         margin: 0;
         padding: 0;
         text-decoration: none;
         list-style: none;
     }
-    img{border: 0px;}
+
+    img {
+        border: 0px;
+    }
 
     body,
     html,
@@ -33,6 +37,7 @@
         text-align: center;
         padding-top: 100px;
     }
+
     h3 {
         margin-bottom: 30px;
     }
@@ -41,8 +46,16 @@
 <body>
     <div class="air-wraper">
         <h3 class="text-center">自持化光伏空调系统能量平衡计算</h3>
-        <button class="btn btn-primary btn-lg">点击开始</button>
+        <button class="btn btn-primary btn-lg" id="begin">点击开始</button>
     </div>
 </body>
 
 </html>
+<script src="./js/lab/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#begin").click(function() {
+            location.href = "./html/pageone.html"
+        })
+    })
+</script>
