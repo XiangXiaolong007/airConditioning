@@ -57,6 +57,8 @@ function setBgColor() {
 function provinceChange() {
     var $pro = $("#selProvince");
     var $city = $("#selCity");
+    //本地缓存省份
+    sessionStorage.setItem("province",$pro.val())
     // console.log($pro.val());
     // console.log(provinceData)
     provinceData.some(function (n) {
@@ -73,8 +75,10 @@ function provinceChange() {
 }
 //城市选中事件
 function cityChange() {
-    console.log(cityData);
+    // console.log(cityData);
     let cityName = $("#selCity").val();
+    //缓存城市信息
+    sessionStorage.setItem("city",cityName)
     $("#ssehrz").empty();
     $("#diffuse").empty()
     $("#longi-lati-value").empty();
@@ -102,7 +106,10 @@ function cityChange() {
                 diffuseData += "<td id='Hs" + i + "'>" + Number(diffuse[i]) + "</td>"
             }
             $("#ssehrz").append(ssehzData);
-            $("#diffuse").append(diffuseData)
+            $("#diffuse").append(diffuseData);
+            //本地缓存经纬度
+            sessionStorage.setItem("longitude",longitude);
+            sessionStorage.setItem("latitude",latitude)
             return true;
         }
     })
@@ -149,4 +156,5 @@ $(function () {
             alert("请确定位置信息！");
         }
     });
+    
 });

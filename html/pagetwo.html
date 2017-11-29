@@ -40,12 +40,10 @@
                 <div class="col-sm-9 right-aside">
                     <div class="form-head">
                         <div class="location">
-                            <span>陕西省</span>
-                            <span>西安市</span>
+                            
                         </div>
                         <div class="coordinate">
-                            <span>北纬34.12°</span>
-                            <span>东经108°</span>
+                            
                         </div>
                     </div>
                     <div class="form-button">
@@ -164,7 +162,7 @@
                                     </form>
                                 </div>
                                 <div class="cooling-m clearfix">
-                                    <form class="form-inline">
+                                    <form class="form-inline" style="display:inline-block">
                                         <div class="form-group">
                                             <label for="month-begin">6.系数ki</label>
                                             <input type="text" class="form-control" placeholder="开始月份" id="month-begin" style="width:80px;">
@@ -175,27 +173,13 @@
                                             <input type="text" class="form-control" placeholder="结束月份" id="month-end" style="width:80px;margin-left:0">
                                             <span>月</span>
                                         </div>
-                                        <button class="btn btn-calculate" id="confirm">确认</button>
                                     </form>
-                                    <form class="form-inline" style="margin-top:20px">
-                                        <div class="form-group">
-                                            <label for="k4">4月</label>
-                                            <input type="text" class="form-control" placeholder="" id="k4" style="margin-left:0;width:60px;">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="k5">5月</label>
-                                            <input type="text" class="form-control" placeholder="" id="k5" style="margin-left:0;width:60px;">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="k6">6月</label>
-                                            <input type="text" class="form-control" placeholder="" id="k6" style="margin-left:0;width:60px;">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="k7">7月</label>
-                                            <input type="text" class="form-control" placeholder="" id="k7" style="margin-left:0;width:60px;">
-                                        </div>
+                                    <button class="btn btn-calculate" id="confirm">确认</button>
+                                    
+                                    <form class="form-inline" style="margin-top:20px" id="each-k">
+                                        
                                     </form>
-                                    <button class="btn btn-primary" style="background:#5bc0de;border:none;margin-top:20px">点击计算各月冷负荷</button>
+                                    <button class="btn btn-primary" onclick="calCooling()" style="display:none;background:#5bc0de;border:none;margin-top:20px" id="elseCooling">点击计算各月冷负荷</button>
                                     <div class="month-cooling">
                                         <span>4月</span>
                                         <span></span>
