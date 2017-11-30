@@ -66,8 +66,11 @@ a {
 
 .month-cooling span {
     display: inline-block;
-    width: 50px;
     margin-top: 20px;
+}
+.month-cooling .Qdata{
+    margin-left: 10px;
+    margin-right: 30px;
 }
 
 

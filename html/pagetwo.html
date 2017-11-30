@@ -64,7 +64,7 @@
                                     <form class="form-inline">
                                         <div class="form-group">
                                             <label for="coolingIndex">1.冷指标q</label>
-                                            <input type="text" class="form-control" placeholder="冷指标q" id="coolingIndex">
+                                            <input type="text" class="form-control" value="60"id="coolingIndex">
                                             <span>W/㎡</span>
                                         </div>
                                     </form>
@@ -120,7 +120,7 @@
                                     <form class="form-inline">
                                         <div class="form-group">
                                             <label for="coefficient">2.系数k</label>
-                                            <input type="text" class="form-control" placeholder="系数k" id="coefficient">
+                                            <input type="text" class="form-control" value="0.6" id="coefficient">
                                         </div>
                                     </form>
                                     <div class="note right" id="coefficient-note" style="display:none">
@@ -133,7 +133,7 @@
                                     <form class="form-inline">
                                         <div class="form-group">
                                             <label for="hour">3.日空调开启时长h</label>
-                                            <input type="text" class="form-control" placeholder="空调开启时长h" id="hour" style="width:150px">
+                                            <input type="text" class="form-control" value="24" id="hour" style="width:150px">
                                             <span>小时</span>
                                         </div>
                                     </form>
@@ -147,7 +147,7 @@
                                     <form class="form-inline">
                                         <div class="form-group">
                                             <label for="Nmax">4.冷负荷最大月天数Nmax</label>
-                                            <input type="text" class="form-control" placeholder="冷负荷最大月天数Nmax" id="Nmax">
+                                            <input type="text" class="form-control" value="30" id="Nmax">
                                             <span>天</span>
                                         </div>
                                     </form>
@@ -156,7 +156,7 @@
                                     <form class="form-inline">
                                         <div class="form-group">
                                             <label for="floor">5.建筑层数z</label>
-                                            <input type="text" class="form-control" placeholder="建筑层数z" id="floor">
+                                            <input type="text" class="form-control" value="1" id="floor">
                                             <span>层</span>
                                         </div>
                                     </form>
@@ -179,18 +179,11 @@
                                     <form class="form-inline" style="margin-top:20px" id="each-k">
                                         
                                     </form>
-                                    <button class="btn btn-primary" onclick="calCooling()" style="display:none;background:#5bc0de;border:none;margin-top:20px" id="elseCooling">点击计算各月冷负荷</button>
+                                    <button class="btn btn-primary" style="display:none;background:#5bc0de;border:none;margin-top:20px" id="elseCooling">点击计算各月冷负荷</button>
                                     <div class="month-cooling">
-                                        <span>4月</span>
-                                        <span></span>
-                                        <span>5月</span>
-                                        <span></span>
-                                        <span>6月</span>
-                                        <span></span>
-                                        <span>7月</span>
-                                        <span></span>
+                                        
                                     </div>
-                                    <div class="note right" id="cooling-m-note">
+                                    <div class="note right" id="cooling-m-note" style="display:none">
                                         <p>
                                             注：系数ki为空调期各月冷负荷占最大月冷负荷的比值
                                         </p>
@@ -230,7 +223,7 @@
                                             <input type="text" class="form-control" placeholder="制冷机组COP" id="COP">
                                         </div>
                                     </form>
-                                    <div class="note right">
+                                    <div class="note right" id="COP-note" style="display:none">
                                         <p>
                                             注：制冷机组COP取值按《公共建筑节能设计标准》GB50189-2015第4.2.10条COP限制标准；
                                         </p>
@@ -283,7 +276,7 @@
                                             <input type="text" class="form-control" placeholder="制冷机能耗比例ζ" id="scale">
                                         </div>
                                     </form>
-                                    <div class="note right">
+                                    <div class="note right" id="scale-note" style="display:none">
                                         <p>注：考虑由水泵和风机组成的输配系统以及末端风机盘管耗电量的存在，系数ζ为制冷机组能耗占整个空调系统能耗的比例。建议取值≥0.4</p>
                                     </div>
                                 </div>
