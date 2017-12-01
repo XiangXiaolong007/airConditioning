@@ -74,20 +74,20 @@
                         <div class="dip-angle clearfix distance-top">
                             <form class="form-inline">
                                 <div class="form-group">
-                                    <label for="dip-angle">1.倾斜面倾角β</label>
-                                    <input type="text" class="form-control" id="dip-angle">
+                                    <label for="dip">1.倾斜面倾角β</label>
+                                    <input type="text" class="form-control" id="dip">
                                     <span>°</span>
                                 </div>
+                                <div class="form-group" style="margin-left:30px;">
+                                    <p>若为坡屋面请输入屋面倾角</p>
+                                </div>
                             </form>
-                            <div class="note right">
-                                <p>若为坡屋面请输入屋面倾角</p>
-                            </div>
                         </div>
                         <div class="dip-azimuth distance-top">
                             <form class="form-inline">
                                 <div class="form-group">
-                                    <label for="dip-azimuth">2.倾斜面方位角γ</label>
-                                    <input type="text" class="form-control" id="dip-azimuth">
+                                    <label for="azimuth">2.倾斜面方位角γ</label>
+                                    <input type="text" class="form-control" id="azimuth">
                                     <span>°</span>
                                 </div>
                             </form>
@@ -95,12 +95,12 @@
                         <div class="surface-albedo distance-top">
                             <form class="form-inline">
                                 <div class="form-group">
-                                    <label for="surface-albedo">3.地面反射率ρ＇</label>
-                                    <input type="text" class="form-control" id="surface-albedo">
+                                    <label for="reflectivity">3.地面反射率ρ＇</label>
+                                    <input type="text" class="form-control" id="reflectivity">
                                 </div>
                             </form>
                         </div>
-                        <button class="btn btn-primary distance-top btn-calculate">点击计算倾斜面太阳辐照量Ht(kW·h/(㎡·d))</button>
+                        <button class="btn distance-top btn-calculate" id="btn-Ht-Hm">点击计算倾斜面太阳辐照量Ht(kW·h/(㎡·d))及Hm(kW·h/(㎡·d))</button>
                         <table class="table table-bordered">
                             <caption class="text-center">倾斜面太阳辐照量Ht(kW·h/(㎡·d))倾角β=
                                 <span style="width:40px;display:inline-block"></span>
@@ -158,3 +158,4 @@
 </html>
 <script src="../js/lab/jquery-3.2.1.min.js"></script>
 <script src="../js/lab/bootstrap.min.js"></script>
+<script src="../js/src/pagethree.js"></script>

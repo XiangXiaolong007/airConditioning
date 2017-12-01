@@ -101,10 +101,15 @@ function cityChange() {
             let ssehzData = "<td>平均太阳总辐照量<spanstyle='text-decoration:overline'>H</span></td>";
             //平均太阳散射辐照量
             let diffuseData = "<td>平均太阳散射辐照量<span style='text-decoration:overline'>Hd</span></td>"
+            let HzAssemble = {};//各月平均太阳总辐照量集合
+            let HsAssemble = {};//各月平均太阳散射辐照量集合
             for (var i = 1; i <= 12; i++) {
+                HzAssemble["Hz" + i] = +ssehrz[i];
+                HsAssemble["Hs" + i] = +diffuse[i];
                 ssehzData += "<td id='Hz" + i + "'>" + Number(ssehrz[i]) + "</td>";
                 diffuseData += "<td id='Hs" + i + "'>" + Number(diffuse[i]) + "</td>"
             }
+            sessionStorage.setItem("Hz",JSON.stringify(HzAssemble));
             $("#ssehrz").append(ssehzData);
             $("#diffuse").append(diffuseData);
             //本地缓存经纬度

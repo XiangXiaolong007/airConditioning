@@ -606,17 +606,6 @@ $(function(){
 		
 		
 		
-		
-		/*Ht4 = (Hz4/Math.cos(Math.PI/180*dip))+Hs4;
-		//console.log(Ht4)
-		//console.log(typeof Ht4)
-		Ht5 = (Hz5/Math.cos(Math.PI/180*dip))+Hs5;
-		Ht6 = (Hz6/Math.cos(Math.PI/180*dip))+Hs6;
-		Ht7 = (Hz7/Math.cos(Math.PI/180*dip))+Hs7;
-		Ht8 = (Hz8/Math.cos(Math.PI/180*dip))+Hs8;
-		Ht9 = (Hz9/Math.cos(Math.PI/180*dip))+Hs9;
-		Ht10 = (Hz10/Math.cos(Math.PI/180*dip))+Hs10;
-		*/
 		Hm = ((Ht4*april)+(Ht5*may)+(Ht6*june)+(Ht7*july)+(Ht8*august)+(Ht9*september)+(Ht10*october))/(april+may+june+july+august+september+october);
 		
 		eff1 = $("#eff-loop-one").val();
