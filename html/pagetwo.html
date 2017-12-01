@@ -289,16 +289,14 @@
                                     <button class="btn btn-primary" id="everyQc" style="background:#5bc0de;border:none;margin-top:10px">点击进行计算</button>
                                     <div class="note right" id="Qc-echart" style="height:400px;">
                                     </div>
-                                    <div class="left" style="width:100%">
-                                        <span style="margin-bottom: 5px;font-weight: 700;">单位建筑基底面积空调系统年日均耗电量QL:QL = </span>
-                                        <span style="display:inline-block;width:50px;"></span>
-                                        <span>(A·h/d/㎡)</span>
+                                    <div class="left" style="width:100%" id="Ql">
+                                        
                                     </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="cooling-load">
                                 <div class="cooling-m clearfix">
-                                    <form class="form-inline">
+                                    <form class="form-inline" style="display:inline-block">
                                         <div class="form-group">
                                             <label for="month-begin-tab">1.请输入各月冷负荷(W)</label>
                                             <input type="text" class="form-control" placeholder="开始月份" id="month-begin-tab" style="width:80px;">
@@ -310,33 +308,20 @@
                                             <span>月</span>
                                         </div>
                                     </form>
-                                    <form class="form-inline" style="margin-top:20px">
-                                        <div class="form-group">
-                                            <label for="k4-tab">4月</label>
-                                            <input type="text" class="form-control" placeholder="" id="k4-tab" style="margin-left:0;width:60px;">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="k5-tab">5月</label>
-                                            <input type="text" class="form-control" placeholder="" id="k5-tab" style="margin-left:0;width:60px;">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="k6-tab">6月</label>
-                                            <input type="text" class="form-control" placeholder="" id="k6-tab" style="margin-left:0;width:60px;">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="k7-tab">7月</label>
-                                            <input type="text" class="form-control" placeholder="" id="k7-tab" style="margin-left:0;width:60px;">
-                                        </div>
+                                    <button class="btn btn-calculate" id="confirm-tab">确认</button>
+                                    
+                                    <form class="form-inline" style="margin-top:20px" id="Q-tab">
+                                        
                                     </form>
                                 </div>
                                 <div class="cooling-COP clearfix">
                                     <form class="form-inline">
                                         <div class="form-group">
-                                            <label for="COP-tab">2.制冷机组COP-tab</label>
+                                            <label for="COP-tab">2.制冷机组COP</label>
                                             <input type="text" class="form-control" placeholder="制冷机组COP" id="COP-tab">
                                         </div>
                                     </form>
-                                    <div class="note right">
+                                    <div class="note right" style="display:none" id="COP-tab-note">
                                         <p>
                                             注：制冷机组COP取值按《公共建筑节能设计标准》GB50189-2015第4.2.10条COP限制标准；
                                         </p>
@@ -389,7 +374,7 @@
                                             <input type="text" class="form-control" placeholder="制冷机能耗比例ζ" id="scale-tab">
                                         </div>
                                     </form>
-                                    <div class="note right">
+                                    <div class="note right" id="scale-tab-note" style="display:none"> 
                                         <p>注：考虑由水泵和风机组成的输配系统以及末端风机盘管耗电量的存在，系数ζ为制冷机组能耗占整个空调系统能耗的比例。建议取值≥0.4</p>
                                     </div>
                                 </div>
@@ -400,12 +385,10 @@
                                         </div>
                                     </form>
                                     <button class="btn btn-primary" id="everyQc-tab" style="background:#5bc0de;border:none;margin-top:10px">点击进行计算</button>
-                                    <div class="note right" id="Qc-echart-tab" style="height:400px;">
+                                    <div class="note right" id="Qc-echart-tab" style="height:400px;display:none">
                                     </div>
-                                    <div class="left" style="width:100%">
-                                        <span style="margin-bottom: 5px;font-weight: 700;">单位建筑基底面积空调系统年日均耗电量QL:QL = </span>
-                                        <span style="display:inline-block;width:50px;"></span>
-                                        <span>(A·h/d/㎡)</span>
+                                    <div class="left" style="width:100%" id="Ql-tab">
+                                        
                                     </div>
                                 </div>
                             </div>
