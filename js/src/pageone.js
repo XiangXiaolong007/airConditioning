@@ -109,7 +109,8 @@ function cityChange() {
                 ssehzData += "<td id='Hz" + i + "'>" + Number(ssehrz[i]) + "</td>";
                 diffuseData += "<td id='Hs" + i + "'>" + Number(diffuse[i]) + "</td>"
             }
-            sessionStorage.setItem("Hz",JSON.stringify(HzAssemble));
+            sessionStorage.setItem("HzAssemble",JSON.stringify(HzAssemble));
+            sessionStorage.setItem("HsAssemble",JSON.stringify(HsAssemble))
             $("#ssehrz").append(ssehzData);
             $("#diffuse").append(diffuseData);
             //本地缓存经纬度
