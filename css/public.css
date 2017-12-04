@@ -26,6 +26,7 @@ html,
 
 .right {
     float: right;
+    margin-right: 10%
 }
 
 .left {
@@ -102,4 +103,10 @@ caption {
 .inline-block{
     display: inline-block;
     width: 40px;
+}
+/* 注释 */
+.note {
+    width: 600px;
+    margin-top: 20px;
+    margin-right: 50px;
 }

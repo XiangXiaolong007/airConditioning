@@ -20,20 +20,8 @@ $(function () {
     let latitude = sessionStorage.getItem("latitude");
     let city = sessionStorage.getItem("city");
     if (province && city) {
-        $(".location").append(
-            "<span>" +
-            province +
-            "</span><span style='margin-left:20px;'>" +
-            city +
-            "</span>"
-        );
-        $(".coordinate").append(
-            "<span>经度" +
-            longitude +
-            "°</span><span style='margin-left:20px;'>纬度" +
-            latitude +
-            "°</span>"
-        );
+        $(".location").append("<span>" + province + "</span><span style='margin-left:20px;'>" + city + "</span>");
+        $(".coordinate").append("<span>经度" + longitude + "°</span><span style='margin-left:20px;'>纬度" + latitude + "°</span>");
     }
     //冷指标q
     var coolingIndexNote = $("#coolingIndex-note");
@@ -197,7 +185,7 @@ $(function () {
             console.log(QcAssemble["Qc" + i] + "A·h/㎡");
         }
         let Ql = (QcSum / monthSum).toFixed(2);
-        console.log(Ql);
+        // console.log(Ql);
         $("#Ql").append(
             "<span style='margin-bottom: 5px;font-weight: 700;'>单位建筑基底面积空调系统年日均耗电量QL:QL = </span><span style='display:inline-block;width:50px;'>" +
             Ql +
@@ -205,9 +193,10 @@ $(function () {
         );
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
-        if (typeof Ql != Number) {
+        if (isNaN(Ql)) {
             alert("请输入正确的参数值!")
         }
+        sessionStorage.setItem("Ql",Ql)
     });
     //tab切换
     //输入冷负荷
@@ -325,16 +314,16 @@ $(function () {
         );
         // 使用刚指定的配置项和数据显示图表。
         myChartTab.setOption(option);
-        if (typeof Ql != Number) {
+        if (isNaN(Ql)) {
             alert("请输入正确的参数值!")
         }
-
+        sessionStorage.setItem("Ql",Ql)
     });
     //查看所选位置的相关信息
     $("#next-two").on("click", function () {
         sessionStorage.setItem("monthbeginVal", monthbeginVal)
         sessionStorage.setItem("monthEndVal", monthEndVal)
-        alert(monthbeginVal)
+        // alert(monthbeginVal)
         location.href = "./pagethree.html";
     });
 });
