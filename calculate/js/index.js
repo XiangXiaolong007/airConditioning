@@ -380,7 +380,7 @@ $(function(){
 		b8 = 0.6609-0.4767*Math.sin(Math.PI/180*(Ws8-60));
 		b9 = 0.6609-0.4767*Math.sin(Math.PI/180*(Ws9-60));
 		b10 = 0.6609-0.4767*Math.sin(Math.PI/180*(Ws10-60));
-		//console.log(b4)
+		// console.log(b4)
 		d4 = Math.sin(Math.PI/180*Ws4)-(Math.PI/180*Ws4*Math.cos(Math.PI/180*Ws4));
 		d5 = Math.sin(Math.PI/180*Ws5)-(Math.PI/180*Ws5*Math.cos(Math.PI/180*Ws5));
 		d6 = Math.sin(Math.PI/180*Ws6)-(Math.PI/180*Ws6*Math.cos(Math.PI/180*Ws6));
@@ -388,7 +388,7 @@ $(function(){
 		d8 = Math.sin(Math.PI/180*Ws8)-(Math.PI/180*Ws8*Math.cos(Math.PI/180*Ws8));
 		d9 = Math.sin(Math.PI/180*Ws9)-(Math.PI/180*Ws9*Math.cos(Math.PI/180*Ws9));
 		d10 = Math.sin(Math.PI/180*Ws10)-(Math.PI/180*Ws10*Math.cos(Math.PI/180*Ws10));
-		//console.log(d4)
+		// console.log(d4)
 		a_4 = a4 - (Hs4/Hz4);
 		a_5 = a5 - (Hs5/Hz5);
 		a_6 = a6 - (Hs6/Hz6);
@@ -396,7 +396,7 @@ $(function(){
 		a_8 = a8 - (Hs8/Hz8);
 		a_9 = a9 - (Hs9/Hz9);
 		a_10 = a10 - (Hs10/Hz10);
-		//console.log(a_4)
+		// console.log(a_4)
 		m4 = Math.acos((A*B4+(C*Math.sqrt(Math.pow(A,2)-Math.pow(B4,2)+Math.pow(C,2))))/(Math.pow(A,2)+Math.pow(C,2)))*180/Math.PI;
 		m5 = Math.acos((A*B5+(C*Math.sqrt(Math.pow(A,2)-Math.pow(B5,2)+Math.pow(C,2))))/(Math.pow(A,2)+Math.pow(C,2)))*180/Math.PI;
 		m6 = Math.acos((A*B6+(C*Math.sqrt(Math.pow(A,2)-Math.pow(B6,2)+Math.pow(C,2))))/(Math.pow(A,2)+Math.pow(C,2)))*180/Math.PI;
@@ -404,7 +404,7 @@ $(function(){
 		m8 = Math.acos((A*B8+(C*Math.sqrt(Math.pow(A,2)-Math.pow(B8,2)+Math.pow(C,2))))/(Math.pow(A,2)+Math.pow(C,2)))*180/Math.PI;
 		m9 = Math.acos((A*B9+(C*Math.sqrt(Math.pow(A,2)-Math.pow(B9,2)+Math.pow(C,2))))/(Math.pow(A,2)+Math.pow(C,2)))*180/Math.PI;
 		m10 = Math.acos((A*B10+(C*Math.sqrt(Math.pow(A,2)-Math.pow(B10,2)+Math.pow(C,2))))/(Math.pow(A,2)+Math.pow(C,2)))*180/Math.PI;
-		//console.log(m7);
+		// console.log(m7);
 		t4 = Math.acos((A*B4-(C*Math.sqrt(Math.pow(A,2)-Math.pow(B4,2)+Math.pow(C,2))))/(Math.pow(A,2)+Math.pow(C,2)))*180/Math.PI;
 		t5 = Math.acos((A*B5-(C*Math.sqrt(Math.pow(A,2)-Math.pow(B5,2)+Math.pow(C,2))))/(Math.pow(A,2)+Math.pow(C,2)))*180/Math.PI;
 		t6 = Math.acos((A*B6-(C*Math.sqrt(Math.pow(A,2)-Math.pow(B6,2)+Math.pow(C,2))))/(Math.pow(A,2)+Math.pow(C,2)))*180/Math.PI;
@@ -412,7 +412,7 @@ $(function(){
 		t8 = Math.acos((A*B8-(C*Math.sqrt(Math.pow(A,2)-Math.pow(B8,2)+Math.pow(C,2))))/(Math.pow(A,2)+Math.pow(C,2)))*180/Math.PI;
 		t9 = Math.acos((A*B9-(C*Math.sqrt(Math.pow(A,2)-Math.pow(B9,2)+Math.pow(C,2))))/(Math.pow(A,2)+Math.pow(C,2)))*180/Math.PI;
 		t10 = Math.acos((A*B10-(C*Math.sqrt(Math.pow(A,2)-Math.pow(B10,2)+Math.pow(C,2))))/(Math.pow(A,2)+Math.pow(C,2)))*180/Math.PI;
-		//console.log(t4);
+		// console.log(t4);
 		Ws4<t4?ss4=Ws4:ss4=t4;
 		Ws5<t5?ss5=Ws5:ss5=t5;
 		Ws6<t6?ss6=Ws6:ss6=t6;
@@ -529,8 +529,8 @@ $(function(){
 			Wsr10 = sr10;
 			Wss10 = -ss10
 		}
-		//console.log(Wsr10)
-		//console.log(Wss10)
+		// console.log(Wsr10)
+		// console.log(Wss10)
 		G14 = 1/(2*d4)*((b4*A/2-(a_4*B4))*(Wss4-Wsr4)*(Math.PI/180)+((a_4*A-b4*B4)*(Math.sin(Math.PI/180*Wss4)-Math.sin(Math.PI/180*Wsr4)))-(a_4*C*(Math.cos(Math.PI/180*Wss4)-Math.cos(Math.PI/180*Wsr4)))+(b4*A/2*(Math.sin(Math.PI/180*Wss4)*Math.cos(Math.PI/180*Wsr4)-(Math.sin(Math.PI/180*Wsr4)*Math.cos(Math.PI/180*Wsr4))))+(b4*C/2*(Math.pow(Math.sin(Math.PI/180*Wss4),2)-Math.pow(Math.sin(Math.PI/180*Wsr4),2))))
 		G15 = 1/(2*d5)*((b5*A/2-(a_5*B5))*(Wss5-Wsr5)*(Math.PI/180)+((a_5*A-b5*B5)*(Math.sin(Math.PI/180*Wss5)-Math.sin(Math.PI/180*Wsr5)))-(a_5*C*(Math.cos(Math.PI/180*Wss5)-Math.cos(Math.PI/180*Wsr5)))+(b5*A/2*(Math.sin(Math.PI/180*Wss5)*Math.cos(Math.PI/180*Wsr5)-(Math.sin(Math.PI/180*Wsr5)*Math.cos(Math.PI/180*Wsr5))))+(b5*C/2*(Math.pow(Math.sin(Math.PI/180*Wss5),2)-Math.pow(Math.sin(Math.PI/180*Wsr5),2))))
 		G16 = 1/(2*d6)*((b6*A/2-(a_6*B6))*(Wss6-Wsr6)*(Math.PI/180)+((a_6*A-b6*B6)*(Math.sin(Math.PI/180*Wss6)-Math.sin(Math.PI/180*Wsr6)))-(a_6*C*(Math.cos(Math.PI/180*Wss6)-Math.cos(Math.PI/180*Wsr6)))+(b6*A/2*(Math.sin(Math.PI/180*Wss6)*Math.cos(Math.PI/180*Wsr6)-(Math.sin(Math.PI/180*Wsr6)*Math.cos(Math.PI/180*Wsr6))))+(b6*C/2*(Math.pow(Math.sin(Math.PI/180*Wss6),2)-Math.pow(Math.sin(Math.PI/180*Wsr6),2))))
@@ -538,7 +538,7 @@ $(function(){
 		G18 = 1/(2*d8)*((b8*A/2-(a_8*B8))*(Wss8-Wsr8)*(Math.PI/180)+((a_8*A-b8*B8)*(Math.sin(Math.PI/180*Wss8)-Math.sin(Math.PI/180*Wsr8)))-(a_8*C*(Math.cos(Math.PI/180*Wss8)-Math.cos(Math.PI/180*Wsr8)))+(b8*A/2*(Math.sin(Math.PI/180*Wss8)*Math.cos(Math.PI/180*Wsr8)-(Math.sin(Math.PI/180*Wsr8)*Math.cos(Math.PI/180*Wsr8))))+(b8*C/2*(Math.pow(Math.sin(Math.PI/180*Wss8),2)-Math.pow(Math.sin(Math.PI/180*Wsr8),2))))
 		G19 = 1/(2*d9)*((b9*A/2-(a_9*B9))*(Wss9-Wsr9)*(Math.PI/180)+((a_9*A-b9*B9)*(Math.sin(Math.PI/180*Wss9)-Math.sin(Math.PI/180*Wsr9)))-(a_9*C*(Math.cos(Math.PI/180*Wss9)-Math.cos(Math.PI/180*Wsr9)))+(b9*A/2*(Math.sin(Math.PI/180*Wss9)*Math.cos(Math.PI/180*Wsr9)-(Math.sin(Math.PI/180*Wsr9)*Math.cos(Math.PI/180*Wsr9))))+(b9*C/2*(Math.pow(Math.sin(Math.PI/180*Wss9),2)-Math.pow(Math.sin(Math.PI/180*Wsr9),2))))
 		G10 = 1/(2*d10)*((b10*A/2-(a_10*B10))*(Wss10-Wsr10)*(Math.PI/180)+((a_10*A-b10*B10)*(Math.sin(Math.PI/180*Wss10)-Math.sin(Math.PI/180*Wsr10)))-(a_10*C*(Math.cos(Math.PI/180*Wss10)-Math.cos(Math.PI/180*Wsr10)))+(b10*A/2*(Math.sin(Math.PI/180*Wss10)*Math.cos(Math.PI/180*Wsr10)-(Math.sin(Math.PI/180*Wsr10)*Math.cos(Math.PI/180*Wsr10))))+(b10*C/2*(Math.pow(Math.sin(Math.PI/180*Wss10),2)-Math.pow(Math.sin(Math.PI/180*Wsr10),2))))
-		//console.log(G10)	
+		// console.log(G10)	
 		G24 = 1/(2*d4)*((b4*A/2-(a_4*B4))*(Wss4+Ws4)*(Math.PI/180)+((a_4*A-b4*B4)*(Math.sin(Math.PI/180*Wss4)-Math.sin(Math.PI/180*(-Ws4))))-(a_4*C*(Math.cos(Math.PI/180*Wss4)-Math.cos(Math.PI/180*(-Ws4))))+(b4*A/2*(Math.sin(Math.PI/180*Wss4)*Math.cos(Math.PI/180*(-Ws4))-(Math.sin(Math.PI/180*(-Ws4))*Math.cos(Math.PI/180*(-Ws4)))))+(b4*C/2*(Math.pow(Math.sin(Math.PI/180*Wss4),2)-Math.pow(Math.sin(Math.PI/180*(-Ws4)),2))))
 		G25 = 1/(2*d5)*((b5*A/2-(a_5*B5))*(Wss5+Ws5)*(Math.PI/180)+((a_5*A-b5*B5)*(Math.sin(Math.PI/180*Wss5)-Math.sin(Math.PI/180*(-Ws5))))-(a_5*C*(Math.cos(Math.PI/180*Wss5)-Math.cos(Math.PI/180*(-Ws5))))+(b5*A/2*(Math.sin(Math.PI/180*Wss5)*Math.cos(Math.PI/180*(-Ws5))-(Math.sin(Math.PI/180*(-Ws5))*Math.cos(Math.PI/180*(-Ws5)))))+(b5*C/2*(Math.pow(Math.sin(Math.PI/180*Wss5),2)-Math.pow(Math.sin(Math.PI/180*(-Ws5)),2))))
 		G26 = 1/(2*d6)*((b6*A/2-(a_6*B6))*(Wss6+Ws6)*(Math.PI/180)+((a_6*A-b6*B6)*(Math.sin(Math.PI/180*Wss6)-Math.sin(Math.PI/180*(-Ws6))))-(a_6*C*(Math.cos(Math.PI/180*Wss6)-Math.cos(Math.PI/180*(-Ws6))))+(b6*A/2*(Math.sin(Math.PI/180*Wss6)*Math.cos(Math.PI/180*(-Ws6))-(Math.sin(Math.PI/180*(-Ws6))*Math.cos(Math.PI/180*(-Ws6)))))+(b6*C/2*(Math.pow(Math.sin(Math.PI/180*Wss6),2)-Math.pow(Math.sin(Math.PI/180*(-Ws6)),2))))
@@ -546,7 +546,7 @@ $(function(){
 		G28 = 1/(2*d8)*((b8*A/2-(a_8*B8))*(Wss8+Ws8)*(Math.PI/180)+((a_8*A-b8*B8)*(Math.sin(Math.PI/180*Wss8)-Math.sin(Math.PI/180*(-Ws8))))-(a_8*C*(Math.cos(Math.PI/180*Wss8)-Math.cos(Math.PI/180*(-Ws8))))+(b8*A/2*(Math.sin(Math.PI/180*Wss8)*Math.cos(Math.PI/180*(-Ws8))-(Math.sin(Math.PI/180*(-Ws8))*Math.cos(Math.PI/180*(-Ws8)))))+(b8*C/2*(Math.pow(Math.sin(Math.PI/180*Wss8),2)-Math.pow(Math.sin(Math.PI/180*(-Ws8)),2))))
 		G29 = 1/(2*d9)*((b9*A/2-(a_9*B9))*(Wss9+Ws9)*(Math.PI/180)+((a_9*A-b9*B9)*(Math.sin(Math.PI/180*Wss9)-Math.sin(Math.PI/180*(-Ws9))))-(a_9*C*(Math.cos(Math.PI/180*Wss9)-Math.cos(Math.PI/180*(-Ws9))))+(b9*A/2*(Math.sin(Math.PI/180*Wss9)*Math.cos(Math.PI/180*(-Ws9))-(Math.sin(Math.PI/180*(-Ws9))*Math.cos(Math.PI/180*(-Ws9)))))+(b9*C/2*(Math.pow(Math.sin(Math.PI/180*Wss9),2)-Math.pow(Math.sin(Math.PI/180*(-Ws9)),2))))
 		G20 = 1/(2*d10)*((b10*A/2-(a_10*B10))*(Wss10+Ws10)*(Math.PI/180)+((a_10*A-b10*B10)*(Math.sin(Math.PI/180*Wss10)-Math.sin(Math.PI/180*(-Ws10))))-(a_10*C*(Math.cos(Math.PI/180*Wss10)-Math.cos(Math.PI/180*(-Ws10))))+(b10*A/2*(Math.sin(Math.PI/180*Wss10)*Math.cos(Math.PI/180*(-Ws10))-(Math.sin(Math.PI/180*(-Ws10))*Math.cos(Math.PI/180*(-Ws10)))))+(b10*C/2*(Math.pow(Math.sin(Math.PI/180*Wss10),2)-Math.pow(Math.sin(Math.PI/180*(-Ws10)),2))))
-		//console.log(G24)
+		console.log(G24)
 		G34 = 1/(2*d4)*((b4*A/2-(a_4*B4))*(Ws4-Wsr4)*(Math.PI/180)+((a_4*A-b4*B4)*(Math.sin(Math.PI/180*Ws4)-Math.sin(Math.PI/180*Wsr4)))-(a_4*C*(Math.cos(Math.PI/180*Ws4)-Math.cos(Math.PI/180*Wsr4)))+(b4*A/2*(Math.sin(Math.PI/180*Ws4)*Math.cos(Math.PI/180*Wsr4)-(Math.sin(Math.PI/180*Wsr4)*Math.cos(Math.PI/180*Wsr4))))+(b4*C/2*(Math.pow(Math.sin(Math.PI/180*Ws4),2)-Math.pow(Math.sin(Math.PI/180*Wsr4),2))))
 		G35 = 1/(2*d5)*((b5*A/2-(a_5*B5))*(Ws5-Wsr5)*(Math.PI/180)+((a_5*A-b5*B5)*(Math.sin(Math.PI/180*Ws5)-Math.sin(Math.PI/180*Wsr5)))-(a_5*C*(Math.cos(Math.PI/180*Ws5)-Math.cos(Math.PI/180*Wsr5)))+(b5*A/2*(Math.sin(Math.PI/180*Ws5)*Math.cos(Math.PI/180*Wsr5)-(Math.sin(Math.PI/180*Wsr5)*Math.cos(Math.PI/180*Wsr5))))+(b5*C/2*(Math.pow(Math.sin(Math.PI/180*Ws5),2)-Math.pow(Math.sin(Math.PI/180*Wsr5),2))))
 		G36 = 1/(2*d6)*((b6*A/2-(a_6*B6))*(Ws6-Wsr6)*(Math.PI/180)+((a_6*A-b6*B6)*(Math.sin(Math.PI/180*Ws6)-Math.sin(Math.PI/180*Wsr6)))-(a_6*C*(Math.cos(Math.PI/180*Ws6)-Math.cos(Math.PI/180*Wsr6)))+(b6*A/2*(Math.sin(Math.PI/180*Ws6)*Math.cos(Math.PI/180*Wsr6)-(Math.sin(Math.PI/180*Wsr6)*Math.cos(Math.PI/180*Wsr6))))+(b6*C/2*(Math.pow(Math.sin(Math.PI/180*Ws6),2)-Math.pow(Math.sin(Math.PI/180*Wsr6),2))))
