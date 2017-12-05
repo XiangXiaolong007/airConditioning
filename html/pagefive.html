@@ -40,8 +40,8 @@
                         <li style="color:#000">1、请选择地点</li>
                         <li style="color:#000">2、空调系统耗电量计算</li>
                         <li style="color:#000">3、方阵面太阳能辐照量计算</li>
-                        <li>4、计算各月发电盈亏量</li>
-                        <li>5、计算方阵输出电流、蓄电池容量、光伏方阵容量</li>
+                        <li style="color:#000">4、计算各月发电盈亏量</li>
+                        <li style="color:#000">5、计算方阵输出电流、蓄电池容量、光伏方阵容量</li>
                         <li>6、光伏阵列最大安装容量计算</li>
                         <li>7、光伏空调建筑自持化判定</li>
                     </ul>
@@ -61,7 +61,7 @@
                     </div>
                     <div class="form-table">
                         <div class="roof-type" style="margin-top:10px;">
-                            <label for="name">1、请确定屋面类型</label>
+                            <label for="name">请确定屋面类型</label>
                             <div>
                                 <label class="radio-inline">
                                     <input type="radio" name="roof" id="flat-roof" value="1" checked>平屋面
@@ -71,7 +71,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="accumulator-days">
+                        <!-- <div class="accumulator-days">
                             <form class="form-inline">
                                 <div class="form-group">
                                     <label for="accumulator-days">2.请输入蓄电池维持天数n</label>
@@ -79,7 +79,7 @@
                                     <span>天</span>
                                 </div>
                             </form>
-                        </div>
+                        </div> -->
                         <button class="btn btn-calculate" id="btn-Im">计算方阵输出电流Im</button>
                         <div id="flat-roof-c" style="display:none">
 
@@ -91,8 +91,8 @@
                             <h4 style="font-weight:700">请输入：</h4>
                             <form class="form-inline">
                                 <div class="form-group">
-                                    <label for="accumulator-days">蓄电池放电深度DOD=</label>
-                                    <input type="text" class="form-control" placeholder="" id="accumulator-days">
+                                    <label for="accumulator">蓄电池放电深度DOD=</label>
+                                    <input type="text" class="form-control" placeholder="" id="accumulator">
                                     <span style="display:inline-block;width:200px;margin-left:50px;">DOD通常取0.3-0.8</span>
                                 </div>
                             </form>

@@ -16,10 +16,11 @@ $(function () {
         var monthEndVal = +sessionStorage.getItem("monthEndVal");
         var latitude = sessionStorage.getItem("latitude")
         var dip = +$("#dip").val();
-        sessionStorage.setItem("dip",dip)
+        sessionStorage.setItem("dip", dip)
         var azimuth = +$("#azimuth").val();
+        sessionStorage.setItem("azimuth",azimuth)
         var reflectivity = +$("#reflectivity").val();
-        sessionStorage.setItem("reflectivity",reflectivity)
+        sessionStorage.setItem("reflectivity", reflectivity)
         var A = Math.cos(Math.PI / 180 * dip) + Math.tan(Math.PI / 180 * latitude) * Math.cos(Math.PI / 180 * azimuth) * Math.sin(Math.PI / 180 * dip);
         var sunangleAssemble = {}; //各月份太阳赤纬角
         var WsAssemble = {}; //各月水平面的日落时角
@@ -103,20 +104,20 @@ $(function () {
             daySum += monthArray[i]
         }
         Hm = HtSum / daySum;
-        $("#HmVal").append("<h4>全年平均太阳日总辐照量Hm(kW·h/(㎡·d))</h4><p>Hm=<span style='display:inline-block;width:50px'>"+Hm.toFixed(2)+"</span>(kW·h/(㎡·d))</p>");
-        if(isNaN(Hm)) {
+        $("#HmVal").append("<h4>全年平均太阳日总辐照量Hm(kW·h/(㎡·d))</h4><p>Hm=<span style='display:inline-block;width:50px'>" + Hm.toFixed(2) + "</span>(kW·h/(㎡·d))</p>");
+        if (isNaN(Hm)) {
             alert("请输入正确的参数完成计算！")
         }
-        sessionStorage.setItem("Hm",Hm);
-        sessionStorage.setItem("HtAssemble",JSON.stringify(HtAssemble))
+        sessionStorage.setItem("Hm", Hm);
+        sessionStorage.setItem("HtAssemble", JSON.stringify(HtAssemble))
     });
-    $("#next-three").click(function(){
+    $("#next-three").click(function () {
         // console.log(typeof Hm)
-        if(typeof(Hm) == "undefined") {
+        if (typeof (Hm) == "undefined") {
             alert("请完成计算！")
-        }else if(isNaN(Hm)){
+        } else if (isNaN(Hm)) {
             alert("请输入正确的参数完成计算！")
-        }else {
+        } else {
             location.href = "./pagefour.html"
         }
     })

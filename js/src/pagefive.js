@@ -1,4 +1,7 @@
-$(function(){
+var nArray = [15, 46, 75, 106, 136, 167, 197, 228, 259, 289, 320, 350]; //各月日期序号
+var monthArray = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31] //各月天数
+$(function () {
+
     //获取经纬度及地区
     var province = sessionStorage.getItem("province");
     var longitude = sessionStorage.getItem("longitude");
@@ -6,40 +9,45 @@ $(function(){
     var city = sessionStorage.getItem("city");
     var dip = sessionStorage.getItem("dip")
     var electricity = +sessionStorage.getItem("electricity")
-    var roofStatus;//平屋面还是坡屋面
+    var roofStatus; //平屋面还是坡屋面
     var reflectivity = sessionStorage.getItem("reflectivity")
     var eff1 = sessionStorage.getItem("eff1")
     var eff2 = sessionStorage.getItem("eff2")
     var Ql = sessionStorage.getItem("Ql")
     var HmArr = [];
-    
     var monthbeginVal = +sessionStorage.getItem("monthbeginVal");
     var monthEndVal = +sessionStorage.getItem("monthEndVal");
+    var azimuth = sessionStorage.getItem("azimuth");
+    var QcAssemble = JSON.parse(sessionStorage.getItem("QcAssemble"))
+    var days = sessionStorage.getItem("days")
+    var QgAssemble = {};
+    var lossAssemble = {}; //各月发电盈亏量
     if (province && city) {
         $(".location").append("<span>" + province + "</span><span style='margin-left:20px;'>" + city + "</span>");
         $(".coordinate").append("<span>经度" + longitude + "°</span><span style='margin-left:20px;'>纬度" + latitude + "°</span>");
     }
-    $("#btn-Im").click(function(){
+    $("#btn-Im").click(function () {
         var roof = document.getElementsByName("roof");
-        var pitchedRoofC = $("#pitched-roof-c");//坡屋面
+        var pitchedRoofC = $("#pitched-roof-c"); //坡屋面
         pitchedRoofC.empty();
-        var flatRoofC = $("#flat-roof-c");//平屋面
+        var flatRoofC = $("#flat-roof-c"); //平屋面
         flatRoofC.empty();
-        var dipMin = 0;//最佳倾角范围下线
-        var dipMax = 90;//最佳倾角范围上线
+        var dipMin = 0; //最佳倾角范围下线
+        var dipMax = 90; //最佳倾角范围上线
 
-        for(var i = 0;i<roof.length;i++){
-            if(roof[i].checked){
+        for (var i = 0; i < roof.length; i++) {
+            if (roof[i].checked) {
                 roofStatus = roof[i].value
             }
         }
-        if(roofStatus == 0) {
-            flatRoofC.css("display","none");
-            pitchedRoofC.css("display","block");
-            pitchedRoofC.append("<h4>坡屋面：</h4><p>计算方阵倾角不变β=<span class='inline-block'>"+dip+"</span>°</p><p>计算方阵输出电流Im=<span class='inline-block'>"+ electricity.toFixed(2)+"</span>A</p>")
-        }else if(roofStatus == 1) {
-
-            for(var j = dipMin;j<=dipMax;j++){
+        if (roofStatus == 0) {
+            flatRoofC.css("display", "none");
+            pitchedRoofC.css("display", "block");
+            pitchedRoofC.append("<h4>坡屋面：</h4><p>计算方阵倾角不变β=<span class='inline-block'>" + dip + "</span>°</p><p>计算方阵输出电流Im=<span class='inline-block'>" + electricity.toFixed(2) + "</span>A</p>")
+        } else if (roofStatus == 1) {
+            var arr = [];
+            var arrDip = [];
+            for (var j = dipMin; j <= dipMax; j++) {
                 var A = Math.cos(Math.PI / 180 * j) + Math.tan(Math.PI / 180 * latitude) * Math.cos(Math.PI / 180 * azimuth) * Math.sin(Math.PI / 180 * j);
                 var sunangleAssemble = {}; //各月份太阳赤纬角
                 var WsAssemble = {}; //各月水平面的日落时角
@@ -64,9 +72,11 @@ $(function(){
                 var DAssemble = {}; //参数D集合
                 var RAssemble = {}; //参数R集合
                 var HtAssemble = {}; //倾斜面上各月日均太阳辐射量Ht集合;
+                var Hm;
                 var HtSum = 0;
                 var daySum = 0;
-                
+                var arrHt = [];
+
                 var HzAssemble = JSON.parse(sessionStorage.getItem("HzAssemble"));
                 var HsAssemble = JSON.parse(sessionStorage.getItem("HsAssemble"))
                 for (var i = monthbeginVal; i <= monthEndVal; i++) {
@@ -81,7 +91,7 @@ $(function(){
                     tAssemble["t" + i] = Math.acos((A * BAssemble["B" + i] - (C * Math.sqrt(Math.pow(A, 2) - Math.pow(BAssemble["B" + i], 2) + Math.pow(C, 2)))) / (Math.pow(A, 2) + Math.pow(C, 2))) * 180 / Math.PI;
                     WsAssemble["Ws" + i] < tAssemble["t" + i] ? ssAssemble["ss" + i] = WsAssemble["Ws" + i] : ssAssemble["ss" + i] = tAssemble["t" + i]
                     WsAssemble["Ws" + i] < mAssemble["m" + i] ? srAssemble["sr" + i] = WsAssemble["Ws" + i] : srAssemble["sr" + i] = mAssemble["m" + i];
-        
+
                     if (A > 0 && BAssemble["B" + i] > 0) {
                         WsrAssemble["Wsr" + i] = -srAssemble["sr" + i];
                         WssAssemble["Wss" + i] = ssAssemble["ss" + i]
@@ -101,19 +111,38 @@ $(function(){
                     WssAssemble["Wss" + i] < WsrAssemble["Wsr" + i] ? DAssemble["D" + i] = G6Assemble["G6" + i] : DAssemble["D" + i] = G5Assemble["G5" + i];
                     RAssemble["R" + i] = DAssemble["D" + i] + (HsAssemble["Hs" + i] / (2 * HzAssemble["Hz" + i]) * (1 + Math.cos(Math.PI / 180 * j))) + (reflectivity / 2 * (1 - Math.cos(Math.PI / 180 * j)));
                     HtAssemble["Ht" + i] = RAssemble["R" + i] * HzAssemble["Hz" + i];
-        
-                    monthTable.append("<th>" + i + "月</th>");
-                    HtValTable.append("<td>" + HtAssemble["Ht" + i].toFixed(2) + "</td>")
                     HtSum += HtAssemble["Ht" + i] * monthArray[i];
                     daySum += monthArray[i]
                 }
                 Hm = HtSum / daySum;
-                // sessionStorage.setItem("Hm",Hm);
-                // sessionStorage.setItem("HtAssemble",JSON.stringify(HtAssemble))
+                HmArr.push(Hm)
+                var Imin = Ql / (Hm * eff1 * eff2);
+                // console.log(Imin)
+                for (var i = monthbeginVal; i <= monthEndVal; i++) {
+                    arrHt.push(HtAssemble["Ht" + i])
+                }
+                var HtMin = Math.min.apply(null, arrHt);
+                var Imax = Ql / (HtMin * eff1 * eff2);
+                var tmparr = getElectricity(Imin, Imax, QcAssemble, HtAssemble, days, monthbeginVal, monthEndVal, eff1, eff2, Ql, QgAssemble, lossAssemble)
+                var numI = tmparr[0];
+                if (numI !== undefined) {
+                    arr.push(numI);
+                    arrDip.push(j)
+                }
             }
-            flatRoofC.css("display","block");
-            pitchedRoofC.css("display","none")
-            flatRoofC.append("<h4>平屋面：</h4><p>计算方阵最佳倾角βopt=<span class='inline-block'></span>°</p><p>计算方阵输出电流Im=<span class='inline-block'></span>A</p>")
+            // console.log(arr)
+            // console.log(arrDip)
+            var Im = Math.min.apply(null, arr);
+            var bestDip;
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i] == Im) {
+                    bestDip = arrDip[i];
+                    break;
+                }
+            }
+            flatRoofC.css("display", "block");
+            pitchedRoofC.css("display", "none")
+            flatRoofC.append("<h4>平屋面：</h4><p>计算方阵最佳倾角βopt=<span class='inline-block'>" + bestDip + "</span>°</p><p>计算方阵输出电流Im=<span class='inline-block'>" + Im.toFixed(2) + "</span>A</p>")
         }
     })
 })

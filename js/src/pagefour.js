@@ -36,7 +36,8 @@ $(function () {
         sessionStorage.setItem("eff2",eff2)
         var Imin = Ql / (Hm * eff1 * eff2);
         var arrHt = [];
-        var days = $("#days").val();
+        var days = +$("#days").val();
+        sessionStorage.setItem("days",days)
         var lossAssemble = {};//各月发电盈亏量
         var QgAssemble = {};
         for(var i = monthbeginVal;i <= monthEndVal;i++) {
@@ -81,10 +82,3 @@ function noteBlock(name) {
     name.css("display", "block");
 }
 
-function Sum(arr) {
-    var sum = 0;
-    arr.forEach(function (item) {
-        sum += item;
-    });
-    return sum;
-};

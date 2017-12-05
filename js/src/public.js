@@ -89,3 +89,10 @@ function getElectricity(Imi,Ima,QcAssemble,HtAssemble,days,monthbeginVal,monthEn
     	}
     }
 }
+function Sum(arr) {
+    var sum = 0;
+    arr.forEach(function (item) {
+        sum += item;
+    });
+    return sum;
+};
