@@ -54,12 +54,9 @@
                 <div class="col-sm-9 right-aside">
                     <div class="form-head">
                         <div class="location">
-                            <span>陕西省</span>
-                            <span>西安市</span>
+
                         </div>
                         <div class="coordinate">
-                            <span>北纬34.12°</span>
-                            <span>东经108°</span>
                         </div>
                     </div>
                     <div class="form-table">
@@ -67,10 +64,10 @@
                             <label for="name">1、请确定屋面类型</label>
                             <div>
                                 <label class="radio-inline">
-                                    <input type="radio" name="roof" id="flat-roof" value="option1" checked>平屋面
+                                    <input type="radio" name="roof" id="flat-roof" value="1" checked>平屋面
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="roof" id="pitched-roof" value="option2">坡屋面
+                                    <input type="radio" name="roof" id="pitched-roof" value="0">坡屋面
                                 </label>
                             </div>
                         </div>
@@ -83,20 +80,12 @@
                                 </div>
                             </form>
                         </div>
-                        <button class="btn btn-calculate">计算方阵输出电流Im</button>
-                        <div class="flat-roof-c">
-                            <h4>平屋面：</h4>
-                            <p>计算方阵最佳倾角βopt=
-                                <span class="inline-block"></span>°</p>
-                            <p>计算方阵输出电流Im=
-                                <span class="inline-block"></span>A</p>
+                        <button class="btn btn-calculate" id="btn-Im">计算方阵输出电流Im</button>
+                        <div id="flat-roof-c" style="display:none">
+
                         </div>
-                        <div class="pitched-roof-c">
-                            <h4>坡屋面：</h4>
-                            <p>计算方阵倾角不变β=
-                                <span class="inline-block"></span>°</p>
-                            <p>计算方阵输出电流Im=
-                                <span class="inline-block"></span>A</p>
+                        <div id="pitched-roof-c" style="display:none">
+
                         </div>
                         <div class="enter">
                             <h4 style="font-weight:700">请输入：</h4>
@@ -146,3 +135,5 @@
 </html>
 <script src="../js/lab/jquery-3.2.1.min.js"></script>
 <script src="../js/lab/bootstrap.min.js"></script>
+<script src="../js/src/public.js"></script>
+<script src="../js/src/pagefive.js"></script>

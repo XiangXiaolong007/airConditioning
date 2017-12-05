@@ -29,6 +29,7 @@
     .right-aside input {
         width: 100px !important;
     }
+
 </style>
 
 <body>
@@ -63,32 +64,80 @@
                     <div class="form-table">
                         <h4>请输入：</h4>
                         <div class="efficiency">
-                            <p class="strong">效率η1、η2</p>
+                            <p class="strong">1、效率η1、η2</p>
                             <form class="form-inline" style="display:inline-block;margin-left:60px;">
                                 <div class="form-group">
                                     <label for="eff-loop-one">η1</label>
-                                    <input type="text" class="form-control" id="eff-loop-one">
+                                    <input type="number" class="form-control" id="eff-loop-one">
                                 </div>
                                 <div class="form-group" style="margin-left:20px">
                                     <label for="eff-loop-two">η2</label>
-                                    <input type="text" class="form-control" id="eff-loop-two">
+                                    <input type="number" class="form-control" id="eff-loop-two">
                                 </div>
                             </form>
                         </div>
                         <div class="clearfix" id="eff-note" style="display:none">
                             <p class="note right">注：η1为从方阵到蓄电池输入回路效率，包括方阵面上的灰尘遮蔽损失、性能失配、组件老化损失、防反充二极管及线路损耗、蓄电池充电效率等；η2为由蓄电池到负载的输出回路效率，包括蓄电池放电效率、控制器和逆变器的效率及线路损耗等。建议η1取0.9，η2取0.9。</p>
                         </div>
+                        <div class="accumulator-days distance-top">
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <label for="days">2、蓄电池维持天数n</label>
+                                    <input type="number" class="form-control" placeholder="" id="days">
+                                    <span>天</span>
+                                </div>
+                            </form>
+                        </div>
                         <button class="btn btn-calculate distance-top" id="power-budget-btn">开始计算各月发电盈亏量</button>
                         <div id="power-budget">
-                            <p class="distance-top" style="font-weight:700">方阵输出的最小电流Imin=
+                            <!-- <p class="distance-top" style="font-weight:700">方阵输出的最小电流Imin=
                                 <span class="inline-block"></span>A/㎡</p>
                             <p class="distance-top" style="font-weight:700">方阵输出的最大电流Imax=
                                 <span class="inline-block"></span>A/㎡</p>
                             <p class="distance-top" style="font-weight:700">方阵输出的实际电流I=
-                                <span class="inline-block"></span>A/㎡</p>
-                            <div class="Qg">
+                                <span class="inline-block"></span>A/㎡</p> -->
+                            <!-- <div class="Qg">
                                 <table class="table table-bordered">
                                     <caption class="text-center">方阵各月发电量Qg(A·h/㎡)</caption>
+                                    <thead>
+                                        <tr id="month">
+                                            <th>月份</th>
+                                            <th>1月</th>
+                                            <th>2月</th>
+                                            <th>3月</th>
+                                            <th>4月</th>
+                                            <th>5月</th>
+                                            <th>6月</th>
+                                            <th>7月</th>
+                                            <th>8月</th>
+                                            <th>9月</th>
+                                            <th>10月</th>
+                                            <th>11月</th>
+                                            <th>12月</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr id="QgVal">
+                                            <td>方阵各月发电量Qg</td>
+                                            <td>6.15</td>
+                                            <td>6.15</td>
+                                            <td>6.15</td>
+                                            <td>6.15</td>
+                                            <td>6.15</td>
+                                            <td>6.15</td>
+                                            <td>6.15</td>
+                                            <td>6.15</td>
+                                            <td>6.15</td>
+                                            <td>6.15</td>
+                                            <td>6.15</td>
+                                            <td>6.15</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div> -->
+                            <!-- <div class="ΔQ">
+                                <table class="table table-bordered">
+                                    <caption class="text-center">方阵各月发电盈亏量ΔQ(A·h/㎡)</caption>
                                     <thead>
                                         <tr>
                                             <th>月份</th>
@@ -108,7 +157,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>方阵各月发电量Qg</td>
+                                            <td>方阵各月发电盈亏量ΔQ</td>
                                             <td>6.15</td>
                                             <td>6.15</td>
                                             <td>6.15</td>
@@ -125,57 +174,18 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <p class="distance-top" style="font-weight:700">累计亏欠量Σ|-ΔQi|=
+                                <span class="inline-block"></span>(A·h/㎡)</p>
+                            <p>
+                                说明：当出现1个月份ΔQ &lt; 0，则累计亏欠量为该月亏欠量；当出现2个及以上连续亏欠月份，则累计亏欠量为该连续月份亏欠量之和；当出现2个及以上不连续亏欠期，则累计亏欠量为不连续亏欠期中各亏欠期亏欠量之和最大的值，其中亏欠期的计算原则为：若两个不连续亏欠期之间的ΔQi为正的月份的盈余量之和大于前一个亏欠期亏欠量，则两个亏欠期分开计算；若两个不连续亏欠期之间的ΔQi为正的月份的盈余量之和小于前一个亏欠期亏欠量，则两个亏欠期合并为一个亏欠期，其亏欠量应扣除盈余量部分；
+                            </p> -->
                         </div>
-                        <div class="ΔQ">
-                            <table class="table table-bordered">
-                                <caption class="text-center">方阵各月发电盈亏量ΔQ(A·h/㎡)</caption>
-                                <thead>
-                                    <tr>
-                                        <th>月份</th>
-                                        <th>1月</th>
-                                        <th>2月</th>
-                                        <th>3月</th>
-                                        <th>4月</th>
-                                        <th>5月</th>
-                                        <th>6月</th>
-                                        <th>7月</th>
-                                        <th>8月</th>
-                                        <th>9月</th>
-                                        <th>10月</th>
-                                        <th>11月</th>
-                                        <th>12月</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>方阵各月发电盈亏量ΔQ</td>
-                                        <td>6.15</td>
-                                        <td>6.15</td>
-                                        <td>6.15</td>
-                                        <td>6.15</td>
-                                        <td>6.15</td>
-                                        <td>6.15</td>
-                                        <td>6.15</td>
-                                        <td>6.15</td>
-                                        <td>6.15</td>
-                                        <td>6.15</td>
-                                        <td>6.15</td>
-                                        <td>6.15</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <p class="distance-top" style="font-weight:700">累计亏欠量Σ|-ΔQi|=
-                            <span class="inline-block"></span>(A·h/㎡)</p>
-                        <p>
-                            说明：当出现1个月份ΔQ &lt; 0，则累计亏欠量为该月亏欠量；当出现2个及以上连续亏欠月份，则累计亏欠量为该连续月份亏欠量之和；当出现2个及以上不连续亏欠期，则累计亏欠量为不连续亏欠期中各亏欠期亏欠量之和最大的值，其中亏欠期的计算原则为：若两个不连续亏欠期之间的ΔQi为正的月份的盈余量之和大于前一个亏欠期亏欠量，则两个亏欠期分开计算；若两个不连续亏欠期之间的ΔQi为正的月份的盈余量之和小于前一个亏欠期亏欠量，则两个亏欠期合并为一个亏欠期，其亏欠量应扣除盈余量部分；
-                        </p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="next">
-            <button class="btn btn-primary">NEXT</button>
+            <button class="btn btn-primary" id="next-four">NEXT</button>
         </div>
     </div>
 </body>
@@ -183,4 +193,5 @@
 </html>
 <script src="../js/lab/jquery-3.2.1.min.js"></script>
 <script src="../js/lab/bootstrap.min.js"></script>
+<script src="../js/src/public.js"></script>
 <script src="../js/src/pagefour.js"></script>

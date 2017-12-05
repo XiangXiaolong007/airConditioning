@@ -184,6 +184,7 @@ $(function () {
             QcSum += +QcAssemble["Qc" + i];
             console.log(QcAssemble["Qc" + i] + "A·h/㎡");
         }
+        sessionStorage.setItem("QcAssemble",JSON.stringify(QcAssemble))
         let Ql = (QcSum / monthSum).toFixed(2);
         // console.log(Ql);
         $("#Ql").append(
@@ -305,6 +306,7 @@ $(function () {
             QcSum += +QcAssemble["Qc" + i];
             console.log(QcAssemble["Qc" + i] + "A·h/㎡");
         }
+        sessionStorage.setItem("QcAssemble",JSON.stringify(QcAssemble))
         let Ql = (QcSum / monthSum).toFixed(2);
         console.log(Ql);
         $("#Ql-tab").append(
