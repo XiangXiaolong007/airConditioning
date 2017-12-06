@@ -8,17 +8,17 @@
 }
 
 .roof-1>div {
-    padding: 10px 70px 10px 20px
+    padding: 10px 45px 10px 45px
 }
 
 .content-border {
     padding: 10px
 }
 
-.largest-capacity label {
+#largest-capacity label {
     font-weight: 100
 }
 
-.largest-capacity h5 {
+#largest-capacity h5 {
     color: #999
 }

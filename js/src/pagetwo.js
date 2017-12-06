@@ -14,6 +14,7 @@ let scale = $("#scale"); //制冷机能耗比例ζ
 let QAssemble = {}; //各月冷负荷集合
 
 $(function () {
+    var calStatus;
     //获取经纬度及地区
     let province = sessionStorage.getItem("province");
     let longitude = sessionStorage.getItem("longitude");
@@ -95,10 +96,12 @@ $(function () {
     });
     $("#elseCooling").click(function () {
         let qVal = q.val();
+        sessionStorage.setItem("qVal",qVal)
         let kVal = k.val();
         let hVal = h.val();
         let NmaxVal = Nmax.val();
         let zVal = z.val();
+        sessionStorage.setItem("zVal",zVal)
         let Qmax = qVal * hVal * zVal * kVal * NmaxVal;
         let kAssemble = {}; //各月系数集合;
         $(".month-cooling").empty();
@@ -134,6 +137,8 @@ $(function () {
     $("#everyQc").click(function () {
         $("#Qc-echart").css("display", "block");
         $("#Ql").empty();
+        calStatus = 0;
+        sessionStorage.setItem("COP",COP.val())
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById("Qc-echart"));
         // 指定图表的配置项和数据
@@ -252,6 +257,9 @@ $(function () {
     $("#everyQc-tab").click(function () {
         $("#Qc-echart-tab").css("display", "block");
         $("#Ql-tab").empty();
+        calStatus = 1;
+        sessionStorage.setItem("COP",COP.val())
+        sessionStorage.setItem("zVal",$("#floor-tab").val())
         // 基于准备好的dom，初始化echarts实例
         var myChartTab = echarts.init(document.getElementById("Qc-echart-tab"));
         // 指定图表的配置项和数据
@@ -324,7 +332,8 @@ $(function () {
     //查看所选位置的相关信息
     $("#next-two").on("click", function () {
         sessionStorage.setItem("monthbeginVal", monthbeginVal)
-        sessionStorage.setItem("monthEndVal", monthEndVal)
+        sessionStorage.setItem("monthEndVal", monthEndVal);
+        sessionStorage.setItem("calStatus",calStatus)
         // alert(monthbeginVal)
         location.href = "./pagethree.html";
     });

@@ -55,12 +55,8 @@
                 <div class="col-sm-9 right-aside">
                     <div class="form-head">
                         <div class="location">
-                            <span>陕西省</span>
-                            <span>西安市</span>
                         </div>
                         <div class="coordinate">
-                            <span>北纬34.12°</span>
-                            <span>东经108°</span>
                         </div>
                     </div>
                     <div class="form-table">
@@ -85,8 +81,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="largest-capacity">
-                            <h4>2.光伏阵列最大安装容量计算</h4>
+                        <div id="largest-capacity">
+                            <!-- <h4>2.光伏阵列最大安装容量计算</h4>
                             <p>①请输入光伏组件参数</p>
                             <form class="form-inline distance-top">
                                 <div class="form-group">
@@ -117,15 +113,30 @@
                             <h5>考虑平屋面平行架空安装检修疏散通道可在架空层完成，因此ρ取0.9；</h5>
                             <h5>考虑平屋面平铺安装需设置检修疏散通道，因此ρ取0.8；</h5>
                             <button class="btn btn-calculate">开始计算</button>
-                            <p class="distance-top" style="font-weight:700">光伏阵列最大安装容量Pm=
-                                <span class="inline-block"></span>W/㎡</p>
-                        </div>
+                            <div id="cal-number">
+                                <p class="distance-top" style="font-weight:700">
+                                    光伏阵列前后排间距D=
+                                    <span class="inline-block"></span>m
+                                </p>
+                                <p class="distance-top" style="font-weight:700">
+                                    屋面光伏组件间距系数γ=
+                                    <span class="inline-block"></span>
+                                </p>
+                                <h5>
+                                    系数γ是考虑方阵前后排间距的屋面面积无法使用
+                                </h5>
+                                <p class="distance-top" style="font-weight:700">
+                                    光伏阵列最大安装容量Pm=
+                                    <span class="inline-block"></span>W/㎡
+                                </p>
+                            </div>-->
+                        </div> 
                     </div>
                 </div>
             </div>
         </div>
         <div class="next">
-            <button class="btn btn-primary">NEXT</button>
+            <button class="btn btn-primary" id="next-six">NEXT</button>
         </div>
     </div>
 </body>
@@ -133,3 +144,4 @@
 </html>
 <script src="../js/lab/jquery-3.2.1.min.js"></script>
 <script src="../js/lab/bootstrap.min.js"></script>
+<script src="../js/src/pagesix.js"></script>

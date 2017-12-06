@@ -54,46 +54,56 @@
                 <div class="col-sm-9 right-aside">
                     <div class="form-head">
                         <div class="location">
-                            <span>陕西省</span>
-                            <span>西安市</span>
                         </div>
                         <div class="coordinate">
-                            <span>北纬34.12°</span>
-                            <span>东经108°</span>
                         </div>
                     </div>
                     <div class="form-table">
-                        <p class="distance-top">
-                            <strong>建筑层数：</strong>
-                            <span class="inline-block"></span>层</p>
-                        <p>
-                            <strong>屋面形式：</strong>
-                            <span class="inline-block"></span>
-                        </p>
-                        <p>
-                            <strong>制冷机组COP=</strong>
-                            <span class="inline-block"></span>
-                        </p>
-                        <p>
-                            <strong>蓄电池维持天数n=</strong>
-                            <span class="inline-block"></span>
-                        </p>
-                        <p>
-                            <strong>光伏方阵安装方式=</strong>
-                            <span class="inline-block"></span>
-                        </p>
-                        <p>
-                            <strong>光伏方阵倾角β=</strong>
-                            <span class="inline-block"></span>
-                        </p>
+                        <div id="roof-status">
+                            <!-- <p class="distance-top">
+                                <strong>建筑层数：</strong>
+                                <span class="inline-block"></span>层</p>
+                            <p>
+                                <strong>屋面形式：</strong>
+                                <span class="inline-block"></span>
+                            </p>
+                            <p>
+                                <strong>制冷机组COP=</strong>
+                                <span class="inline-block"></span>
+                            </p>
+                            <p>
+                                <strong>蓄电池维持天数n=</strong>
+                                <span class="inline-block"></span>
+                            </p>
+                            <p>
+                                <strong>光伏方阵安装方式=</strong>
+                                <span class="inline-block"></span>
+                            </p>
+                            <p>
+                                <strong>光伏方阵倾角β=</strong>
+                                <span class="inline-block"></span>
+                            </p> -->
+                        </div>
+
                         <div class="col-sm-6" style="padding:20px 10px 20px 20px;height:400px;" id="PV-content"></div>
                         <div class="col-sm-6" style="padding:20px 10px 20px 20px;height:400px;" id="accumulator-content"></div>
-                        <p><strong>冷指标q=</strong><span class="inline-block"></span>W/㎡时：</p>
-                        <p><strong>单位面积蓄电池容量Bn=</strong><span class="inline-block"></span>A·h/㎡；</p>
-                        <p><strong>单位面积光伏方阵容量Pn=</strong><span class="inline-block"></span>W/㎡；</p>
-                        <p><strong>单位面积光伏阵列最大安装容量Pm=</strong><span class="inline-block"></span>W/㎡；</p>
-                        <p class="alert alert-success">Pm&gt;Pn，满足自持化要求</p>
-                        <p class="alert alert-danger">Pm&lt;Pn，不满足自持化要求</p>
+                        <div id="check-status">
+                            <!-- <p>
+                                <strong>冷指标q=</strong>
+                                <span class="inline-block"></span>W/㎡时：</p>
+                            <p>
+                                <strong>单位面积蓄电池容量Bn=</strong>
+                                <span class="inline-block"></span>A·h/㎡；</p>
+                            <p>
+                                <strong>单位面积光伏方阵容量Pn=</strong>
+                                <span class="inline-block"></span>W/㎡；</p>
+                            <p>
+                                <strong>单位面积光伏阵列最大安装容量Pm=</strong>
+                                <span class="inline-block"></span>W/㎡；</p> -->
+                        </div>
+
+                        <p class="alert alert-success" style="display:none">Pm&gt;Pn，满足自持化要求</p>
+                        <p class="alert alert-danger" style="display:none">Pm&lt;Pn，不满足自持化要求</p>
                     </div>
                 </div>
             </div>

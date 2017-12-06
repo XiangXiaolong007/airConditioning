@@ -24,7 +24,8 @@
     }
     /* 右边内容 */
 
-    .right-aside input[type='text'] {
+    .right-aside input[type='text'],
+    .right-aside input[type='number'] {
         width: 100px !important;
     }
 </style>
@@ -87,8 +88,8 @@
                         <div id="pitched-roof-c" style="display:none">
 
                         </div>
-                        <div class="enter">
-                            <h4 style="font-weight:700">请输入：</h4>
+                        <div id="enter">
+                            <!-- <h4 style="font-weight:700">请输入：</h4>
                             <form class="form-inline">
                                 <div class="form-group">
                                     <label for="accumulator">蓄电池放电深度DOD=</label>
@@ -98,7 +99,7 @@
                             </form>
                             <form class="form-inline">
                                 <div class="form-group">
-                                    <label for="safe-eff">安全系数μ</label>
+                                    <label for="safe-eff">安全系数μ=</label>
                                     <input type="text" class="form-control" placeholder="" id="safe-eff">
                                     <span style="display:inline-block;width:200px;margin-left:50px;" class="distance-top">μ通常取1.05-1.3</span>
                                 </div>
@@ -116,18 +117,21 @@
                                     <span style="display:inline-block;width:200px;margin-left:50px;" class="distance-top">Ud取为1</span>
                                 </div>
                             </form>
-                            <button class="btn btn-calculate distance-top">开始计算蓄电池容量Bn和方阵容量Pn</button>
-                            <p class="distance-top" style="font-weight:700">蓄电池容量Bn=
-                                <span class="inline-block"></span>A·h/㎡</p>
-                            <p class="distance-top" style="font-weight:700">方阵容量Pn=
-                                <span class="inline-block"></span>W/㎡</p>
+                            <button class="btn btn-calculate distance-top" id="btn-Bn-Pn">
+                                开始计算蓄电池容量Bn和方阵容量Pn</button> -->
+                            <!-- <div id="pn-bn">
+                                <p class="distance-top" style="font-weight:700">蓄电池容量Bn=
+                                    <span class="inline-block"></span>A·h/㎡</p>
+                                <p class="distance-top" style="font-weight:700">方阵容量Pn=
+                                    <span class="inline-block"></span>W/㎡</p>
+                            </div> -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="next">
-            <button class="btn btn-primary">NEXT</button>
+            <button class="btn btn-primary" id="next-five">NEXT</button>
         </div>
     </div>
 </body>
