@@ -133,7 +133,11 @@ $(function () {
                 var HtMin = Math.min.apply(null, arrHt);
                 var Imax = Ql / (HtMin * eff1 * eff2);
                 var tmparr = getElectricity(Imin, Imax, QcAssemble, HtAssemble, days, monthbeginVal, monthEndVal, eff1, eff2, Ql, QgAssemble, lossAssemble)
-                var numI = tmparr[0];
+                // console.log(tmparr)
+                if(tmparr) {
+                    var numI = tmparr[0];
+                }
+                
                 if (numI !== undefined) {
                     arr.push(numI);
                     arrDip.push(j)

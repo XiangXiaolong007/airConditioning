@@ -103,6 +103,7 @@ caption {
 .inline-block{
     display: inline-block;
     width: 40px;
+    text-align: center
 }
 /* 注释 */
 .note {

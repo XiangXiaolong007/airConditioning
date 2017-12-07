@@ -173,6 +173,12 @@ $(function () {
                     fontSize: 16
                 }
             },
+            label: {
+                normal: {
+                    show: true,
+                    position: 'top'
+                }
+            },
             series: [{
                 name: "耗电量Qc",
                 type: "bar",

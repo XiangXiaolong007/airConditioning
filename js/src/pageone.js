@@ -94,6 +94,7 @@ function cityChange() {
             console.log(nasa);
             var ssehrz = nasa.SSEHRZ;
             var diffuse = nasa.Diffuse;
+            var direct = nasa.Direct;
 
             $("#longi-lati-value").append("<form class='form-inline'><div class='form-group col-sm-3'><label for='longitude'>经度：</label><span id='longitude'>" + longitude + "</span></div><div class='form-group col-sm-3'><label for='latitude'>纬度：</label><span id='latitude'>" + latitude + "</span></div></form>");
 
@@ -104,10 +105,10 @@ function cityChange() {
             var HzAssemble = {};//各月平均太阳总辐照量集合
             var HsAssemble = {};//各月平均太阳散射辐照量集合
             for (var i = 1; i <= 12; i++) {
-                HzAssemble["Hz" + i] = +ssehrz[i];
-                HsAssemble["Hs" + i] = +diffuse[i];
-                ssehzData += "<td id='Hz" + i + "'>" + Number(ssehrz[i]) + "</td>";
-                diffuseData += "<td id='Hs" + i + "'>" + Number(diffuse[i]) + "</td>"
+                HzAssemble["Hz" + i] = +diffuse[i-1] + +direct[i-1];
+                HsAssemble["Hs" + i] = +diffuse[i-1];
+                ssehzData += "<td id='Hz" + i + "'>" + (HzAssemble["Hz" + i]).toFixed(2) + "</td>";
+                diffuseData += "<td id='Hs" + i + "'>" + (HsAssemble["Hs" + i]).toFixed(2) + "</td>"
             }
             sessionStorage.setItem("HzAssemble",JSON.stringify(HzAssemble));
             sessionStorage.setItem("HsAssemble",JSON.stringify(HsAssemble))
