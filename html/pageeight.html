@@ -27,6 +27,100 @@
     .right-aside input {
         width: 100px !important;
     }
+
+    #choiceness-loading {
+        height: 200px;
+        width: 200px;
+        margin: 100px auto;
+        position: relative;
+    }
+
+    .content1,
+    .content2 {
+        width: 25%;
+        height: 25%;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .content1 div,
+    .content2 div {
+        width: 25%;
+        height: 25%;
+        background: #000;
+        border-radius: 50%;
+        position: absolute;
+        animation: move 2s infinite linear
+    }
+
+    .content2 {
+        transform: rotate(45deg)
+    }
+
+    .circle1 {
+        left: 0;
+        top: 0;
+    }
+
+    .circle2 {
+        right: 0;
+        top: 0
+    }
+
+    .circle3 {
+        right: 0;
+        bottom: 0
+    }
+
+    .circle4 {
+        left: 0;
+        bottom: 0
+    }
+
+    .content1 .circle1 {
+        animation-delay: -0.1s
+    }
+
+    .content2 .circle1 {
+        animation-delay: -0.3s
+    }
+
+    .content1 .circle2 {
+        animation-delay: -0.5s
+    }
+
+    .content2 .circle2 {
+        animation-delay: -0.7s
+    }
+
+    .content1 .circle3 {
+        animation-delay: -0.9s
+    }
+
+    .content2 .circle3 {
+        animation-delay: -1.1s
+    }
+
+    .content1 .circle4 {
+        animation-delay: -1.3s
+    }
+
+    .content2 .circle4 {
+        animation-delay: -1.5s
+    }
+
+    @keyframes move {
+        0% {
+            transform: scale(1)
+        }
+        50% {
+            transform: scale(0)
+        }
+        100% {
+            transform: scale(1)
+        }
+    }
 </style>
 
 <body>
@@ -35,7 +129,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-3 left-aside">
-                    <h4>开始计算</h4>
+                    <h4 onclick="location.href='./pageone.html'" style="cursor:pointer">开始计算</h4>
                     <ul class="list-unstyled">
                         <li style="color:#000">1、请选择地点</li>
                         <li style="color:#000">2、空调系统耗电量计算</li>
@@ -47,8 +141,8 @@
                     </ul>
                     <h4>小工具</h4>
                     <ul class="list-unstyled public">
-                        <li>1、太阳能资源分布图</li>
-                        <li>2、倾斜面太阳辐射面计算</li>
+                        <li onclick="location.href='./pagenine.html'" style="cursor:pointer">1、太阳能资源分布图</li>
+                        <li onclick="location.href='./pageten.html'" style="cursor:pointer">2、倾斜面太阳辐射面计算</li>
                     </ul>
                 </div>
                 <div class="col-sm-9 right-aside">
@@ -84,7 +178,20 @@
                                 <span class="inline-block"></span>
                             </p> -->
                         </div>
-
+                        <div id="choiceness-loading">
+                            <div class="content1">
+                                <div class="circle1"></div>
+                                <div class="circle2"></div>
+                                <div class="circle3"></div>
+                                <div class="circle4"></div>
+                            </div>
+                            <div class="content2">
+                                <div class="circle1"></div>
+                                <div class="circle2"></div>
+                                <div class="circle3"></div>
+                                <div class="circle4"></div>
+                            </div>
+                        </div>
                         <div class="col-sm-6" style="padding:20px 10px 20px 20px;height:400px;" id="PV-content"></div>
                         <div class="col-sm-6" style="padding:20px 10px 20px 20px;height:400px;" id="accumulator-content"></div>
                         <div id="check-status">
@@ -109,7 +216,7 @@
             </div>
         </div>
         <div class="next">
-            <button class="btn btn-primary">点击查看太阳能资源分布图</button>
+            <button class="btn btn-primary" id="next-eight">点击查看太阳能资源分布图</button>
         </div>
     </div>
 </body>
@@ -117,5 +224,6 @@
 </html>
 <script src="../js/lab/jquery-3.2.1.min.js"></script>
 <script src="../js/lab/bootstrap.min.js"></script>
+<script src="../js/src/public.js"></script>
 <script src="../js/lab/echarts.min.js"></script>
 <script src="../js/src/pageeight.js"></script>

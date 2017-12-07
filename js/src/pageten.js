@@ -1,26 +1,158 @@
+//定义数组，存储省份信息
+var provinceArray = [];
+//定义省份数据列表
+var provinceData;
+// 定义省份编码
+var pcode;
+//定义数组，存储城市信息
+var cityData = []
+//纬度
+var latitude;
+var HzAssemble;//各月平均太阳总辐照量集合
+var HsAssemble;//各月平均太阳散射辐照量集合
 var nArray = [15, 46, 75, 106, 136, 167, 197, 228, 259, 289, 320, 350]; //各月日期序号
 var monthArray = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31] //各月天数
-$(function () {
-    //获取经纬度及地区
-    var province = sessionStorage.getItem("province");
-    var longitude = sessionStorage.getItem("longitude");
-    var latitude = sessionStorage.getItem("latitude");
-    var city = sessionStorage.getItem("city");
-    if (province && city) {
-        $(".location").append("<span>" + province + "</span><span style='margin-left:20px;'>" + city + "</span>");
-        $(".coordinate").append("<span>经度" + longitude + "°</span><span style='margin-left:20px;'>纬度" + latitude + "°</span>");
+//根据选中的省份获取对应的城市
+function setCity(province) {
+    console.log(province)
+    var $city = $("#selCity");
+    var proCity, option, modelVal;
+    //先清空之前绑定的值
+    $city.empty();
+    //存储城市信息
+    var cityArray = [];
+    //通过省份名称，获取省份对应城市的数组名
+    if (!province) {
+        $city.append("<option value='请选择'>请选择</option>")
+    } else {
+        $.get("http://nuantong.aikeapi.cn/api/area/list", {
+            pcode: province
+        }, function (data) {
+            $city.append("<option value='请选择'>请选择</option>")
+            console.log(data)
+            //设置对应省份的城市
+            if (data && data.code == 0) {
+                cityData = data.info.List
+                $.map(cityData, function (n) {
+                    cityArray.push(n.Name)
+                })
+            }
+            for (var i = 0, len = cityArray.length; i < len; i++) {
+                modelVal = cityArray[i];
+                option = "<option value='" + modelVal + "'>" + modelVal + "</option>";
+                //添加
+                $city.append(option);
+            }
+            //设置背景
+            setBgColor();
+        })
     }
+}
+
+//设置下拉列表间隔背景样色
+function setBgColor() {
+    var $option = $("select option:odd");
+    $option.css({
+        "background-color": "#DEDEDE"
+    });
+}
+
+//省份选中事件
+function provinceChange() {
+    var $pro = $("#selProvince");
+    var $city = $("#selCity");
+    //本地缓存省份
+    sessionStorage.setItem("province",$pro.val())
+    // console.log($pro.val());
+    // console.log(provinceData)
+    provinceData.some(function (n) {
+        // console.log(n.Name)
+        if ($pro.val() == "请选择") {
+            pcode = null
+        } else if ($pro.val() == n.Name) {
+            // console.log(n.Code)
+            pcode = n.Code;
+            return true;
+        }
+    })
+    setCity(pcode);
+}
+//城市选中事件
+function cityChange() {
+    // console.log(cityData);
+    var cityName = $("#selCity").val();
+    //缓存城市信息
+    sessionStorage.setItem("city",cityName)
+    $("#ssehrz").empty();
+    $("#diffuse").empty()
+    $("#longi-lati-value").empty();
+    cityData.some(function (n) {
+        if (cityName == "请选择") {
+            alert("请选择正确的位置信息");
+            return true;
+        } else if (cityName == n.Name) {
+            var cpArray = n.Cp.slice(1, -1).split(",");
+            var longitude = Number(cpArray[0]).toFixed(2);
+            latitude = Number(cpArray[1]).toFixed(2);
+            var nasa = JSON.parse(n.Nasa);
+            console.log(nasa);
+            var ssehrz = nasa.SSEHRZ;
+            var diffuse = nasa.Diffuse;
+
+            $("#longi-lati-value").append("<form class='form-inline'><div class='form-group col-sm-3'><label for='longitude'>经度：</label><span id='longitude'>" + longitude + "</span></div><div class='form-group col-sm-3'><label for='latitude'>纬度：</label><span id='latitude'>" + latitude + "</span></div></form>");
+
+            HzAssemble = {};//各月平均太阳总辐照量集合
+            HsAssemble = {};//各月平均太阳散射辐照量集合
+            for (var i = 1; i <= 12; i++) {
+                HzAssemble["Hz" + i] = +ssehrz[i];
+                HsAssemble["Hs" + i] = +diffuse[i];
+            }
+            return true;
+        }
+    })
+}
+$(function () {
+    $.get("http://nuantong.aikeapi.cn/api/area/list", function (data) {
+        if (data && data.code == 0) {
+            // console.log(data.info.List);
+            provinceData = data.info.List;
+            $.map(provinceData, function (n) {
+                provinceArray.push(n.Name);
+            });
+            // console.log(provinceArray);
+            //设置省份数据
+            //给省份下拉列表赋值
+            var option, modelVal;
+            var $sel = $("#selProvince");
+            var $selCity = $("#selCity")
+            $sel.append("<option value='请选择'>请选择</option>")
+            $selCity.append("<option value='请选择'>请选择</option>")
+            //获取对应省份城市
+            for (var i = 0, len = provinceArray.length; i < len; i++) {
+                modelVal = provinceArray[i];
+                option = "<option value='" + modelVal + "'>" + modelVal + "</option>";
+                //添加到 select 元素中
+                $sel.append(option);
+            }
+        }
+    });
+    // var longitudeAndLatitude = $("#longitude-and-latitude");
+    // var longiLatiValue = $("#longi-lati-value");
+    // longitudeAndLatitude.on("click", function () {
+    //     longitudeAndLatitude.css("display", "none");
+    //     longiLatiValue.css("display", "block");
+    // });
+
+    //设置背景颜色
+    setBgColor();
+    //查看所选位置的相关信息
     var Hm; //全年平均太阳日总辐照量Hm
     $("#btn-Ht-Hm").click(function () {
-        var monthbeginVal = +sessionStorage.getItem("monthbeginVal");
-        var monthEndVal = +sessionStorage.getItem("monthEndVal");
-        var latitude = sessionStorage.getItem("latitude")
+        var monthbeginVal = 1;
+        var monthEndVal = 12;
         var dip = +$("#dip").val();
-        sessionStorage.setItem("dip", dip)
         var azimuth = +$("#azimuth").val();
-        sessionStorage.setItem("azimuth",azimuth)
         var reflectivity = +$("#reflectivity").val();
-        sessionStorage.setItem("reflectivity", reflectivity)
         var A = Math.cos(Math.PI / 180 * dip) + Math.tan(Math.PI / 180 * latitude) * Math.cos(Math.PI / 180 * azimuth) * Math.sin(Math.PI / 180 * dip);
         var sunangleAssemble = {}; //各月份太阳赤纬角
         var WsAssemble = {}; //各月水平面的日落时角
@@ -63,8 +195,6 @@ $(function () {
             var HtValTable = $("#HtVal")
         }
         $("#HmVal").empty()
-        var HzAssemble = JSON.parse(sessionStorage.getItem("HzAssemble"));
-        var HsAssemble = JSON.parse(sessionStorage.getItem("HsAssemble"))
         for (var i = monthbeginVal; i <= monthEndVal; i++) {
             sunangleAssemble["sunangle" + i] = 23.45 * Math.sin(Math.PI / 180 * (360 * (284 + nArray[i-1]) / 365));
             WsAssemble["Ws" + i] = Math.acos(-Math.tan(Math.PI / 180 * latitude) * Math.tan(Math.PI / 180 * sunangleAssemble["sunangle" + i])) * 180 / Math.PI;
@@ -103,22 +233,13 @@ $(function () {
             HtSum += HtAssemble["Ht" + i] * monthArray[i-1];
             daySum += monthArray[i-1]
         }
+        console.log(HtAssemble)
+        console.log(HsAssemble)
+        console.log(HzAssemble)
         Hm = HtSum / daySum;
         $("#HmVal").append("<h4>全年平均太阳日总辐照量Hm(kW·h/(㎡·d))</h4><p>Hm=<span style='display:inline-block;width:50px'>" + Hm.toFixed(2) + "</span>(kW·h/(㎡·d))</p>");
         if (isNaN(Hm)) {
             alert("请输入正确的参数完成计算！")
-        }
-        sessionStorage.setItem("Hm", Hm);
-        sessionStorage.setItem("HtAssemble", JSON.stringify(HtAssemble))
-    });
-    $("#next-three").click(function () {
-        // console.log(typeof Hm)
-        if (typeof (Hm) == "undefined") {
-            alert("请完成计算！")
-        } else if (isNaN(Hm)) {
-            alert("请输入正确的参数完成计算！")
-        } else {
-            location.href = "./pagefour.html"
         }
     })
 });

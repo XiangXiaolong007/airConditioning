@@ -45,6 +45,7 @@ $(function () {
                 roofStatus = roof[i].value
             }
         }
+        sessionStorage.setItem("roofStatus",roofStatus)
         if (roofStatus == 0) {
             flatRoofC.css("display", "none");
             pitchedRoofC.css("display", "block");
@@ -88,7 +89,7 @@ $(function () {
                 var daySum = 0;
                 var arrHt = [];
                 for (var i = monthbeginVal; i <= monthEndVal; i++) {
-                    sunangleAssemble["sunangle" + i] = 23.45 * Math.sin(Math.PI / 180 * (360 * (284 + nArray[i]) / 365));
+                    sunangleAssemble["sunangle" + i] = 23.45 * Math.sin(Math.PI / 180 * (360 * (284 + nArray[i-1]) / 365));
                     WsAssemble["Ws" + i] = Math.acos(-Math.tan(Math.PI / 180 * latitude) * Math.tan(Math.PI / 180 * sunangleAssemble["sunangle" + i])) * 180 / Math.PI;
                     BAssemble["B" + i] = Math.cos(Math.PI / 180 * WsAssemble["Ws" + i]) * Math.cos(Math.PI / 180 * j) + Math.tan(Math.PI / 180 * sunangleAssemble["sunangle" + i]) * Math.sin(Math.PI / 180 * j) * Math.cos(Math.PI / 180 * azimuth);
                     aAssemble["a" + i] = 0.409 + 0.5016 * Math.sin(Math.PI / 180 * (WsAssemble["Ws" + i] - 60));
@@ -119,8 +120,8 @@ $(function () {
                     WssAssemble["Wss" + i] < WsrAssemble["Wsr" + i] ? DAssemble["D" + i] = G6Assemble["G6" + i] : DAssemble["D" + i] = G5Assemble["G5" + i];
                     RAssemble["R" + i] = DAssemble["D" + i] + (HsAssemble["Hs" + i] / (2 * HzAssemble["Hz" + i]) * (1 + Math.cos(Math.PI / 180 * j))) + (reflectivity / 2 * (1 - Math.cos(Math.PI / 180 * j)));
                     HtAssemble["Ht" + i] = RAssemble["R" + i] * HzAssemble["Hz" + i];
-                    HtSum += HtAssemble["Ht" + i] * monthArray[i];
-                    daySum += monthArray[i]
+                    HtSum += HtAssemble["Ht" + i] * monthArray[i-1];
+                    daySum += monthArray[i-1]
                 }
                 Hm = HtSum / daySum;
                 HmArr.push(Hm)
@@ -155,7 +156,9 @@ $(function () {
          $("#enter").append("<h4 style='font-weight:700'>请输入：</h4><form class='form-inline'><div class='form-group'><label for='accumulator'>蓄电池放电深度DOD=</label><input type='number' class='form-control' id='accumulator'><span style='display:inline-block;width:200px;margin-left:50px;'>DOD通常取0.3-0.8</span></div></form><form class='form-inline'><div class='form-group'><label for='safe-eff'>安全系数μ=</label><input type='number' class='form-control' id='safe-eff'><span style='display:inline-block;width:200px;margin-left:50px;' class='distance-top'>μ通常取1.05-1.3</span></div></form><form class='form-inline'><div class='form-group distance-top'><label for='ub-number'>蓄电池充电电压Ub = U × 1.2 = </label><span id='ub-number'>456V</span></div></form><form class='form-inline'><div class='form-group'><label for='voltageDrop'>防反冲二极管及线路等的电压降Ud = </label><input type='text' class='form-control' value='1' id='voltageDrop' disabled>V<span style='display:inline-block;width:200px;margin-left:50px;'' class='distance-top'>Ud取为1</span></div></form><button class='btn btn-calculate distance-top' id='btn-Bn-Pn'>开始计算蓄电池容量Bn和方阵容量Pn</button><div id='pn-bn'></div>")
         $("#btn-Bn-Pn").click(function(){
             var DOD = +$("#accumulator").val();
+            sessionStorage.setItem("DOD",DOD)
             var safeEff = +$("#safe-eff").val();
+            sessionStorage.setItem("safeEff",safeEff)
             if($("#pn-bn")) {
                 $("#pn-bn").empty()
             }
@@ -188,7 +191,7 @@ $(function () {
             var daySum = 0;
             var arrHt = [];
             for (var i = monthbeginVal; i <= monthEndVal; i++) {
-                sunangleAssemble["sunangle" + i] = 23.45 * Math.sin(Math.PI / 180 * (360 * (284 + nArray[i]) / 365));
+                sunangleAssemble["sunangle" + i] = 23.45 * Math.sin(Math.PI / 180 * (360 * (284 + nArray[i-1]) / 365));
                 WsAssemble["Ws" + i] = Math.acos(-Math.tan(Math.PI / 180 * latitude) * Math.tan(Math.PI / 180 * sunangleAssemble["sunangle" + i])) * 180 / Math.PI;
                 BAssemble["B" + i] = Math.cos(Math.PI / 180 * WsAssemble["Ws" + i]) * Math.cos(Math.PI / 180 * bestDip) + Math.tan(Math.PI / 180 * sunangleAssemble["sunangle" + i]) * Math.sin(Math.PI / 180 * bestDip) * Math.cos(Math.PI / 180 * azimuth);
                 aAssemble["a" + i] = 0.409 + 0.5016 * Math.sin(Math.PI / 180 * (WsAssemble["Ws" + i] - 60));
@@ -219,8 +222,8 @@ $(function () {
                 WssAssemble["Wss" + i] < WsrAssemble["Wsr" + i] ? DAssemble["D" + i] = G6Assemble["G6" + i] : DAssemble["D" + i] = G5Assemble["G5" + i];
                 RAssemble["R" + i] = DAssemble["D" + i] + (HsAssemble["Hs" + i] / (2 * HzAssemble["Hz" + i]) * (1 + Math.cos(Math.PI / 180 * bestDip))) + (reflectivity / 2 * (1 - Math.cos(Math.PI / 180 * bestDip)));
                 HtAssemble["Ht" + i] = RAssemble["R" + i] * HzAssemble["Hz" + i];
-                HtSum += HtAssemble["Ht" + i] * monthArray[i];
-                daySum += monthArray[i]
+                HtSum += HtAssemble["Ht" + i] * monthArray[i-1];
+                daySum += monthArray[i-1]
             }
             Hm = HtSum / daySum;
             HmArr.push(Hm)

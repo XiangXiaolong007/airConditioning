@@ -1,3 +1,4 @@
+var monthArray = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 function getElectricity(Imi,Ima,QcAssemble,HtAssemble,days,monthbeginVal,monthEndVal,eff1,eff2,Ql,QgAssemble,lossAssemble,min){
     var indexArr = [];
     var jArr = [];
@@ -6,10 +7,10 @@ function getElectricity(Imi,Ima,QcAssemble,HtAssemble,days,monthbeginVal,monthEn
     var n1;
     var n1Arr = [];;
     var index;
-    for(var j = Imi;j < Ima;j += 0.00001){
+    for(var j = Imi;j < Ima;j += 0.0001){
         lossArr = []
         for(var i = monthbeginVal;i <= monthEndVal;i++){
-            QgAssemble["Qg" + i] = monthArray[i] * j * HtAssemble["Ht" + i] * eff1 * eff2;
+            QgAssemble["Qg" + i] = monthArray[i-1] * j * HtAssemble["Ht" + i] * eff1 * eff2;
             lossAssemble["loss" + i] = QgAssemble["Qg" + i] - QcAssemble["Qc" + i]
             lossArr.push(lossAssemble["loss" + i])
         }
@@ -50,7 +51,7 @@ function getElectricity(Imi,Ima,QcAssemble,HtAssemble,days,monthbeginVal,monthEn
     for(var i = 0;i<indexArr.length;i++) {
     	if(indexMin == indexArr[i]) {
             for(var j = monthbeginVal;j <= monthEndVal;j++){
-                QgAssemble["Qg" + j] = monthArray[j] * jArr[i] * HtAssemble["Ht" + j] * eff1 * eff2;
+                QgAssemble["Qg" + j] = monthArray[j-1] * jArr[i] * HtAssemble["Ht" + j] * eff1 * eff2;
                 lossAssemble["loss" + j] = QgAssemble["Qg" + j] - QcAssemble["Qc" + j]
                 lossArr.push(lossAssemble["loss" + j])
             }

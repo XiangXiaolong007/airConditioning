@@ -1,4 +1,4 @@
-var monthArray = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31] //各月天数
+
 $(function () {
     //获取Ql   Hm HtAssemble 
     var Ql = sessionStorage.getItem("Ql")

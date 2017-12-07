@@ -98,8 +98,11 @@ $(function () {
         let qVal = q.val();
         sessionStorage.setItem("qVal",qVal)
         let kVal = k.val();
+        sessionStorage.setItem("kVal",kVal)
         let hVal = h.val();
+        sessionStorage.setItem("hVal",hVal)
         let NmaxVal = Nmax.val();
+        sessionStorage.setItem("NmaxVal",NmaxVal)
         let zVal = z.val();
         sessionStorage.setItem("zVal",zVal)
         let Qmax = qVal * hVal * zVal * kVal * NmaxVal;
@@ -116,6 +119,7 @@ $(function () {
                 "</span>"
             );
         }
+        sessionStorage.setItem("kAssemble",JSON.stringify(kAssemble))
     });
     //制冷机组COP
     let COPNote = $("#COP-note");
@@ -138,7 +142,8 @@ $(function () {
         $("#Qc-echart").css("display", "block");
         $("#Ql").empty();
         calStatus = 0;
-        sessionStorage.setItem("COP",COP.val())
+        sessionStorage.setItem("COP",COP.val());
+        sessionStorage.setItem("scale",scale.val())
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById("Qc-echart"));
         // 指定图表的配置项和数据
@@ -185,7 +190,7 @@ $(function () {
             ).toFixed(2);
             option.xAxis.data.push(i + "月");
             option.series[0].data.push(QcAssemble["Qc" + i]);
-            monthSum += monthArray[i];
+            monthSum += monthArray[i-1];
             QcSum += +QcAssemble["Qc" + i];
             console.log(QcAssemble["Qc" + i] + "A·h/㎡");
         }
@@ -310,7 +315,7 @@ $(function () {
             ).toFixed(2);
             option.xAxis.data.push(i + "月");
             option.series[0].data.push(QcAssemble["Qc" + i]);
-            monthSum += monthArray[i];
+            monthSum += monthArray[i-1];
             QcSum += +QcAssemble["Qc" + i];
             console.log(QcAssemble["Qc" + i] + "A·h/㎡");
         }

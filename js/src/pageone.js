@@ -1,12 +1,12 @@
 "use strict";
 //定义数组，存储省份信息
-let provinceArray = [];
+var provinceArray = [];
 //定义省份数据列表
-let provinceData;
+var provinceData;
 // 定义省份编码
-let pcode;
+var pcode;
 //定义数组，存储城市信息
-let cityData = []
+var cityData = []
 
 //根据选中的省份获取对应的城市
 function setCity(province) {
@@ -16,7 +16,7 @@ function setCity(province) {
     //先清空之前绑定的值
     $city.empty();
     //存储城市信息
-    let cityArray = [];
+    var cityArray = [];
     //通过省份名称，获取省份对应城市的数组名
     if (!province) {
         $city.append("<option value='请选择'>请选择</option>")
@@ -76,7 +76,7 @@ function provinceChange() {
 //城市选中事件
 function cityChange() {
     // console.log(cityData);
-    let cityName = $("#selCity").val();
+    var cityName = $("#selCity").val();
     //缓存城市信息
     sessionStorage.setItem("city",cityName)
     $("#ssehrz").empty();
@@ -87,22 +87,22 @@ function cityChange() {
             alert("请选择正确的位置信息");
             return true;
         } else if (cityName == n.Name) {
-            let cpArray = n.Cp.slice(1, -1).split(",");
-            let longitude = Number(cpArray[0]).toFixed(2);
-            let latitude = Number(cpArray[1]).toFixed(2);
-            let nasa = JSON.parse(n.Nasa);
+            var cpArray = n.Cp.slice(1, -1).split(",");
+            var longitude = Number(cpArray[0]).toFixed(2);
+            var latitude = Number(cpArray[1]).toFixed(2);
+            var nasa = JSON.parse(n.Nasa);
             console.log(nasa);
-            let ssehrz = nasa.SSEHRZ;
-            let diffuse = nasa.Diffuse;
+            var ssehrz = nasa.SSEHRZ;
+            var diffuse = nasa.Diffuse;
 
             $("#longi-lati-value").append("<form class='form-inline'><div class='form-group col-sm-3'><label for='longitude'>经度：</label><span id='longitude'>" + longitude + "</span></div><div class='form-group col-sm-3'><label for='latitude'>纬度：</label><span id='latitude'>" + latitude + "</span></div></form>");
 
             //平均太阳总辐照量数据
-            let ssehzData = "<td>平均太阳总辐照量<spanstyle='text-decoration:overline'>H</span></td>";
+            var ssehzData = "<td>平均太阳总辐照量<spanstyle='text-decoration:overline'>H</span></td>";
             //平均太阳散射辐照量
-            let diffuseData = "<td>平均太阳散射辐照量<span style='text-decoration:overline'>Hd</span></td>"
-            let HzAssemble = {};//各月平均太阳总辐照量集合
-            let HsAssemble = {};//各月平均太阳散射辐照量集合
+            var diffuseData = "<td>平均太阳散射辐照量<span style='text-decoration:overline'>Hd</span></td>"
+            var HzAssemble = {};//各月平均太阳总辐照量集合
+            var HsAssemble = {};//各月平均太阳散射辐照量集合
             for (var i = 1; i <= 12; i++) {
                 HzAssemble["Hz" + i] = +ssehrz[i];
                 HsAssemble["Hs" + i] = +diffuse[i];

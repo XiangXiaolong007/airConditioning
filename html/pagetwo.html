@@ -11,15 +11,16 @@
     <link rel="stylesheet" href="../css/pagetwo.css">
 </head>
 <style>
-    
+
 </style>
+
 <body>
     <div class="air-wraper">
         <h3 class="text-center" style="margin-bottom:20px;">自动化光伏空调系统能量平衡计算</h3>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-3 left-aside">
-                    <h4>开始计算</h4>
+                    <h4 onclick="location.href='./pageone.html'" style="cursor:pointer">开始计算</h4>
                     <ul class="list-unstyled">
                         <li style="color:#000">1、请选择地点</li>
                         <li style="color:#000">2、空调系统耗电量计算</li>
@@ -31,17 +32,17 @@
                     </ul>
                     <h4>小工具</h4>
                     <ul class="list-unstyled public">
-                        <li>1、太阳能资源分布图</li>
-                        <li>2、倾斜面太阳辐射面计算</li>
+                        <li onclick="location.href='./pagenine.html'" style="cursor:pointer">1、太阳能资源分布图</li>
+                        <li onclick="location.href='./pageten.html'" style="cursor:pointer">2、倾斜面太阳辐射面计算</li>
                     </ul>
                 </div>
                 <div class="col-sm-9 right-aside">
                     <div class="form-head">
                         <div class="location">
-                            
+
                         </div>
                         <div class="coordinate">
-                            
+
                         </div>
                     </div>
                     <div class="form-button">
@@ -62,7 +63,7 @@
                                     <form class="form-inline">
                                         <div class="form-group">
                                             <label for="coolingIndex">1.冷指标q</label>
-                                            <input type="text" class="form-control" value="60"id="coolingIndex">
+                                            <input type="text" class="form-control" value="60" id="coolingIndex">
                                             <span>W/㎡</span>
                                         </div>
                                     </form>
@@ -173,13 +174,13 @@
                                         </div>
                                     </form>
                                     <button class="btn btn-calculate" id="confirm">确认</button>
-                                    
+
                                     <form class="form-inline" style="margin-top:20px" id="each-k">
-                                        
+
                                     </form>
                                     <button class="btn btn-primary" style="display:none;background:#5bc0de;border:none;margin-top:20px" id="elseCooling">点击计算各月冷负荷</button>
                                     <div class="month-cooling">
-                                        
+
                                     </div>
                                     <div class="note right" id="cooling-m-note" style="display:none">
                                         <p>
@@ -288,7 +289,7 @@
                                     <div class="note right" id="Qc-echart" style="height:400px;">
                                     </div>
                                     <div class="left" style="width:100%" id="Ql">
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -307,20 +308,20 @@
                                         </div>
                                     </form>
                                     <button class="btn btn-calculate" id="confirm-tab">确认</button>
-                                    
+
                                     <form class="form-inline" style="margin-top:20px" id="Q-tab">
-                                        
+
                                     </form>
                                 </div>
                                 <div class="cooling-z clearfix">
-                                        <form class="form-inline">
-                                            <div class="form-group">
-                                                <label for="floor-tab">2.建筑层数z</label>
-                                                <input type="text" class="form-control" value="1" id="floor-tab">
-                                                <span>层</span>
-                                            </div>
-                                        </form>
-                                    </div>
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <label for="floor-tab">2.建筑层数z</label>
+                                            <input type="text" class="form-control" value="1" id="floor-tab">
+                                            <span>层</span>
+                                        </div>
+                                    </form>
+                                </div>
                                 <div class="cooling-COP clearfix">
                                     <form class="form-inline">
                                         <div class="form-group">
@@ -381,7 +382,7 @@
                                             <input type="text" class="form-control" placeholder="制冷机能耗比例ζ" id="scale-tab">
                                         </div>
                                     </form>
-                                    <div class="note right" id="scale-tab-note" style="display:none"> 
+                                    <div class="note right" id="scale-tab-note" style="display:none">
                                         <p>注：考虑由水泵和风机组成的输配系统以及末端风机盘管耗电量的存在，系数ζ为制冷机组能耗占整个空调系统能耗的比例。建议取值≥0.4</p>
                                     </div>
                                 </div>
@@ -395,7 +396,7 @@
                                     <div class="note right" id="Qc-echart-tab" style="height:400px;display:none">
                                     </div>
                                     <div class="left" style="width:100%" id="Ql-tab">
-                                        
+
                                     </div>
                                 </div>
                             </div>
