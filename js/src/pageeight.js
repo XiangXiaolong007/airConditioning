@@ -145,14 +145,17 @@ $(function () {
                 var HtMin = Math.min.apply(null, arrHt);
                 var Imax = Ql / (HtMin * eff1 * eff2);
                 var tmparr = getElectricity(Imin, Imax, QcAssemble, HtAssemble, days, monthbeginVal, monthEndVal, eff1, eff2, Ql, QgAssemble, lossAssemble)
-                var numI = tmparr[0];
+                if(tmparr){
+                    var numI = tmparr[0];
+                }
+                
                 if (numI !== undefined) {
                     arr.push(numI);
                     arrDip.push(j)
                 }
             }
-            // console.log(arr)
-            // console.log(arrDip)
+            //  console.log(arr)
+            //  console.log(arrDip)
             Im = Math.min.apply(null, arr);
         }
         var A = Math.cos(Math.PI / 180 * bestDip) + Math.tan(Math.PI / 180 * latitude) * Math.cos(Math.PI / 180 * azimuth) * Math.sin(Math.PI / 180 * bestDip);
@@ -243,7 +246,7 @@ $(function () {
         $(".location").append("<span>" + province + "</span><span style='margin-left:20px;'>" + city + "</span>");
         $(".coordinate").append("<span>经度" + longitude + "°</span><span style='margin-left:20px;'>纬度" + latitude + "°</span>");
     }
-    $("#roof-status").append("<p class='distance-top'><strong>建筑层数：</strong><span class='inline-block'>" + zVal + "</span>层</p><p><strong>屋面形式：</strong><span class='inline-block' style='width:200px;'>" + typeRoof + "</span></p><p><strong>制冷机组COP=</strong><span class='inline-block' style='width:200px;'>" + COP + "</span></p><p><strong>蓄电池维持天数n=</strong><span class='inline-block' style='width:200px;'>" + days + "</span></p><p><strong>光伏方阵安装方式：</strong><span class='inline-block' style='width:200px;'>" + roofType + "</span></p><p><strong>光伏方阵倾角β=</strong><span class='inline-block' style='width:200px;'>" + bestDip + "°</span></p>")
+    $("#roof-status").append("<p class='distance-top'><strong>建筑层数：</strong><span class='inline-block'>" + zVal + "</span>层</p><p><strong>屋面形式：</strong><span class='inline-block' style='width:60px;'>" + typeRoof + "</span></p><p><strong>制冷机组COP=</strong><span class='inline-block'>" + COP + "</span></p><p><strong>蓄电池维持天数n=</strong><span class='inline-block'>" + days + "</span></p><p><strong>光伏方阵安装方式：</strong><span class='inline-block' style='width:150px;'>" + roofType + "</span></p><p><strong>光伏方阵倾角β=</strong><span class='inline-block'>" + bestDip + "°</span></p>")
     if (calStatus == 0) {
         var qVal = sessionStorage.getItem("qVal")
         $("#check-status").append("<p><strong>冷指标q=</strong><span class='inline-block'>" + qVal + "</span>W/㎡时：</p><p><strong>单位面积蓄电池容量Bn=</strong><span class='inline-block text-center' style='width:80px'>" + Bn.toFixed(2) + "</span>A·h/㎡；</p><p><strong>单位面积光伏方阵容量Pn=</strong><span class='inline-block text-center' style='width:80px'>" + Pn.toFixed(2) + "</span>W/㎡；</p><p><strong>单位面积光伏阵列最大安装容量Pm=</strong><span class='inline-block text-center' style='width:80px'>" + Pm.toFixed(2) + "</span>W/㎡；</p>")

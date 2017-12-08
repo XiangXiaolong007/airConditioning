@@ -35,7 +35,7 @@ a {
     background: #5bc0de !important
 }
 
-#cooling-index .form-control {
+#cooling-index .form-control,#cooling-load .form-control {
     margin-left: 20px;
     width: 100px
 }

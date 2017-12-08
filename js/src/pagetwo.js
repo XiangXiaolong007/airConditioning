@@ -71,7 +71,7 @@ $(function () {
         } else {
             let eachK = $("#each-k");
             eachK.empty();
-            eachK.append("<p>请输入各月系数ki：</p>");
+            eachK.append("<p>请输入各月系数<img src='../img/Eqn11.png' style='height:30px;margin-bottom:1px'>：</p>");
             for (var i = +monthbeginVal; i <= +monthEndVal; i++) {
                 eachK.append(
                     "<div class='form-group' style='margin-right:20px;'><label for='k" +
@@ -204,9 +204,9 @@ $(function () {
         let Ql = (QcSum / monthSum).toFixed(2);
         // console.log(Ql);
         $("#Ql").append(
-            "<span style='margin-bottom: 5px;font-weight: 700;'>单位建筑基底面积空调系统年日均耗电量QL:QL = </span><span style='display:inline-block;width:50px;'>" +
+            "<span style='margin-bottom: 5px;font-weight: 700;'>单位建筑基底面积空调系统年日均耗电量<img src='../img/Eqn46.png' style='height:28px;margin-bottom:1px'> = </span><span class='inline-block'>" +
             Ql +
-            "</span>(A·h/d/㎡)"
+            "</span>(<img src='../img/Eqn47.png' style='height:28px;margin-bottom:7px'>)"
         );
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
@@ -300,6 +300,12 @@ $(function () {
                     fontSize: 16
                 }
             },
+            label: {
+                normal: {
+                    show: true,
+                    position: 'top'
+                }
+            },
             series: [{
                 name: "耗电量Qc",
                 type: "bar",
@@ -329,9 +335,9 @@ $(function () {
         let Ql = (QcSum / monthSum).toFixed(2);
         console.log(Ql);
         $("#Ql-tab").append(
-            "<span style='margin-bottom: 5px;font-weight: 700;'>单位建筑基底面积空调系统年日均耗电量QL:QL = </span><span style='display:inline-block;width:50px;'>" +
+            "<span style='margin-bottom: 5px;font-weight: 700;'>单位建筑基底面积空调系统年日均耗电量<img src='../img/Eqn46.png' style='height:28px;margin-bottom:1px'>= </span><span class='inline-block'>" +
             Ql +
-            "</span>(A·h/d/㎡)"
+            "</span>(<img src='../img/Eqn47.png' style='height:28px;margin-bottom:7px'>)"
         );
         // 使用刚指定的配置项和数据显示图表。
         myChartTab.setOption(option);
