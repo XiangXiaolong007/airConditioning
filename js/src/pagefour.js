@@ -45,7 +45,8 @@ $(function () {
         }
         var HtMin = Math.min.apply(null,arrHt);
         var Imax = Ql / (HtMin * eff1 * eff2);
-        var tmparr = getElectricity(Imin,Imax,QcAssemble,HtAssemble,days,monthbeginVal,monthEndVal,eff1,eff2,Ql,QgAssemble,lossAssemble)
+        var tmparr = getElectricity(Imin,Imax,QcAssemble,HtAssemble,days,monthbeginVal,monthEndVal,eff1,eff2,Ql,QgAssemble,lossAssemble);
+        
         var electricity = tmparr[0];
         var min = Math.abs(tmparr[1].toFixed(2))
         var QgTable = "<div class='Qg'><table class='table table-bordered'><caption class='text-center'>方阵各月发电量<img src='../img/Eqn28.png' style='height:28px;margin-bottom:1px'>(<img src='../img/Eqn27.png' style='height:28px;margin-bottom:6px'>)</caption><thead><tr id='month'><th style='width:250px'>月份</th></tr></thead><tbody><tr id='QgVal'><td style='width:250px'>方阵各月发电量<img src='../img/Eqn28.png' style='height:28px;margin-bottom:1px'></td></tr></tbody></table></div>";

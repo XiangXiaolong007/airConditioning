@@ -11,9 +11,11 @@ $(function () {
 	function getElectricity(Imi, Ima, t4, t5, t6, t7, t8, t9, t10) {
 		let indexArr = [];
 		let iArr = [];
-		let n1Arr = [];
+		var jArr = [];
+		var minArr = []
 		for (var i = Imi; i < Ima; i += 0.00001) {
-			//console.log(i)
+			QcArr = [];
+			NiArr = [];
 			Qg4 = april * i * t4 * eff1 * eff2;
 			Qg5 = may * i * t5 * eff1 * eff2;
 			Qg6 = june * i * t6 * eff1 * eff2;
@@ -22,15 +24,44 @@ $(function () {
 			Qg9 = september * i * t9 * eff1 * eff2;
 			Qg10 = october * i * t10 * eff1 * eff2;
 			lossApril = Qg4 - Qc4;
+			if (lossMay < 0) {
+				QcArr.push(Qc4);
+				NiArr.push(april)
+			}
 			lossMay = Qg5 - Qc5;
+			if (lossMay < 0) {
+				QcArr.push(Qc5);
+				NiArr.push(may)
+			}
 			lossJune = Qg6 - Qc6;
+			if (lossJune < 0) {
+				QcArr.push(Qc6)
+				NiArr.push(june)
+			}
 			lossJuly = Qg7 - Qc7;
+			if (lossJuly < 0) {
+				QcArr.push(Qc7)
+				NiArr.push(july)
+
+			}
 			lossAugust = Qg8 - Qc8;
+			if (lossAugust < 0) {
+				QcArr.push(Qc8)
+				NiArr.push(august)
+			}
 			lossSeptember = Qg9 - Qc9;
-			lossOctober = Qg10 - Qc10;
-			lossArr = [];
+			if (lossSeptember < 0) {
+				QcArr.push(Qc9)
+				NiArr.push(september)
+			}
+			lossOctober = Qg10 - Qg10;
+			if (lossOctober < 0) {
+				QcArr.push(Qc10)
+				NiArr.push(october)
+			}
+			lossArr = []
 			lossArr.push(lossApril, lossMay, lossJune, lossJuly, lossAugust, lossSeptember, lossOctober);
-			//console.log(lossArr);
+			// console.log(lossArr);
 			tmpArr = [];
 			sum = 0;
 			min = 0;
@@ -54,70 +85,85 @@ $(function () {
 				sum = Sum(tmpArr);
 				min = Math.min(sum, min)
 			}
+			QcSum = 0;
+			NiSum = 0;
+			// console.log(NiArr)
+			for (var x = 0; x <= QcArr.length - 1; x++) {
+				QcSum += QcArr[x]
+				NiSum += NiArr[x]
+			}
+			Qlk = QcSum / NiSum;
+			// console.log(QcSum)
+			// debugger
+			n1 = Math.abs(min) / Qlk;
 
-			//console.log(sum)
-			//console.log(min)
-
-			n1 = Math.abs(sum) / btnQl;
-			n1Arr.push(n1)
-			let index = Math.abs(n1 - days);
-			// console.log(index)
+			var index = Math.abs(n1 - days);
 			indexArr.push(index)
-			//console.log(indexArr)
-			// indexArr.some(function (n) {
-			// 	if (n < 0.1) {
-			// 		console.log(i);
-			// 		//electricity = i;
-			// 		return true
-			// 	}
-			// })
-			iArr.push(i)
-			//console.log(i+0.00001)
+
+			jArr.push(i)
+			minArr.push(min)
 		}
-		// indexArr.some(function (n,i) {
-		// 	if (n < 0.1) {
-		// 		console.log(iArr[i]);
-		// 		//electricity = i;
-		// 		return true
-		// 	}
-		// })
-		console.log(lossArr);
-		console.log(min)
 		let indexMin = Math.min.apply(null, indexArr)
-		lossArr = []
-		for(var i = 0;i<indexArr.length;i++) {
-			if(indexMin == indexArr[i]) {
-				console.log(iArr[i])
-				n1 = n1Arr[i]
-				Qg4 = april * iArr[i] * t4 * eff1 * eff2;
-				Qg5 = may * iArr[i] * t5 * eff1 * eff2;
-				Qg6 = june * iArr[i] * t6 * eff1 * eff2;
-				Qg7 = july * iArr[i] * t7 * eff1 * eff2;
-				Qg8 = august * iArr[i] * t8 * eff1 * eff2;
-				Qg9 = september * iArr[i] * t9 * eff1 * eff2;
-				Qg10 = october * iArr[i] * t10 * eff1 * eff2;
+		for (var r = 0; r <= indexArr.length; r++) {
+			if (indexMin == indexArr[r]) {
+				Qg4 = april * jArr[r] * t4 * eff1 * eff2;
+				Qg5 = may * jArr[r] * t5 * eff1 * eff2;
+				Qg6 = june * jArr[r] * t6 * eff1 * eff2;
+				Qg7 = july * jArr[r] * t7 * eff1 * eff2;
+				Qg8 = august * jArr[r] * t8 * eff1 * eff2;
+				Qg9 = september * jArr[r] * t9 * eff1 * eff2;
+				Qg10 = october * jArr[r] * t10 * eff1 * eff2;
 				lossApril = Qg4 - Qc4;
+				if (lossMay < 0) {
+					QcArr.push(Qc4);
+					NiArr.push(april)
+				}
 				lossMay = Qg5 - Qc5;
+				if (lossMay < 0) {
+					QcArr.push(Qc5);
+					NiArr.push(may)
+				}
 				lossJune = Qg6 - Qc6;
+				if (lossJune < 0) {
+					QcArr.push(Qc6)
+					NiArr.push(june)
+				}
 				lossJuly = Qg7 - Qc7;
+				if (lossJuly < 0) {
+					QcArr.push(Qc7)
+					NiArr.push(july)
+
+				}
 				lossAugust = Qg8 - Qc8;
+				if (lossAugust < 0) {
+					QcArr.push(Qc8)
+					NiArr.push(august)
+				}
 				lossSeptember = Qg9 - Qc9;
-				lossOctober = Qg10 - Qc10;
+				if (lossSeptember < 0) {
+					QcArr.push(Qc9)
+					NiArr.push(september)
+				}
+				lossOctober = Qg10 - Qg10;
+				if (lossOctober < 0) {
+					QcArr.push(Qc10)
+					NiArr.push(october)
+				}
+				lossArr = []
 				lossArr.push(lossApril, lossMay, lossJune, lossJuly, lossAugust, lossSeptember, lossOctober);
-				console.log(lossArr);
 				tmpArr = [];
 				sum = 0;
 				min = 0;
-				for (var j = 0; j < lossArr.length; j++) {
-					if (lossArr[j] < 0) {
-						tmpArr.push(lossArr[j])
+				for (var l = 0; l < lossArr.length; l++) {
+					if (lossArr[l] < 0) {
+						tmpArr.push(lossArr[l])
 					} else {
 						if (tmpArr.length > 0) {
 							sum = Sum(tmpArr);
 							min = Math.min(sum, min);
 							tmpArr = [];
-							if ((sum + lossArr[j] < 0)) {
-								tmpArr.push(sum + lossArr[j])
+							if ((sum + lossArr[l] < 0)) {
+								tmpArr.push(sum + lossArr[l])
 							}
 							sum = 0;
 						}
@@ -128,82 +174,29 @@ $(function () {
 					sum = Sum(tmpArr);
 					min = Math.min(sum, min)
 				}
-				return iArr[i] + 0.00001;
+				QcSum = 0;
+				NiSum = 0;
+				for (x = 0; x <= QcArr.length - 1; x++) {
+					QcSum += QcArr[x]
+					NiSum += NiArr[x]
+				}
+				Qlk = QcSum / NiSum
+				n1 = Math.abs(min) / Qlk;
+				return (jArr[r])
 			}
 		}
-
-		// console.log(indexArr.length)
-		// for (var i = Imi; i < Ima; i += 0.00001) {
-		// 	//console.log(i)
-		// 	Qg4 = april * i * t4 * eff1 * eff2;
-		// 	Qg5 = may * i * t5 * eff1 * eff2;
-		// 	Qg6 = june * i * t6 * eff1 * eff2;
-		// 	Qg7 = july * i * t7 * eff1 * eff2;
-		// 	Qg8 = august * i * t8 * eff1 * eff2;
-		// 	Qg9 = september * i * t9 * eff1 * eff2;
-		// 	Qg10 = october * i * t10 * eff1 * eff2;
-		// 	lossApril = Qg4 - Qc4;
-		// 	lossMay = Qg5 - Qc5;
-		// 	lossJune = Qg6 - Qc6;
-		// 	lossJuly = Qg7 - Qc7;
-		// 	lossAugust = Qg8 - Qc8;
-		// 	lossSeptember = Qg9 - Qc9;
-		// 	lossOctober = Qg10 - Qc10;
-		// 	lossArr = [];
-		// 	lossArr.push(lossApril, lossMay, lossJune, lossJuly, lossAugust, lossSeptember, lossOctober);
-		// 	//console.log(lossArr);
-		// 	tmpArr = [];
-		// 	sum = 0;
-		// 	min = 0;
-		// 	for (var j = 0; j < lossArr.length; j++) {
-		// 		if (lossArr[j] < 0) {
-		// 			tmpArr.push(lossArr[j])
-		// 		} else {
-		// 			if (tmpArr.length > 0) {
-		// 				sum = Sum(tmpArr);
-		// 				min = Math.min(sum, min);
-		// 				tmpArr = [];
-		// 				if ((sum + lossArr[j] < 0)) {
-		// 					tmpArr.push(sum + lossArr[j])
-		// 				}
-		// 				sum = 0;
-		// 			}
-		// 		}
-		// 	}
-		// 	sum = 0;
-		// 	if (tmpArr.length >= 1) {
-		// 		sum = Sum(tmpArr);
-		// 		min = Math.min(sum, min)
-		// 	}
-
-		// 	//console.log(sum)
-		// 	//console.log(min)
-
-		// 	n1 = Math.abs(sum) / btnQl;
-
-		// 	let index = Math.abs(n1 - days);
-		// 	// console.log(index)
-		// 	//indexArr.push(index)
-		// 	//console.log(indexArr)
-		// 	if (index == indexMin) {
-		// 		console.log(i);
-		// 		//electricity = i;
-		// 		console.log(min)
-
-		// 		return i + 0.00001;
-		// 	}
-		// 	//console.log(i+0.00001)
-		// }
-
 	}
-	//console.log(1)
 	let q; //冷指标
 	let k; //系数
 	let h; //空调开启时长
 	let z; //建筑层数
+	var QcArr;
+	var NiArr;
+	var QcSum;
+	var NiSum;
+	var Qlk
 	let Nmax; //最大月天数
 	let Qmax; //最大月冷负荷
-	//let Q6;						//6月总冷负荷
 	let Q4; //4月总冷负荷
 	let Q5; //5月总冷负荷
 	let Q6; //6月总冷负荷
@@ -374,7 +367,7 @@ $(function () {
 		september = Number($("#september").val());
 		october = Number($("#october").val());
 		//console.log(typeof Qc4);
-		btnQl = (Qc4 + Qc5 + Qc6 + Qc7 + Qc8 + Qc9 + Qc10) / (april + may + june + july + august + september + october);
+		// btnQl = (Qc5 + Qc6 + Qc7 + Qc8 + Qc9) / (may + june + july + august + september);
 		Hz4 = $("#Hz4").val();
 		Hz5 = $("#Hz5").val();
 		Hz6 = $("#Hz6").val();
@@ -434,7 +427,7 @@ $(function () {
 		a8 = 0.409 + 0.5016 * Math.sin(Math.PI / 180 * (Ws8 - 60));
 		a9 = 0.409 + 0.5016 * Math.sin(Math.PI / 180 * (Ws9 - 60));
 		a10 = 0.409 + 0.5016 * Math.sin(Math.PI / 180 * (Ws10 - 60));
-		//console.log(a4)
+		// console.log(a4)
 		b4 = 0.6609 - 0.4767 * Math.sin(Math.PI / 180 * (Ws4 - 60));
 		b5 = 0.6609 - 0.4767 * Math.sin(Math.PI / 180 * (Ws5 - 60));
 		b6 = 0.6609 - 0.4767 * Math.sin(Math.PI / 180 * (Ws6 - 60));
@@ -442,7 +435,7 @@ $(function () {
 		b8 = 0.6609 - 0.4767 * Math.sin(Math.PI / 180 * (Ws8 - 60));
 		b9 = 0.6609 - 0.4767 * Math.sin(Math.PI / 180 * (Ws9 - 60));
 		b10 = 0.6609 - 0.4767 * Math.sin(Math.PI / 180 * (Ws10 - 60));
-		// console.log(b4)
+		//console.log(b4)
 		d4 = Math.sin(Math.PI / 180 * Ws4) - (Math.PI / 180 * Ws4 * Math.cos(Math.PI / 180 * Ws4));
 		d5 = Math.sin(Math.PI / 180 * Ws5) - (Math.PI / 180 * Ws5 * Math.cos(Math.PI / 180 * Ws5));
 		d6 = Math.sin(Math.PI / 180 * Ws6) - (Math.PI / 180 * Ws6 * Math.cos(Math.PI / 180 * Ws6));
@@ -450,7 +443,7 @@ $(function () {
 		d8 = Math.sin(Math.PI / 180 * Ws8) - (Math.PI / 180 * Ws8 * Math.cos(Math.PI / 180 * Ws8));
 		d9 = Math.sin(Math.PI / 180 * Ws9) - (Math.PI / 180 * Ws9 * Math.cos(Math.PI / 180 * Ws9));
 		d10 = Math.sin(Math.PI / 180 * Ws10) - (Math.PI / 180 * Ws10 * Math.cos(Math.PI / 180 * Ws10));
-		// console.log(d4)
+		//console.log(d4)
 		a_4 = a4 - (Hs4 / Hz4);
 		a_5 = a5 - (Hs5 / Hz5);
 		a_6 = a6 - (Hs6 / Hz6);
@@ -458,7 +451,7 @@ $(function () {
 		a_8 = a8 - (Hs8 / Hz8);
 		a_9 = a9 - (Hs9 / Hz9);
 		a_10 = a10 - (Hs10 / Hz10);
-		// console.log(a_4)
+		//console.log(a_4)
 		m4 = Math.acos((A * B4 + (C * Math.sqrt(Math.pow(A, 2) - Math.pow(B4, 2) + Math.pow(C, 2)))) / (Math.pow(A, 2) + Math.pow(C, 2))) * 180 / Math.PI;
 		m5 = Math.acos((A * B5 + (C * Math.sqrt(Math.pow(A, 2) - Math.pow(B5, 2) + Math.pow(C, 2)))) / (Math.pow(A, 2) + Math.pow(C, 2))) * 180 / Math.PI;
 		m6 = Math.acos((A * B6 + (C * Math.sqrt(Math.pow(A, 2) - Math.pow(B6, 2) + Math.pow(C, 2)))) / (Math.pow(A, 2) + Math.pow(C, 2))) * 180 / Math.PI;
@@ -466,7 +459,7 @@ $(function () {
 		m8 = Math.acos((A * B8 + (C * Math.sqrt(Math.pow(A, 2) - Math.pow(B8, 2) + Math.pow(C, 2)))) / (Math.pow(A, 2) + Math.pow(C, 2))) * 180 / Math.PI;
 		m9 = Math.acos((A * B9 + (C * Math.sqrt(Math.pow(A, 2) - Math.pow(B9, 2) + Math.pow(C, 2)))) / (Math.pow(A, 2) + Math.pow(C, 2))) * 180 / Math.PI;
 		m10 = Math.acos((A * B10 + (C * Math.sqrt(Math.pow(A, 2) - Math.pow(B10, 2) + Math.pow(C, 2)))) / (Math.pow(A, 2) + Math.pow(C, 2))) * 180 / Math.PI;
-		// console.log(m7);
+		//console.log(m7);
 		t4 = Math.acos((A * B4 - (C * Math.sqrt(Math.pow(A, 2) - Math.pow(B4, 2) + Math.pow(C, 2)))) / (Math.pow(A, 2) + Math.pow(C, 2))) * 180 / Math.PI;
 		t5 = Math.acos((A * B5 - (C * Math.sqrt(Math.pow(A, 2) - Math.pow(B5, 2) + Math.pow(C, 2)))) / (Math.pow(A, 2) + Math.pow(C, 2))) * 180 / Math.PI;
 		t6 = Math.acos((A * B6 - (C * Math.sqrt(Math.pow(A, 2) - Math.pow(B6, 2) + Math.pow(C, 2)))) / (Math.pow(A, 2) + Math.pow(C, 2))) * 180 / Math.PI;
@@ -474,7 +467,7 @@ $(function () {
 		t8 = Math.acos((A * B8 - (C * Math.sqrt(Math.pow(A, 2) - Math.pow(B8, 2) + Math.pow(C, 2)))) / (Math.pow(A, 2) + Math.pow(C, 2))) * 180 / Math.PI;
 		t9 = Math.acos((A * B9 - (C * Math.sqrt(Math.pow(A, 2) - Math.pow(B9, 2) + Math.pow(C, 2)))) / (Math.pow(A, 2) + Math.pow(C, 2))) * 180 / Math.PI;
 		t10 = Math.acos((A * B10 - (C * Math.sqrt(Math.pow(A, 2) - Math.pow(B10, 2) + Math.pow(C, 2)))) / (Math.pow(A, 2) + Math.pow(C, 2))) * 180 / Math.PI;
-		// console.log(t4);
+		//console.log(t4);
 		Ws4 < t4 ? ss4 = Ws4 : ss4 = t4;
 		Ws5 < t5 ? ss5 = Ws5 : ss5 = t5;
 		Ws6 < t6 ? ss6 = Ws6 : ss6 = t6;
@@ -482,7 +475,6 @@ $(function () {
 		Ws8 < t8 ? ss8 = Ws8 : ss8 = t8;
 		Ws9 < t9 ? ss9 = Ws9 : ss9 = t9;
 		Ws10 < t10 ? ss10 = Ws10 : ss10 = t10;
-		//console.log(ss4)
 
 		if (Ws4 < m4) {
 			sr4 = Ws4
@@ -530,7 +522,6 @@ $(function () {
 			Wsr4 = sr4;
 			Wss4 = -ss4
 		}
-
 		if (A > 0 & B5 > 0) {
 			Wsr5 = -sr5
 			Wss5 = ss5
@@ -591,6 +582,8 @@ $(function () {
 			Wsr10 = sr10;
 			Wss10 = -ss10
 		}
+		// console.log(Wsr10)
+		// console.log(Wss10)
 		G14 = 1 / (2 * d4) * ((b4 * A / 2 - (a_4 * B4)) * (Wss4 - Wsr4) * (Math.PI / 180) + ((a_4 * A - b4 * B4) * (Math.sin(Math.PI / 180 * Wss4) - Math.sin(Math.PI / 180 * Wsr4))) - (a_4 * C * (Math.cos(Math.PI / 180 * Wss4) - Math.cos(Math.PI / 180 * Wsr4))) + (b4 * A / 2 * (Math.sin(Math.PI / 180 * Wss4) * Math.cos(Math.PI / 180 * Wsr4) - (Math.sin(Math.PI / 180 * Wsr4) * Math.cos(Math.PI / 180 * Wsr4)))) + (b4 * C / 2 * (Math.pow(Math.sin(Math.PI / 180 * Wss4), 2) - Math.pow(Math.sin(Math.PI / 180 * Wsr4), 2))))
 		G15 = 1 / (2 * d5) * ((b5 * A / 2 - (a_5 * B5)) * (Wss5 - Wsr5) * (Math.PI / 180) + ((a_5 * A - b5 * B5) * (Math.sin(Math.PI / 180 * Wss5) - Math.sin(Math.PI / 180 * Wsr5))) - (a_5 * C * (Math.cos(Math.PI / 180 * Wss5) - Math.cos(Math.PI / 180 * Wsr5))) + (b5 * A / 2 * (Math.sin(Math.PI / 180 * Wss5) * Math.cos(Math.PI / 180 * Wsr5) - (Math.sin(Math.PI / 180 * Wsr5) * Math.cos(Math.PI / 180 * Wsr5)))) + (b5 * C / 2 * (Math.pow(Math.sin(Math.PI / 180 * Wss5), 2) - Math.pow(Math.sin(Math.PI / 180 * Wsr5), 2))))
 		G16 = 1 / (2 * d6) * ((b6 * A / 2 - (a_6 * B6)) * (Wss6 - Wsr6) * (Math.PI / 180) + ((a_6 * A - b6 * B6) * (Math.sin(Math.PI / 180 * Wss6) - Math.sin(Math.PI / 180 * Wsr6))) - (a_6 * C * (Math.cos(Math.PI / 180 * Wss6) - Math.cos(Math.PI / 180 * Wsr6))) + (b6 * A / 2 * (Math.sin(Math.PI / 180 * Wss6) * Math.cos(Math.PI / 180 * Wsr6) - (Math.sin(Math.PI / 180 * Wsr6) * Math.cos(Math.PI / 180 * Wsr6)))) + (b6 * C / 2 * (Math.pow(Math.sin(Math.PI / 180 * Wss6), 2) - Math.pow(Math.sin(Math.PI / 180 * Wsr6), 2))))
@@ -606,7 +599,7 @@ $(function () {
 		G28 = 1 / (2 * d8) * ((b8 * A / 2 - (a_8 * B8)) * (Wss8 + Ws8) * (Math.PI / 180) + ((a_8 * A - b8 * B8) * (Math.sin(Math.PI / 180 * Wss8) - Math.sin(Math.PI / 180 * (-Ws8)))) - (a_8 * C * (Math.cos(Math.PI / 180 * Wss8) - Math.cos(Math.PI / 180 * (-Ws8)))) + (b8 * A / 2 * (Math.sin(Math.PI / 180 * Wss8) * Math.cos(Math.PI / 180 * (-Ws8)) - (Math.sin(Math.PI / 180 * (-Ws8)) * Math.cos(Math.PI / 180 * (-Ws8))))) + (b8 * C / 2 * (Math.pow(Math.sin(Math.PI / 180 * Wss8), 2) - Math.pow(Math.sin(Math.PI / 180 * (-Ws8)), 2))))
 		G29 = 1 / (2 * d9) * ((b9 * A / 2 - (a_9 * B9)) * (Wss9 + Ws9) * (Math.PI / 180) + ((a_9 * A - b9 * B9) * (Math.sin(Math.PI / 180 * Wss9) - Math.sin(Math.PI / 180 * (-Ws9)))) - (a_9 * C * (Math.cos(Math.PI / 180 * Wss9) - Math.cos(Math.PI / 180 * (-Ws9)))) + (b9 * A / 2 * (Math.sin(Math.PI / 180 * Wss9) * Math.cos(Math.PI / 180 * (-Ws9)) - (Math.sin(Math.PI / 180 * (-Ws9)) * Math.cos(Math.PI / 180 * (-Ws9))))) + (b9 * C / 2 * (Math.pow(Math.sin(Math.PI / 180 * Wss9), 2) - Math.pow(Math.sin(Math.PI / 180 * (-Ws9)), 2))))
 		G20 = 1 / (2 * d10) * ((b10 * A / 2 - (a_10 * B10)) * (Wss10 + Ws10) * (Math.PI / 180) + ((a_10 * A - b10 * B10) * (Math.sin(Math.PI / 180 * Wss10) - Math.sin(Math.PI / 180 * (-Ws10)))) - (a_10 * C * (Math.cos(Math.PI / 180 * Wss10) - Math.cos(Math.PI / 180 * (-Ws10)))) + (b10 * A / 2 * (Math.sin(Math.PI / 180 * Wss10) * Math.cos(Math.PI / 180 * (-Ws10)) - (Math.sin(Math.PI / 180 * (-Ws10)) * Math.cos(Math.PI / 180 * (-Ws10))))) + (b10 * C / 2 * (Math.pow(Math.sin(Math.PI / 180 * Wss10), 2) - Math.pow(Math.sin(Math.PI / 180 * (-Ws10)), 2))))
-		console.log(G24)
+		// console.log(G24)
 		G34 = 1 / (2 * d4) * ((b4 * A / 2 - (a_4 * B4)) * (Ws4 - Wsr4) * (Math.PI / 180) + ((a_4 * A - b4 * B4) * (Math.sin(Math.PI / 180 * Ws4) - Math.sin(Math.PI / 180 * Wsr4))) - (a_4 * C * (Math.cos(Math.PI / 180 * Ws4) - Math.cos(Math.PI / 180 * Wsr4))) + (b4 * A / 2 * (Math.sin(Math.PI / 180 * Ws4) * Math.cos(Math.PI / 180 * Wsr4) - (Math.sin(Math.PI / 180 * Wsr4) * Math.cos(Math.PI / 180 * Wsr4)))) + (b4 * C / 2 * (Math.pow(Math.sin(Math.PI / 180 * Ws4), 2) - Math.pow(Math.sin(Math.PI / 180 * Wsr4), 2))))
 		G35 = 1 / (2 * d5) * ((b5 * A / 2 - (a_5 * B5)) * (Ws5 - Wsr5) * (Math.PI / 180) + ((a_5 * A - b5 * B5) * (Math.sin(Math.PI / 180 * Ws5) - Math.sin(Math.PI / 180 * Wsr5))) - (a_5 * C * (Math.cos(Math.PI / 180 * Ws5) - Math.cos(Math.PI / 180 * Wsr5))) + (b5 * A / 2 * (Math.sin(Math.PI / 180 * Ws5) * Math.cos(Math.PI / 180 * Wsr5) - (Math.sin(Math.PI / 180 * Wsr5) * Math.cos(Math.PI / 180 * Wsr5)))) + (b5 * C / 2 * (Math.pow(Math.sin(Math.PI / 180 * Ws5), 2) - Math.pow(Math.sin(Math.PI / 180 * Wsr5), 2))))
 		G36 = 1 / (2 * d6) * ((b6 * A / 2 - (a_6 * B6)) * (Ws6 - Wsr6) * (Math.PI / 180) + ((a_6 * A - b6 * B6) * (Math.sin(Math.PI / 180 * Ws6) - Math.sin(Math.PI / 180 * Wsr6))) - (a_6 * C * (Math.cos(Math.PI / 180 * Ws6) - Math.cos(Math.PI / 180 * Wsr6))) + (b6 * A / 2 * (Math.sin(Math.PI / 180 * Ws6) * Math.cos(Math.PI / 180 * Wsr6) - (Math.sin(Math.PI / 180 * Wsr6) * Math.cos(Math.PI / 180 * Wsr6)))) + (b6 * C / 2 * (Math.pow(Math.sin(Math.PI / 180 * Ws6), 2) - Math.pow(Math.sin(Math.PI / 180 * Wsr6), 2))))
@@ -614,7 +607,7 @@ $(function () {
 		G38 = 1 / (2 * d8) * ((b8 * A / 2 - (a_8 * B8)) * (Ws8 - Wsr8) * (Math.PI / 180) + ((a_8 * A - b8 * B8) * (Math.sin(Math.PI / 180 * Ws8) - Math.sin(Math.PI / 180 * Wsr8))) - (a_8 * C * (Math.cos(Math.PI / 180 * Ws8) - Math.cos(Math.PI / 180 * Wsr8))) + (b8 * A / 2 * (Math.sin(Math.PI / 180 * Ws8) * Math.cos(Math.PI / 180 * Wsr8) - (Math.sin(Math.PI / 180 * Wsr8) * Math.cos(Math.PI / 180 * Wsr8)))) + (b8 * C / 2 * (Math.pow(Math.sin(Math.PI / 180 * Ws8), 2) - Math.pow(Math.sin(Math.PI / 180 * Wsr8), 2))))
 		G39 = 1 / (2 * d9) * ((b9 * A / 2 - (a_9 * B9)) * (Ws9 - Wsr9) * (Math.PI / 180) + ((a_9 * A - b9 * B9) * (Math.sin(Math.PI / 180 * Ws9) - Math.sin(Math.PI / 180 * Wsr9))) - (a_9 * C * (Math.cos(Math.PI / 180 * Ws9) - Math.cos(Math.PI / 180 * Wsr9))) + (b9 * A / 2 * (Math.sin(Math.PI / 180 * Ws9) * Math.cos(Math.PI / 180 * Wsr9) - (Math.sin(Math.PI / 180 * Wsr9) * Math.cos(Math.PI / 180 * Wsr9)))) + (b9 * C / 2 * (Math.pow(Math.sin(Math.PI / 180 * Ws9), 2) - Math.pow(Math.sin(Math.PI / 180 * Wsr9), 2))))
 		G30 = 1 / (2 * d10) * ((b10 * A / 2 - (a_10 * B10)) * (Ws10 - Wsr10) * (Math.PI / 180) + ((a_10 * A - b10 * B10) * (Math.sin(Math.PI / 180 * Ws10) - Math.sin(Math.PI / 180 * Wsr10))) - (a_10 * C * (Math.cos(Math.PI / 180 * Ws10) - Math.cos(Math.PI / 180 * Wsr10))) + (b10 * A / 2 * (Math.sin(Math.PI / 180 * Ws10) * Math.cos(Math.PI / 180 * Wsr10) - (Math.sin(Math.PI / 180 * Wsr10) * Math.cos(Math.PI / 180 * Wsr10)))) + (b10 * C / 2 * (Math.pow(Math.sin(Math.PI / 180 * Ws10), 2) - Math.pow(Math.sin(Math.PI / 180 * Wsr10), 2))))
-		//console.log(G34)
+		// console.log(G34)
 		G44 = G24 + G34;
 		G45 = G25 + G35;
 		G46 = G26 + G36;
@@ -622,15 +615,16 @@ $(function () {
 		G48 = G28 + G38;
 		G49 = G29 + G39;
 		G40 = G20 + G30;
-		//console.log(G44)
+
 		0 > G14 ? G54 = 0 : G54 = G14;
+
 		0 > G15 ? G55 = 0 : G55 = G15;
 		0 > G16 ? G56 = 0 : G56 = G16;
 		0 > G17 ? G57 = 0 : G57 = G17;
 		0 > G18 ? G58 = 0 : G58 = G18;
 		0 > G19 ? G59 = 0 : G59 = G19;
 		0 > G10 ? G50 = 0 : G50 = G10;
-		//console.log(G54)
+		// console.log(G54)
 		0 > G44 ? G64 = 0 : G64 = G44;
 		0 > G45 ? G65 = 0 : G65 = G45;
 		0 > G46 ? G66 = 0 : G66 = G46;
@@ -638,7 +632,7 @@ $(function () {
 		0 > G48 ? G68 = 0 : G68 = G48;
 		0 > G49 ? G69 = 0 : G69 = G49;
 		0 > G40 ? G60 = 0 : G60 = G40;
-		//console.log(G64)
+		// console.log(G64)
 		Wss4 < Wsr4 ? D14 = G64 : D14 = G54;
 		Wss5 < Wsr5 ? D15 = G65 : D15 = G55;
 		Wss6 < Wsr6 ? D16 = G66 : D16 = G56;
@@ -646,7 +640,7 @@ $(function () {
 		Wss8 < Wsr8 ? D18 = G68 : D18 = G58;
 		Wss9 < Wsr9 ? D19 = G69 : D19 = G59;
 		Wss10 < Wsr10 ? D10 = G60 : D10 = G50;
-		//console.log(D18)
+		// console.log(D18)
 		R4 = D14 + (Hs4 / (2 * Hz4) * (1 + Math.cos(Math.PI / 180 * dip))) + (reflectivity / 2 * (1 - Math.cos(Math.PI / 180 * dip)));
 		R5 = D15 + (Hs5 / (2 * Hz5) * (1 + Math.cos(Math.PI / 180 * dip))) + (reflectivity / 2 * (1 - Math.cos(Math.PI / 180 * dip)));
 		R6 = D16 + (Hs6 / (2 * Hz6) * (1 + Math.cos(Math.PI / 180 * dip))) + (reflectivity / 2 * (1 - Math.cos(Math.PI / 180 * dip)));
@@ -654,7 +648,7 @@ $(function () {
 		R8 = D18 + (Hs8 / (2 * Hz8) * (1 + Math.cos(Math.PI / 180 * dip))) + (reflectivity / 2 * (1 - Math.cos(Math.PI / 180 * dip)));
 		R9 = D19 + (Hs9 / (2 * Hz9) * (1 + Math.cos(Math.PI / 180 * dip))) + (reflectivity / 2 * (1 - Math.cos(Math.PI / 180 * dip)));
 		R10 = D10 + (Hs10 / (2 * Hz10) * (1 + Math.cos(Math.PI / 180 * dip))) + (reflectivity / 2 * (1 - Math.cos(Math.PI / 180 * dip)));
-		//console.log(R6)
+
 
 		Ht4 = R4 * Hz4;
 		Ht5 = R5 * Hz5;
@@ -663,79 +657,33 @@ $(function () {
 		Ht8 = R8 * Hz8;
 		Ht9 = R9 * Hz9;
 		Ht10 = R10 * Hz10;
-
-
-
-		Hm = ((Ht4 * april) + (Ht5 * may) + (Ht6 * june) + (Ht7 * july) + (Ht8 * august) + (Ht9 * september) + (Ht10 * october)) / (april + may + june + july + august + september + october);
-
 		eff1 = $("#eff-loop-one").val();
 		eff2 = $("#eff-loop-two").val();
-		Imin = btnQl / (Hm * eff1 * eff2);
+		var IminArr = [];
+		var Imin4 = Qc4 / (Ht4 * april * eff1 * eff2)
+		var Imin5 = Qc5 / (Ht5 * may * eff1 * eff2)
+		var Imin6 = Qc6 / (Ht6 * june * eff1 * eff2)
+		var Imin7 = Qc7 / (Ht7 * july * eff1 * eff2)
+		var Imin8 = Qc8 / (Ht8 * august * eff1 * eff2)
+		var Imin9 = Qc9 / (Ht9 * september * eff1 * eff2)
+		var Imin10 = Qc10 / (Ht10 * october * eff1 * eff2)
+
+		IminArr.push(Imin4,Imin5, Imin6, Imin7, Imin8, Imin9,Imin10)
+		// console.log(IminArr)
+		Hm = ((Ht4*april)+(Ht5 * may) + (Ht6 * june) + (Ht7 * july) + (Ht8 * august) + (Ht9 * september)+(Ht10*october)) / (april+may + june + july + august + september+october);
+
+		Imin = Math.min.apply(null, IminArr);
+		Imax = Math.max.apply(null, IminArr);
 		arrHt = [];
-		arrHt.push(Ht4, Ht5, Ht6, Ht7, Ht8, Ht9, Ht10);
-		//console.log(arrHt);
+		arrHt.push(Ht4,Ht5, Ht6, Ht7, Ht8, Ht9,Ht10);
 		let HtMin = Math.min.apply(null, arrHt);
-		//console.log(HtMin);
-		Imax = btnQl / (HtMin * eff1 * eff2);
-		console.log(Imax)
+		// console.log(Imax)
 
-
-		/*electricity = Number($("#electricity").val());
-		Qg4 = april*electricity*Ht4*eff1*eff2;
-		Qg5 = may*electricity*Ht5*eff1*eff2;
-		Qg6 = june*electricity*Ht6*eff1*eff2;
-		Qg7 = july*electricity*Ht7*eff1*eff2;
-		Qg8 = august*electricity*Ht8*eff1*eff2;
-		Qg9 = september*electricity*Ht9*eff1*eff2;
-		Qg10 = october*electricity*Ht10*eff1*eff2;
-		lossApril = Qg4 - Qc4;
-		lossMay = Qg5 - Qc5;
-		lossJune = Qg6 - Qc6;
-		lossJuly = Qg7 - Qc7;
-		lossAugust = Qg8 - Qc8;
-		lossSeptember = Qg9 - Qc9;
-		lossOctober = Qg10 - Qc10;
-		
-		
-		
-		
-		lossArr = [];
-		lossArr.push(lossApril,lossMay,lossJune,lossJuly,lossAugust,lossSeptember,lossOctober);
-		console.log(lossArr);
-		tmpArr = [];
-		sum = 0;
-		min = 0;
-		for (var i = 0; i < lossArr.length; i++) {
-		    if (lossArr[i] < 0) {
-		        tmpArr.push(lossArr[i])
-		    } else {
-		        if (tmpArr.length > 0) {
-		            sum = Sum(tmpArr);
-		            min = Math.min(sum,min);
-		            tmpArr = [];
-		            if((sum + lossArr[i] < 0)){
-		        		tmpArr.push(sum + lossArr[i])
-		        	}
-		            sum = 0;
-		        }
-		    }
-		}
-		sum = 0;
-		if(tmpArr.length >= 1){
-			sum = Sum(tmpArr);
-			min = Math.min(sum,min)
-		}
-		
-		console.log(sum)
-		console.log(min)
-		
-		n1 = Math.abs(sum)/btnQl;*/
 		roof = $("#roof").val();
 		dipmax = Number($("#dipmax").val())
 		dipmin = Number($("#dipmin").val())
 		DOD = Number($("#accumulator").val());
 		safeEff = Number($("#safe-eff").val())
-		//Bn = 
 		batteryU = voltage * 1.2;
 		$("#ub-number").text(function () {
 			return batteryU
@@ -748,187 +696,7 @@ $(function () {
 		areaEff = Number($("#usefulArea").val());
 
 	})
-	//计算6月份总冷负荷
-	// $("#juneCooling").click(function(){
-	// 	console.log(q);
-	// 	$("#juneCooling-calculate").css("display","block");
-	// 	$("#june-cooling-number").text(function(){
-	// 		return Qmax
-	// 	})
-	// })
-	//计算其他各月份总冷负荷
-	// $("#elseCooling").click(function(){
-	// 	$("#elseCooling-load").css("display","block");
-	// 	$("#april-cooling-number").text(function(){
-	// 		return Q4.toFixed(2)
-	// 	});
-	// 	$("#may-cooling-number").text(function(){
-	// 		return Q5.toFixed(2)
-	// 	});
-	// 	$("#june1-cooling-number").text(function(){
-	// 		return Q6.toFixed(2)
-	// 	});
-	// 	$("#july-cooling-number").text(function(){
-	// 		return Q7.toFixed(2)
-	// 	});
-	// 	$("#august-cooling-number").text(function(){
-	// 		return Q8.toFixed(2)
-	// 	});
-	// 	$("#september-cooling--number").text(function(){
-	// 		return Q9.toFixed(2)
-	// 	});
-	// 	$("#october-cooling-number").text(function(){
-	// 		return Q10.toFixed(2)
-	// 	});
-	// });
-	//计算单位建筑面积空调系统各月耗电量Qc值
-	// $("#Qc").click(function(){
-	// 	$("#everyQc").css("display","block");
-	// 	$("#Qc4").text(function(){
-	// 		return Qc4.toFixed(2)
-	// 	});
-	// 	$("#Qc5").text(function(){
-	// 		return Qc5.toFixed(2)
-	// 	});
-	// 	$("#Qc6").text(function(){
-	// 		return Qc6.toFixed(2)
-	// 	});
-	// 	$("#Qc7").text(function(){
-	// 		return Qc7.toFixed(2)
-	// 	});
-	// 	$("#Qc8").text(function(){
-	// 		return Qc8.toFixed(2)
-	// 	});
-	// 	$("#Qc9").text(function(){
-	// 		return Qc9.toFixed(2)
-	// 	});
-	// 	$("#Qc10").text(function(){
-	// 		return Qc10.toFixed(2)
-	// 	})
-	// });
-	//计算单位建筑面积空调系统年日均耗热量
-	// $("#btn-Ql").click(function(){
-	// 	//console.log(april)
-	// 	$("#Ql-number").css("display","block");
-	// 	$("#Ql").text(function(){
-	// 		return btnQl.toFixed(2)
-	// 	})
-	// })
-	//计算倾斜面上各月日均太阳辐射量Ht和全年平均太阳总辐射量Hm
-	// $("#btn-Ht-Hm").click(function(){
-	// 	$("#ht-and-hm").css("display","block");
-	// 	//console.log(Ht4)
-	// 	$("#Ht4").text(function(){
-	// 		return Ht4.toFixed(2)
-	// 	});
-	// 	$("#Ht5").text(function(){
-	// 		return Ht5.toFixed(2)
-	// 	});
-	// 	$("#Ht6").text(function(){
-	// 		return Ht6.toFixed(2)
-	// 	});
-	// 	$("#Ht7").text(function(){
-	// 		return Ht7.toFixed(2)
-	// 	});
-	// 	$("#Ht8").text(function(){
-	// 		return Ht8.toFixed(2)
-	// 	});
-	// 	$("#Ht9").text(function(){
-	// 		return Ht9.toFixed(2)
-	// 	});
-	// 	$("#Ht10").text(function(){
-	// 		return Ht10.toFixed(2)
-	// 	});
-	// 	$("#Hm").text(function(){
-	// 		return Hm.toFixed(2)
-	// 	});
-	// });
-	//计算单位建筑面积方阵所需输出的最大电流Imax
-	// $("#btn-Imax").click(function(){
 
-	// 	console.log(btnQl);
-	// 	$("#Imax-number").css("display","block");
-	// 	$("#Imax").text(function(){
-	// 		return Imax.toFixed(2)
-	// 	})
-	// });
-	//计算单位面积方阵输出的最小电流Imin
-	// $("#btn-Imin").click(function(){
-	// 	$("#Imin-number").css("display","block");
-	// 	$("#Imin").text(function(){
-	// 		return Imin.toFixed(2)
-	// 	})
-	// })
-	//计算符合要求的实际工作电流I
-	// $("#btn-electricity").click(function(){
-	// 	$("#electricity-number").css("display","block");
-	// 	let i = getElectricity(Imin,Imax,Ht4,Ht5,Ht6,Ht7,Ht8,Ht9,Ht10);
-	// 	console.log(i);
-	// 	console.log(Imax);
-	// 	console.log(Imin);
-	// 	electricity = i;
-	// 	$("#electricity").text(function(){
-	// 		return electricity.toFixed(5)
-	// 	})
-	// })
-	//计算单位建筑面积方阵各月发电量Qg
-	// $("#btn-Qg").click(function(){
-	// 	$("#every-Qg").css("display","block");
-	// 	$("#Qg4").text(function(){
-	// 		return Qg4.toFixed(2)
-	// 	});
-	// 	$("#Qg5").text(function(){
-	// 		return Qg5.toFixed(2)
-	// 	});
-	// 	$("#Qg6").text(function(){
-	// 		return Qg6.toFixed(2)
-	// 	});
-	// 	$("#Qg7").text(function(){
-	// 		return Qg7.toFixed(2)
-	// 	});
-	// 	$("#Qg8").text(function(){
-	// 		return Qg8.toFixed(2)
-	// 	});
-	// 	$("#Qg9").text(function(){
-	// 		return Qg9.toFixed(2)
-	// 	});
-	// 	$("#Qg10").text(function(){
-	// 		return Qg10.toFixed(2)
-	// 	});
-	// });
-	//计算单位建筑面积各月发电盈亏量
-	// $("#btn-Q").click(function(){
-	// 	$("#Q-number").css("display","block");
-
-	// 	$("#loss-april").text(function(){
-	// 		return lossApril.toFixed(2)
-	// 	});
-	// 	$("#loss-may").text(function(){
-	// 		return lossMay.toFixed(2)
-	// 	});
-	// 	$("#loss-june").text(function(){
-	// 		return lossJune.toFixed(2)
-	// 	});
-	// 	$("#loss-july").text(function(){
-	// 		return lossJuly.toFixed(2)
-	// 	});
-	// 	$("#loss-august").text(function(){
-	// 		return lossAugust.toFixed(2)
-	// 	});
-	// 	$("#loss-september").text(function(){
-	// 		return lossSeptember.toFixed(2)
-	// 	});
-	// 	$("#loss-october").text(function(){
-	// 		return lossOctober.toFixed(2)
-	// 	})
-	// });
-	//计算累计亏欠量
-	// $("#btn-total").click(function(){
-	// 	$("#total-loss").css("display","block");
-	// 	$("#all-loss").text(function(){
-	// 		return Math.abs(min.toFixed(5))
-	// 	})
-	// });
 	//决定方阵输出电流
 	$("#btn-n1").click(function () {
 		//最大月总冷负荷
@@ -982,11 +750,6 @@ $(function () {
 		$("#Qc10").text(function () {
 			return Qc10.toFixed(2)
 		})
-		//年日均耗电量
-		$("#Ql-number").css("display", "block");
-		$("#Ql").text(function () {
-			return btnQl.toFixed(2)
-		})
 		//各月日均太阳辐射量Ht(kW·h/(㎡·d))以及全年平均日总辐照量Hm(kW·h/(㎡·d))
 		$("#ht-and-hm").css("display", "block");
 		//console.log(Ht4)
@@ -1026,11 +789,9 @@ $(function () {
 		})
 		//实际工作电流I
 		$("#electricity-number").css("display", "block");
-		let i = getElectricity(Imin, Imax, Ht4, Ht5, Ht6, Ht7, Ht8, Ht9, Ht10);
-		//console.log(Ht6);
-		// console.log(Imax);
-		// console.log(Imin);
+		let i = getElectricity(Imin, Imax,Ht4, Ht5, Ht6, Ht7, Ht8, Ht9,Ht10);
 		electricity = i;
+		console.log(Ht6)
 		$("#electricity").text(function () {
 			return electricity.toFixed(5)
 		})
@@ -1084,7 +845,14 @@ $(function () {
 		//累计盈亏量
 		$("#total-loss").css("display", "block");
 		$("#all-loss").text(function () {
+			// console.log(QcArr)
 			return Math.abs(min.toFixed(5))
+		})
+
+		//年日均耗电量
+		$("#Ql-number").css("display", "block");
+		$("#Ql").text(function () {
+			return Qlk.toFixed(2)
 		})
 		//与维持天数作比较
 		$("#n1-number").css("display", "block");
@@ -1094,6 +862,7 @@ $(function () {
 	});
 	//决定方阵最佳倾角和实际电流；
 	$("#btn-Im").click(function () {
+
 		let arr = [];
 		let arrDip = [];
 		if (roof === "0") {
@@ -1146,7 +915,7 @@ $(function () {
 					let a9 = 0.409 + 0.5016 * Math.sin(Math.PI / 180 * (Ws9 - 60));
 					let a10 = 0.409 + 0.5016 * Math.sin(Math.PI / 180 * (Ws10 - 60));
 					//console.log(a4)
-					let b4 = 0.6609 - 0.4767 * Math.sin(Math.PI / 180 * (Ws4 - 60));
+					// let b4 = 0.6609 - 0.4767 * Math.sin(Math.PI / 180 * (Ws4 - 60));
 					let b5 = 0.6609 - 0.4767 * Math.sin(Math.PI / 180 * (Ws5 - 60));
 					let b6 = 0.6609 - 0.4767 * Math.sin(Math.PI / 180 * (Ws6 - 60));
 					let b7 = 0.6609 - 0.4767 * Math.sin(Math.PI / 180 * (Ws7 - 60));
@@ -1351,7 +1120,7 @@ $(function () {
 					0 > G48 ? G68 = 0 : G68 = G48;
 					0 > G49 ? G69 = 0 : G69 = G49;
 					0 > G40 ? G60 = 0 : G60 = G40;
-					//console.log(G64)
+					// console.log(G64)
 					Wss4 < Wsr4 ? D14 = G64 : D14 = G54;
 					Wss5 < Wsr5 ? D15 = G65 : D15 = G55;
 					Wss6 < Wsr6 ? D16 = G66 : D16 = G56;
@@ -1378,62 +1147,34 @@ $(function () {
 					let Ht10 = R10 * Hz10;
 
 
-					/*let Ht4 = (Hz4/Math.cos(Math.PI/180*i))+Hs4;
-					//console.log(Ht4)
-					//console.log(typeof Ht4)
-					let Ht5 = (Hz5/Math.cos(Math.PI/180*i))+Hs5;
-					let Ht6 = (Hz6/Math.cos(Math.PI/180*i))+Hs6;
-					let Ht7 = (Hz7/Math.cos(Math.PI/180*i))+Hs7;
-					let Ht8 = (Hz8/Math.cos(Math.PI/180*i))+Hs8;
-					let Ht9 = (Hz9/Math.cos(Math.PI/180*i))+Hs9;
-					let Ht10 = (Hz10/Math.cos(Math.PI/180*i))+Hs10;*/
-					let Hm = ((Ht4 * april) + (Ht5 * may) + (Ht6 * june) + (Ht7 * july) + (Ht8 * august) + (Ht9 * september) + (Ht10 * october)) / (april + may + june + july + august + september + october);
+				
+					let Hm = ((Ht4*april)+(Ht5 * may) + (Ht6 * june) + (Ht7 * july) + (Ht8 * august) + (Ht9 * september)+(Ht10*october)) / (april+may + june + july + august + september+october);
 					let arrHt = [];
-					arrHt.push(Ht4, Ht5, Ht6, Ht7, Ht8, Ht9, Ht10);
+					arrHt.push(Ht4,Ht5, Ht6, Ht7, Ht8, Ht9,Ht10);
+					var IminArr = [];
+					var Imin4 = Qc4 / (Ht4 * april * eff1 * eff2)
+					var Imin5 = Qc5 / (Ht5 * may * eff1 * eff2)
+					var Imin6 = Qc6 / (Ht6 * june * eff1 * eff2)
+					var Imin7 = Qc7 / (Ht7 * july * eff1 * eff2)
+					var Imin8 = Qc8 / (Ht8 * august * eff1 * eff2)
+					var Imin9 = Qc9 / (Ht9 * september * eff1 * eff2)
+					var Imin10 = Qc10 / (Ht10 * october * eff1 * eff2)
+					// console.log(Imin4)
+					IminArr.push(Imin4,Imin5, Imin6, Imin7, Imin8, Imin9,Imin10)
+					// console.log(IminArr)
+
+					Imin = Math.min.apply(null, IminArr);
+					Imax = Math.max.apply(null, IminArr);
+
 					//console.log(arrHt);
 					let HtMin = Math.min.apply(null, arrHt);
-					//console.log(HtMin);
-					let Imin = btnQl / (Hm * eff1 * eff2);
-					let Imax = btnQl / (HtMin * eff1 * eff2);
-					let numI = getElectricity(Imin, Imax, Ht4, Ht5, Ht6, Ht7, Ht8, Ht9, Ht10);
-					//console.log(numI);
-					//					console.log(Imin);
-					//					console.log(Imax);
-					//					console.log(numI);
+					let numI = getElectricity(Imin, Imax,Ht4, Ht5, Ht6, Ht7, Ht8, Ht9,Ht10);
 					if (numI !== undefined) {
 						arr.push(numI);
 						arrDip.push(i)
 					}
 				};
-				/*for(var i = dip;i>=dipmin;i--){
-					let Ht4 = (Hz4/Math.cos(Math.PI/180*i))+Hs4;
-					//console.log(Ht4)
-					//console.log(typeof Ht4)
-					let Ht5 = (Hz5/Math.cos(Math.PI/180*i))+Hs5;
-					let Ht6 = (Hz6/Math.cos(Math.PI/180*i))+Hs6;
-					let Ht7 = (Hz7/Math.cos(Math.PI/180*i))+Hs7;
-					let Ht8 = (Hz8/Math.cos(Math.PI/180*i))+Hs8;
-					let Ht9 = (Hz9/Math.cos(Math.PI/180*i))+Hs9;
-					let Ht10 = (Hz10/Math.cos(Math.PI/180*i))+Hs10;
-					let Hm = ((Ht4*april)+(Ht5*may)+(Ht6*june)+(Ht7*july)+(Ht8*august)+(Ht9*september)+(Ht10*october))/(april+may+june+july+august+september+october);
-					let arrHt = [];
-					arrHt.push(Ht4,Ht5,Ht6,Ht7,Ht8,Ht9,Ht10);
-					//console.log(arrHt);
-					let HtMin = Math.min.apply(null,arrHt);
-					//console.log(HtMin);
-					let Imin = btnQl/(Hm*eff1*eff2);
-					let Imax = btnQl/(HtMin*eff1*eff2);
-					let numI = getElectricity(Imin,Imax,Ht4,Ht5,Ht6,Ht7,Ht8,Ht9,Ht10);
-//					console.log(Imin);
-//					console.log(Imax);
-//					console.log(numI);
-					if(numI !== undefined){
-						arr.push(numI);
-						arrDip.push(i)
-					}
-				}*/
-				//console.log(arrDip);
-				//console.log(arr);
+
 				let Im = Math.min.apply(null, arr);
 				//console.log(Im);
 				for (var i = 0; i < arr.length; i++) {
@@ -1714,16 +1455,7 @@ $(function () {
 
 
 
-				/*Ht4 = (Hz4/Math.cos(Math.PI/180*bestDip))+Hs4;
-				console.log(Ht4)
-				//console.log(typeof Ht4)
-				Ht5 = (Hz5/Math.cos(Math.PI/180*bestDip))+Hs5;
-				Ht6 = (Hz6/Math.cos(Math.PI/180*bestDip))+Hs6;
-				Ht7 = (Hz7/Math.cos(Math.PI/180*bestDip))+Hs7;
-				Ht8 = (Hz8/Math.cos(Math.PI/180*bestDip))+Hs8;
-				Ht9 = (Hz9/Math.cos(Math.PI/180*bestDip))+Hs9;
-				Ht10 = (Hz10/Math.cos(Math.PI/180*bestDip))+Hs10;*/
-				Hm = ((Ht4 * april) + (Ht5 * may) + (Ht6 * june) + (Ht7 * july) + (Ht8 * august) + (Ht9 * september) + (Ht10 * october)) / (april + may + june + july + august + september + october);
+				Hm = ((Ht4*april)+(Ht5 * may) + (Ht6 * june) + (Ht7 * july) + (Ht8 * august) + (Ht9 * september)+(Ht10*october)) / (april+may + june + july + august + september+october);
 				Qg4 = april * electricity * Ht4 * eff1 * eff2;
 				Qg5 = may * electricity * Ht5 * eff1 * eff2;
 				Qg6 = june * electricity * Ht6 * eff1 * eff2;
@@ -1739,7 +1471,7 @@ $(function () {
 				lossSeptember = Qg9 - Qc9;
 				lossOctober = Qg10 - Qc10;
 				lossArr = [];
-				lossArr.push(lossApril, lossMay, lossJune, lossJuly, lossAugust, lossSeptember, lossOctober);
+				lossArr.push(lossApril,lossMay, lossJune, lossJuly, lossAugust, lossSeptember,lossOctober);
 				//console.log(lossArr);
 				tmpArr = [];
 				sum = 0;
@@ -1897,7 +1629,7 @@ $(function () {
 	$("#btn-D").click(function () {
 		$("#D-number").css("display", "block");
 		space = (height * Math.cos(Math.PI / 180 * bestDip)) + (height * Math.sin(Math.PI / 180 * bestDip) * (((0.707 * Math.tan(Math.PI / 180 * latitude)) + 0.4338) / (0.707 - (0.4338 * Math.tan(Math.PI / 180 * latitude)))))
-		console.log(space)
+		// console.log(space)
 		$("#D").text(function () {
 			return space.toFixed(2)
 		})
@@ -1906,7 +1638,7 @@ $(function () {
 	$("#btn-y").click(function () {
 		$("#yy-number").css("display", "block");
 		spaceEff = (2 * height * Math.cos(Math.PI / 180 * bestDip)) / ((height * Math.cos(Math.PI / 180 * bestDip)) + space);
-		console.log(spaceEff)
+		// console.log(spaceEff)
 		$("#yy").text(function () {
 			return spaceEff.toFixed(2)
 		})
