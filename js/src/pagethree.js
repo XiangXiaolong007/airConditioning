@@ -14,7 +14,6 @@ $(function () {
     $("#btn-Ht-Hm").click(function () {
         var monthbeginVal = +sessionStorage.getItem("monthbeginVal");
         var monthEndVal = +sessionStorage.getItem("monthEndVal");
-        var latitude = sessionStorage.getItem("latitude")
         var dip = +$("#dip").val();
         sessionStorage.setItem("dip", dip)
         var azimuth = +$("#azimuth").val();
@@ -55,7 +54,7 @@ $(function () {
         if ($("#HtVal")) {
             $("#HtVal").empty()
         }
-        HtTable.append("<caption class='text-center'>倾斜面太阳辐照量<img src='../img/Eqn19.png' style='height:24px;margin-bottom:2px'>(<img src='../img/Eqn21.png' style='height:24px;margin-bottom:2px'>)倾角<img src='../img/Eqn48.png' style='height:24px;margin-bottom:2px'>=<spanstyle='width:40pxdisplay:inline-block'>" + dip + "</span><span>°</span></caption><thead><tr id='month'><th>月份</th></tr></thead><tbody><tr id='HtVal'><td>平均太阳总辐照量<img src='../img/Eqn19.png' style='height:24px;margin-bottom:2px'></td></tr></tbody>")
+        HtTable.append("<caption class='text-center'>倾斜面太阳辐照量<img src='../img/picture26.png' style='height:24px;margin-bottom:2px'>(<img src='../img/picture25.png' style='height:26px;margin-bottom:2px'>)倾角<img src='../img/picture22.png' style='height:26px;margin-bottom:2px'>=<span style='width:40px;display:inline-block'>" + dip + "</span><span>°</span></caption><thead><tr id='month'><th>月份</th></tr></thead><tbody><tr id='HtVal'><td  style='width:200px;'>平均太阳总辐照量<img src='../img/picture26.png' style='height:24px;margin-bottom:2px'></td></tr></tbody>")
         if ($("#month")) {
             var monthTable = $("#month")
         }
@@ -64,7 +63,9 @@ $(function () {
         }
         $("#HmVal").empty()
         var HzAssemble = JSON.parse(sessionStorage.getItem("HzAssemble"));
+        console.log(HzAssemble)
         var HsAssemble = JSON.parse(sessionStorage.getItem("HsAssemble"))
+        console.log(HsAssemble)
         for (var i = monthbeginVal; i <= monthEndVal; i++) {
             sunangleAssemble["sunangle" + i] = 23.45 * Math.sin(Math.PI / 180 * (360 * (284 + nArray[i-1]) / 365));
             WsAssemble["Ws" + i] = Math.acos(-Math.tan(Math.PI / 180 * latitude) * Math.tan(Math.PI / 180 * sunangleAssemble["sunangle" + i])) * 180 / Math.PI;
@@ -103,8 +104,9 @@ $(function () {
             HtSum += HtAssemble["Ht" + i] * monthArray[i-1];
             daySum += monthArray[i-1]
         }
+        // console.log(RAssemble)
         Hm = HtSum / daySum;
-        $("#HmVal").append("<h4>全年平均太阳日总辐照量<img src='../img/Eqn20.png' style='height:24px;margin-bottom:2px'>(<img src='../img/Eqn21.png' style='height:24px;margin-bottom:2px'>)</h4><p><img src='../img/Eqn20.png' style='height:24px;margin-bottom:2px'>=<span style='display:inline-block;width:50px'>" + Hm.toFixed(2) + "</span>(<img src='../img/Eqn21.png' style='height:24px;margin-bottom:2px'>)</p>");
+        $("#HmVal").append("<h4>全年平均太阳日总辐照量<img src='../img/picture27.png' style='height:24px;margin-bottom:2px'>(<img src='../img/picture25.png' style='height:26px;margin-bottom:0px'>)</h4><p><img src='../img/picture27.png' style='height:24px;margin-bottom:2px'>=<span style='display:inline-block;width:50px'>" + Hm.toFixed(2) + "</span>(<img src='../img/picture25.png' style='height:26px;margin-bottom:0px'>)</p>");
         if (isNaN(Hm)) {
             alert("请输入正确的参数完成计算！")
         }

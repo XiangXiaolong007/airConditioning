@@ -71,7 +71,7 @@ $(function () {
         } else {
             let eachK = $("#each-k");
             eachK.empty();
-            eachK.append("<p>请输入各月系数<img src='../img/Eqn11.png' style='height:30px;margin-bottom:1px'>：</p>");
+            eachK.append("<p>请输入各月系数<img src='../img/picture12.png' style='height:30px;margin-bottom:1px'>：</p>");
             for (var i = +monthbeginVal; i <= +monthEndVal; i++) {
                 eachK.append(
                     "<div class='form-group' style='margin-right:20px;'><label for='k" +
@@ -201,19 +201,19 @@ $(function () {
             console.log(QcAssemble["Qc" + i] + "A·h/㎡");
         }
         sessionStorage.setItem("QcAssemble",JSON.stringify(QcAssemble))
-        let Ql = (QcSum / monthSum).toFixed(2);
+        // let Ql = (QcSum / monthSum).toFixed(2);
         // console.log(Ql);
-        $("#Ql").append(
-            "<span style='margin-bottom: 5px;font-weight: 700;'>单位建筑基底面积空调系统年日均耗电量<img src='../img/Eqn46.png' style='height:28px;margin-bottom:1px'> = </span><span class='inline-block'>" +
-            Ql +
-            "</span>(<img src='../img/Eqn47.png' style='height:28px;margin-bottom:7px'>)"
-        );
+        // $("#Ql").append(
+        //     "<span style='margin-bottom: 5px;font-weight: 700;'>单位建筑基底面积空调系统年日均耗电量<img src='../img/Eqn46.png' style='height:28px;margin-bottom:1px'> = </span><span class='inline-block'>" +
+        //     Ql +
+        //     "</span>(<img src='../img/Eqn47.png' style='height:28px;margin-bottom:7px'>)"
+        // );
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
-        if (isNaN(Ql)) {
-            alert("请输入正确的参数值!")
-        }
-        sessionStorage.setItem("Ql",Ql)
+        // if (isNaN(Ql)) {
+        //     alert("请输入正确的参数值!")
+        // }
+        // sessionStorage.setItem("Ql",Ql)
     });
     //tab切换
     //输入冷负荷
@@ -329,22 +329,22 @@ $(function () {
             option.series[0].data.push(QcAssemble["Qc" + i]);
             monthSum += monthArray[i-1];
             QcSum += +QcAssemble["Qc" + i];
-            console.log(QcAssemble["Qc" + i] + "A·h/㎡");
+            // console.log(QcAssemble["Qc" + i] + "A·h/㎡");
         }
         sessionStorage.setItem("QcAssemble",JSON.stringify(QcAssemble))
-        let Ql = (QcSum / monthSum).toFixed(2);
-        console.log(Ql);
-        $("#Ql-tab").append(
-            "<span style='margin-bottom: 5px;font-weight: 700;'>单位建筑基底面积空调系统年日均耗电量<img src='../img/Eqn46.png' style='height:28px;margin-bottom:1px'>= </span><span class='inline-block'>" +
-            Ql +
-            "</span>(<img src='../img/Eqn47.png' style='height:28px;margin-bottom:7px'>)"
-        );
+        // let Ql = (QcSum / monthSum).toFixed(2);
+        // console.log(Ql);
+        // $("#Ql-tab").append(
+        //     "<span style='margin-bottom: 5px;font-weight: 700;'>单位建筑基底面积空调系统年日均耗电量<img src='../img/Eqn46.png' style='height:28px;margin-bottom:1px'>= </span><span class='inline-block'>" +
+        //     Ql +
+        //     "</span>(<img src='../img/Eqn47.png' style='height:28px;margin-bottom:7px'>)"
+        // );
         // 使用刚指定的配置项和数据显示图表。
         myChartTab.setOption(option);
-        if (isNaN(Ql)) {
-            alert("请输入正确的参数值!")
-        }
-        sessionStorage.setItem("Ql",Ql)
+        // if (isNaN(Ql)) {
+        //     alert("请输入正确的参数值!")
+        // }
+        // sessionStorage.setItem("Ql",Ql)
     });
     //查看所选位置的相关信息
     $("#next-two").on("click", function () {

@@ -93,7 +93,7 @@ $(function () {
 				NiSum += NiArr[x]
 			}
 			Qlk = QcSum / NiSum;
-			// console.log(QcSum)
+			//  console.log(QcSum)
 			// debugger
 			n1 = Math.abs(min) / Qlk;
 
@@ -657,6 +657,7 @@ $(function () {
 		Ht8 = R8 * Hz8;
 		Ht9 = R9 * Hz9;
 		Ht10 = R10 * Hz10;
+		console.log(R4)
 		eff1 = $("#eff-loop-one").val();
 		eff2 = $("#eff-loop-two").val();
 		var IminArr = [];

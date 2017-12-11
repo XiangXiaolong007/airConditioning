@@ -99,9 +99,9 @@ function cityChange() {
             $("#longi-lati-value").append("<form class='form-inline'><div class='form-group col-sm-3'><label for='longitude'>经度：</label><span id='longitude'>" + longitude + "</span></div><div class='form-group col-sm-3'><label for='latitude'>纬度：</label><span id='latitude'>" + latitude + "</span></div></form>");
 
             //平均太阳总辐照量数据
-            var ssehzData = "<td>平均太阳总辐照量<img src='../img/Eqn2.png' style='height: 21px;margin-bottom: 4px;'></td>";
+            var ssehzData = "<td>平均太阳总辐照量<img src='../img/picture4.png' style='height: 26px;margin-bottom: 0px;'></td>";
             //平均太阳散射辐照量
-            var diffuseData = "<td>平均太阳散射辐照量<img src='../img/Eqn3.png' style='height: 25px;margin-bottom: 4px;'></td>"
+            var diffuseData = "<td>平均太阳散射辐照量<img src='../img/picture5.png' style='height: 25px;margin-bottom: 4px;'></td>"
             var HzAssemble = {};//各月平均太阳总辐照量集合
             var HsAssemble = {};//各月平均太阳散射辐照量集合
             for (var i = 1; i <= 12; i++) {

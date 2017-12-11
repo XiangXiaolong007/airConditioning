@@ -1,7 +1,8 @@
 
 $(function () {
+    var monthArray = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     //获取Ql   Hm HtAssemble 
-    var Ql = sessionStorage.getItem("Ql")
+    // var Ql = sessionStorage.getItem("Ql")
     var Hm = sessionStorage.getItem("Hm")
     var HtAssemble = JSON.parse(sessionStorage.getItem("HtAssemble"));
     var monthbeginVal = +sessionStorage.getItem("monthbeginVal");
@@ -13,6 +14,7 @@ $(function () {
     var latitude = sessionStorage.getItem("latitude");
     var city = sessionStorage.getItem("city");
     var status = false;
+    var Qk;
     if (province && city) {
         $(".location").append("<span>" + province + "</span><span style='margin-left:20px;'>" + city + "</span>");
         $(".coordinate").append("<span>经度" + longitude + "°</span><span style='margin-left:20px;'>纬度" + latitude + "°</span>");
@@ -34,7 +36,8 @@ $(function () {
         sessionStorage.setItem("eff1",eff1)
         var eff2 = +$("#eff-loop-two").val();
         sessionStorage.setItem("eff2",eff2)
-        var Imin = Ql / (Hm * eff1 * eff2);
+        var IminArr = [];
+        var IminAssemble = {};
         var arrHt = [];
         var days = +$("#days").val();
         sessionStorage.setItem("days",days)
@@ -42,18 +45,22 @@ $(function () {
         var QgAssemble = {};
         for(var i = monthbeginVal;i <= monthEndVal;i++) {
             arrHt.push(HtAssemble["Ht" + i])
+            IminAssemble["Imin"+i] = QcAssemble["Qc" + i] / (HtAssemble["Ht" + i] * monthArray[i-1] * eff1 * eff2);
+            IminArr.push(IminAssemble["Imin"+i])
         }
+        var Imin = Math.min.apply(null, IminArr);
+		var Imax = Math.max.apply(null, IminArr);
         var HtMin = Math.min.apply(null,arrHt);
-        var Imax = Ql / (HtMin * eff1 * eff2);
-        var tmparr = getElectricity(Imin,Imax,QcAssemble,HtAssemble,days,monthbeginVal,monthEndVal,eff1,eff2,Ql,QgAssemble,lossAssemble);
-        
+        var tmparr = getElectricity(Imin,Imax,QcAssemble,HtAssemble,days,monthbeginVal,monthEndVal,eff1,eff2,QgAssemble,lossAssemble,Qk);
+        console.log(tmparr)
         var electricity = tmparr[0];
-        var min = Math.abs(tmparr[1].toFixed(2))
+        var min = Math.abs(tmparr[1].toFixed(2));
+        Qk = tmparr[2].toFixed(2)
         var QgTable = "<div class='Qg'><table class='table table-bordered'><caption class='text-center'>方阵各月发电量<img src='../img/Eqn28.png' style='height:28px;margin-bottom:1px'>(<img src='../img/Eqn27.png' style='height:28px;margin-bottom:6px'>)</caption><thead><tr id='month'><th style='width:250px'>月份</th></tr></thead><tbody><tr id='QgVal'><td style='width:250px'>方阵各月发电量<img src='../img/Eqn28.png' style='height:28px;margin-bottom:1px'></td></tr></tbody></table></div>";
 
-        var QTable = "<div class='ΔQ'><table class='table table-bordered'><caption class='text-center'>方阵各月发电盈亏量<img src='../img/Eqn66.png' style='height:28px;margin-bottom:1px'>(<img src='../img/Eqn27.png' style='height:28px;margin-bottom:6px'>)</caption><thead><tr id='month-Q'><th style='width:250px'>月份</th></tr></thead><tbody><tr id='loss-table'><td style='width:250px'>方阵各月发电盈亏量<img src='../img/Eqn66.png' style='height:28px;margin-bottom:1px'></td></tr></tbody></table></div><p class='distance-top' style='font-weight:700'>累计亏欠量<img src='../img/Eqn57.png' style='height:28px;margin-bottom:1px'>=<span class='inline-block'>"+min+"</span>(<img src='../img/Eqn27.png' style='height:28px;margin-bottom:6px'>)</p><p>说明：当出现1个月份<img src='../img/Eqn66.png' style='height:28px;margin-bottom:1px'> &lt; 0，则累计亏欠量为该月亏欠量；当出现2个及以上连续亏欠月份，则累计亏欠量为该连续月份亏欠量之和；当出现2个及以上不连续亏欠期，则累计亏欠量为不连续亏欠期中各亏欠期亏欠量之和最大的值，其中亏欠期的计算原则为：若两个不连续亏欠期之间的<img src='../img/Eqn66.png' style='height:28px;margin-bottom:1px'>为正的月份的盈余量之和大于前一个亏欠期亏欠量，则两个亏欠期分开计算；若两个不连续亏欠期之间的<img src='../img/Eqn66.png' style='height:28px;margin-bottom:1px'>为正的月份的盈余量之和小于前一个亏欠期亏欠量，则两个亏欠期合并为一个亏欠期，其亏欠量应扣除盈余量部分；</p>";
+        var QTable = "<div class='ΔQ'><table class='table table-bordered'><caption class='text-center'>方阵各月发电盈亏量<img src='../img/Eqn66.png' style='height:28px;margin-bottom:1px'>(<img src='../img/Eqn27.png' style='height:28px;margin-bottom:6px'>)</caption><thead><tr id='month-Q'><th style='width:250px'>月份</th></tr></thead><tbody><tr id='loss-table'><td style='width:250px'>方阵各月发电盈亏量<img src='../img/Eqn66.png' style='height:28px;margin-bottom:1px'></td></tr></tbody></table></div><p class='distance-top' style='font-weight:700'>累计亏欠量<img src='../img/Eqn51.png' style='height:28px;margin-bottom:1px'>=<span class='inline-block'>"+min+"</span>(<img src='../img/Eqn27.png' style='height:28px;margin-bottom:6px'>)</p><p class='distance-top' style='font-weight:700'>单位建筑面积空调系统亏欠期日均耗电量<img src='../img/Eqn51.png' style='height:28px;margin-bottom:1px'>=<span class='inline-block'>"+Qk+"</span>(<img src='../img/Eqn47.png' style='height:28px;margin-bottom:6px'>)</p><p>说明：当出现1个月份<img src='../img/Eqn66.png' style='height:28px;margin-bottom:1px'> &lt; 0，则累计亏欠量为该月亏欠量；当出现2个及以上连续亏欠月份，则累计亏欠量为该连续月份亏欠量之和；当出现2个及以上不连续亏欠期，则累计亏欠量为不连续亏欠期中各亏欠期亏欠量之和最大的值，其中亏欠期的计算原则为：若两个不连续亏欠期之间的<img src='../img/Eqn66.png' style='height:28px;margin-bottom:1px'>为正的月份的盈余量之和大于前一个亏欠期亏欠量，则两个亏欠期分开计算；若两个不连续亏欠期之间的<img src='../img/Eqn66.png' style='height:28px;margin-bottom:1px'>为正的月份的盈余量之和小于前一个亏欠期亏欠量，则两个亏欠期合并为一个亏欠期，其亏欠量应扣除盈余量部分；</p>";
 
-        $("#power-budget").append("<p class='distance-top' style='font-weight:700'>方阵输出的最小电流<img src='../img/Eqn24.png' style='height:28px;margin-bottom:1px'>=<span class='inline-block'>"+Imin.toFixed(2)+"</span><img src='../img/Eqn26.png' style='height:28px;margin-bottom:8px'></p><p class='distance-top' style='font-weight:700'>方阵输出的最大电流<img src='../img/Eqn25.png' style='height:28px;margin-bottom:1px'>=<span class='inline-block'>"+Imax.toFixed(2)+"</span><img src='../img/Eqn26.png' style='height:28px;margin-bottom:8px'></p><p class='distance-top' style='font-weight:700'>方阵输出的实际电流I=<span class='inline-block'>"+electricity.toFixed(2)+"</span><img src='../img/Eqn26.png' style='height:28px;margin-bottom:8px'></p>"+QgTable+QTable)
+        $("#power-budget").append("<p class='distance-top' style='font-weight:700'>方阵输出的最小电流<img src='../img/Eqn24.png' style='height:28px;margin-bottom:1px'>=<span class='inline-block'>"+Imin.toFixed(2)+"</span><img src='../img/Eqn26.png' style='height:28px;margin-bottom:8px'></p><p class='distance-top' style='font-weight:700'>方阵输出的最大电流<img src='../img/Eqn25.png' style='height:28px;margin-bottom:1px'>=<span class='inline-block'>"+Imax.toFixed(2)+"</span><img src='../img/Eqn26.png' style='height:28px;margin-bottom:8px'></p><p class='distance-top' style='font-weight:700'>方阵输出的实际电流<img src='../img/picture1.png' style='height:28px;margin-bottom:8px'>=<span class='inline-block'>"+electricity.toFixed(2)+"</span><img src='../img/Eqn26.png' style='height:28px;margin-bottom:8px'></p>"+QgTable+QTable)
         var monthTable = $("#month")
         var QgValTable = $("#QgVal")
         var monthQTable = $("#month-Q");
