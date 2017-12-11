@@ -12,7 +12,7 @@ $(function () {
     var reflectivity = sessionStorage.getItem("reflectivity")
     var eff1 = sessionStorage.getItem("eff1")
     var eff2 = sessionStorage.getItem("eff2")
-    var Ql = sessionStorage.getItem("Ql")
+    var Qk = sessionStorage.getItem("Qk")
     var HmArr = [];
     var monthbeginVal = +sessionStorage.getItem("monthbeginVal");
     var monthEndVal = +sessionStorage.getItem("monthEndVal");
@@ -27,16 +27,21 @@ $(function () {
         $(".location").append("<span>" + province + "</span><span style='margin-left:20px;'>" + city + "</span>");
         $(".coordinate").append("<span>经度" + longitude + "°</span><span style='margin-left:20px;'>纬度" + latitude + "°</span>");
     }
-    $("#btn-Im").click(function () {
+    $("#btn-Im").click(async function () {
         var roof = document.getElementsByName("roof");
         var pitchedRoofC = $("#pitched-roof-c"); //坡屋面
-        pitchedRoofC.empty();
-        var flatRoofC = $("#flat-roof-c"); //平屋面
-        flatRoofC.empty();
+        // var flatRoofC = $("#flat-roof-c"); //平屋面
         var dipMin = 0; //最佳倾角范围下线
         var dipMax = 90; //最佳倾角范围上线
         var bestDip;
         var Im;
+        var loading = $("#choiceness-loading");
+        loading.css("display","none")
+        // flatRoofC.empty();
+        pitchedRoofC.empty();
+        // await loading.append("<div class='content1'><div class='circle1'></div><div class='circle2'></div><div class='circle3'></div><div class='circle4'></div></div><div class='content2'><div class='circle1'></div><div class='circle2'></div><div class='circle3'></div><div class='circle4'></div></div>")
+        console.log(loading.css("display"))
+        // debugger
         if($("#enter")) {
             $("#enter").empty()
         }
@@ -47,13 +52,14 @@ $(function () {
         }
         sessionStorage.setItem("roofStatus",roofStatus)
         if (roofStatus == 0) {
-            flatRoofC.css("display", "none");
-            pitchedRoofC.css("display", "block");
+            // flatRoofC.css("display", "none");
+            // pitchedRoofC.css("display", "block");
             sessionStorage.setItem("typeRoof","坡屋面")
             bestDip = dip;
             Im = electricity;
             sessionStorage.setItem("bestDip",bestDip)
-            pitchedRoofC.append("<h4>坡屋面：</h4><p>计算方阵倾角不变β=<span class='inline-block'>" + dip + "</span>°</p><p>计算方阵输出电流Im=<span class='inline-block'>" + electricity.toFixed(2) + "</span>A</p>")
+            // loading.css("display", "none");
+            pitchedRoofC.append("<h4>坡屋面：</h4><p>计算方阵倾角不变<img src='../img/picture22.png' style='height:28px;margin-bottom:2px;'>=<span class='inline-block'>" + dip + "</span>°</p><p>计算方阵输出电流<img src='../img/picture39.png' style='height:28px;margin-bottom:2px;'>=<span class='inline-block'>" + electricity.toFixed(2) + "</span>A</p>")
             
         } else if (roofStatus == 1) {
             sessionStorage.setItem("typeRoof","平屋面")
@@ -88,6 +94,8 @@ $(function () {
                 var HtSum = 0;
                 var daySum = 0;
                 var arrHt = [];
+                var IminArr = [];
+                var IminAssemble = {};
                 for (var i = monthbeginVal; i <= monthEndVal; i++) {
                     sunangleAssemble["sunangle" + i] = 23.45 * Math.sin(Math.PI / 180 * (360 * (284 + nArray[i-1]) / 365));
                     WsAssemble["Ws" + i] = Math.acos(-Math.tan(Math.PI / 180 * latitude) * Math.tan(Math.PI / 180 * sunangleAssemble["sunangle" + i])) * 180 / Math.PI;
@@ -125,14 +133,18 @@ $(function () {
                 }
                 Hm = HtSum / daySum;
                 HmArr.push(Hm)
-                var Imin = Ql / (Hm * eff1 * eff2);
+                // var Imin = Ql / (Hm * eff1 * eff2);
                 // console.log(Imin)
                 for (var i = monthbeginVal; i <= monthEndVal; i++) {
                     arrHt.push(HtAssemble["Ht" + i])
+                    IminAssemble["Imin"+i] = QcAssemble["Qc" + i] / (HtAssemble["Ht" + i] * monthArray[i-1] * eff1 * eff2);
+                    IminArr.push(IminAssemble["Imin"+i])
                 }
+                var Imin = Math.min.apply(null, IminArr);
+                var Imax = Math.max.apply(null, IminArr);
                 var HtMin = Math.min.apply(null, arrHt);
-                var Imax = Ql / (HtMin * eff1 * eff2);
-                var tmparr = getElectricity(Imin, Imax, QcAssemble, HtAssemble, days, monthbeginVal, monthEndVal, eff1, eff2, Ql, QgAssemble, lossAssemble)
+                // var Imax = Ql / (HtMin * eff1 * eff2);
+                var tmparr = getElectricity(Imin, Imax, QcAssemble, HtAssemble, days, monthbeginVal, monthEndVal, eff1, eff2, QgAssemble, lossAssemble,Qk)
                 // console.log(tmparr)
                 if(tmparr) {
                     var numI = tmparr[0];
@@ -153,11 +165,12 @@ $(function () {
                 }
             }
             sessionStorage.setItem("bestDip",bestDip)
-            flatRoofC.css("display", "block");
-            pitchedRoofC.css("display", "none")
-            flatRoofC.append("<h4>平屋面：</h4><p>计算方阵最佳倾角βopt=<span class='inline-block'>" + bestDip + "</span>°</p><p>计算方阵输出电流Im=<span class='inline-block'>" + Im.toFixed(2) + "</span>A</p>")
+            // flatRoofC.css("display", "block");
+            // pitchedRoofC.css("display", "none")
+            console.log(loading.css("display"))
+            pitchedRoofC.append("<h4>平屋面：</h4><p>计算方阵最佳倾角<img src='../img/picture38.png' style='height:28px;margin-bottom:2px;'>=<span class='inline-block'>" + bestDip + "</span>°</p><p>计算方阵输出电流<img src='../img/picture39.png' style='height:28px;margin-bottom:2px;'>=<span class='inline-block'>" + Im.toFixed(2) + "</span>A</p>")
         }
-         $("#enter").append("<h4 style='font-weight:700'>请输入：</h4><form class='form-inline'><div class='form-group'><label for='accumulator'>蓄电池放电深度DOD=</label><input type='number' class='form-control' id='accumulator'><span style='display:inline-block;width:200px;margin-left:50px;'>DOD通常取0.3-0.8</span></div></form><form class='form-inline'><div class='form-group'><label for='safe-eff'>安全系数μ=</label><input type='number' class='form-control' id='safe-eff'><span style='display:inline-block;width:200px;margin-left:50px;' class='distance-top'>μ通常取1.05-1.3</span></div></form><form class='form-inline'><div class='form-group distance-top'><label for='ub-number'>蓄电池充电电压Ub = U × 1.2 = </label><span id='ub-number'>456V</span></div></form><form class='form-inline'><div class='form-group'><label for='voltageDrop'>防反冲二极管及线路等的电压降Ud = </label><input type='text' class='form-control' value='1' id='voltageDrop' disabled>V<span style='display:inline-block;width:200px;margin-left:50px;'' class='distance-top'>Ud取为1</span></div></form><button class='btn btn-calculate distance-top' id='btn-Bn-Pn'>开始计算蓄电池容量Bn和方阵容量Pn</button><div id='pn-bn'></div>")
+         $("#enter").append("<h4 style='font-weight:700'>请输入：</h4><form class='form-inline'><div class='form-group'><label for='accumulator'>蓄电池放电深度<img src='../img/picture41.png' style='height:28px;margin-bottom:2px;'>=</label><input type='number' class='form-control' id='accumulator'><span style='display:inline-block;width:200px;margin-left:50px;'><img src='../img/picture41.png' style='height:28px;margin-bottom:2px;'>通常取0.3-0.8</span></div></form><form class='form-inline'><div class='form-group'><label for='safe-eff'>安全系数<img src='../img/picture42.png' style='height:32px;margin-bottom:2px;'>=</label><input type='number' class='form-control' id='safe-eff'><span style='display:inline-block;width:200px;margin-left:50px;' class='distance-top'><img src='../img/picture42.png' style='height:32px;margin-bottom:2px;'>通常取1.05-1.3</span></div></form><form class='form-inline'><div class='form-group distance-top'><label for='ub-number'>蓄电池充电电压<img src='../img/picture43.png' style='height:28px;margin-bottom:2px;'> = <img src='../img/Eqn13.png' style='height:22px;margin-bottom:2px;'> × 1.2 = </label><span id='ub-number'>456<img src='../img/picture44.png' style='height:28px;margin-bottom:2px;'></span></div></form><form class='form-inline'><div class='form-group'><label for='voltageDrop'>防反冲二极管及线路等的电压降<img src='../img/picture45.png' style='height:28px;margin-bottom:2px;'> = </label><input type='text' class='form-control' value='1' id='voltageDrop' readonly><img src='../img/picture44.png' style='height:28px;margin-bottom:2px;'><span style='display:inline-block;width:200px;margin-left:50px;' class='distance-top'><img src='../img/picture45.png' style='height:28px;margin-bottom:2px;'>取为1</span></div></form><button class='btn btn-calculate distance-top' id='btn-Bn-Pn'>开始计算蓄电池容量<img src='../img/picture46.png' style='height:24px;margin-bottom:2px;'>和方阵容量<img src='../img/picture47.png' style='height:24px;margin-bottom:2px;'></button><div id='pn-bn'></div>")
         $("#btn-Bn-Pn").click(function(){
             var DOD = +$("#accumulator").val();
             sessionStorage.setItem("DOD",DOD)
@@ -231,14 +244,20 @@ $(function () {
             }
             Hm = HtSum / daySum;
             HmArr.push(Hm)
-            var Imin = Ql / (Hm * eff1 * eff2);
+            // var Imin = Ql / (Hm * eff1 * eff2);
+            var IminArr = [];
+            var IminAssemble = {};
             // console.log(Imin)
             for (var i = monthbeginVal; i <= monthEndVal; i++) {
                 arrHt.push(HtAssemble["Ht" + i])
+                IminAssemble["Imin"+i] = QcAssemble["Qc" + i] / (HtAssemble["Ht" + i] * monthArray[i-1] * eff1 * eff2);
+                IminArr.push(IminAssemble["Imin"+i])
             }
+            var Imin = Math.min.apply(null, IminArr);
+            var Imax = Math.max.apply(null, IminArr);
             var HtMin = Math.min.apply(null, arrHt);
-            var Imax = Ql / (HtMin * eff1 * eff2);
-            var tmparr = getElectricity(Imin,Imax,QcAssemble,HtAssemble,days,monthbeginVal,monthEndVal,eff1,eff2,Ql,QgAssemble,lossAssemble)
+            // var Imax = Ql / (HtMin * eff1 * eff2);
+            var tmparr = getElectricity(Imin,Imax,QcAssemble,HtAssemble,days,monthbeginVal,monthEndVal,eff1,eff2,QgAssemble,lossAssemble,Qk)
             var electricity = tmparr[0];
             // console.log(electricity)
             var min = Math.abs(tmparr[1].toFixed(2))
