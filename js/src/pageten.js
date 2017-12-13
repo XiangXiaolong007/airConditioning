@@ -187,7 +187,7 @@ $(function () {
         if ($("#HtVal")) {
             $("#HtVal").empty()
         }
-        HtTable.append("<caption class='text-center'>倾斜面太阳辐照量Ht(kW·h/(㎡·d))倾β=<spanstyle='width:40pxdisplay:inline-block'>" + dip + "</span><span>°</span></caption><thead><tr id='month'><th>月份</th></tr></thead><tbody><tr id='HtVal'><td>平均太阳总辐照量<span>Ht</span></td></tr></tbody>")
+        HtTable.append("<caption class='text-center'>倾斜面太阳辐照量<img src='../img/picture26.png' style='height:28px;margin-bottom:1px'>(<img src='../img/picture25.png' style='height:26px;margin-bottom:0px'>)倾角<img src='../img/picture22.png' style='height:28px;margin-bottom:1px'>=<spanstyle='width:40pxdisplay:inline-block'>" + dip + "</span><span>°</span></caption><thead><tr id='month'><th>月份</th></tr></thead><tbody><tr id='HtVal'><td>平均太阳总辐照量<span><img src='../img/picture26.png' style='height:28px;margin-bottom:1px'></span></td></tr></tbody>")
         if ($("#month")) {
             var monthTable = $("#month")
         }
@@ -237,7 +237,7 @@ $(function () {
         console.log(HsAssemble)
         console.log(HzAssemble)
         Hm = HtSum / daySum;
-        $("#HmVal").append("<h4>全年平均太阳日总辐照量Hm(kW·h/(㎡·d))</h4><p>Hm=<span style='display:inline-block;width:50px'>" + Hm.toFixed(2) + "</span>(kW·h/(㎡·d))</p>");
+        $("#HmVal").append("<h4>全年平均太阳日总辐照量<img src='../img/picture27.png' style='height:28px;margin-bottom:1px'>(<img src='../img/picture25.png' style='height:28px;margin-bottom:1px'>)</h4><p><img src='../img/picture27.png' style='height:28px;margin-bottom:1px'>=<span style='display:inline-block;width:50px'>" + Hm.toFixed(2) + "</span>(<img src='../img/picture25.png' style='height:28px;margin-bottom:1px'>)</p>");
         if (isNaN(Hm)) {
             alert("请输入正确的参数完成计算！")
         }

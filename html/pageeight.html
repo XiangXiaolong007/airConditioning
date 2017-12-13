@@ -29,18 +29,18 @@
     }
 
     #choiceness-loading {
-        height: 200px;
-        width: 200px;
+        height: 400px;
+        width: 400px;
         margin: 100px auto;
         position: relative;
     }
 
     .content1,
     .content2 {
-        width: 25%;
-        height: 25%;
+        width: 15%;
+        height: 15%;
         position: absolute;
-        left: 0;
+        left: 35%;
         top: 0;
     }
 
@@ -141,8 +141,8 @@
                     </ul>
                     <h4>小工具</h4>
                     <ul class="list-unstyled public">
-                        <li onclick="location.href='./pagenine.html'" style="cursor:pointer">1、太阳能资源分布图</li>
-                        <li onclick="location.href='./pageten.html'" style="cursor:pointer">2、倾斜面太阳辐射面计算</li>
+                        <li onclick="location.href='./pagenine.html'" style="cursor:pointer;color:mediumspringgreen">1、太阳能资源分布图</li>
+                        <li onclick="location.href='./pageten.html'" style="cursor:pointer;color:mediumspringgreen">2、倾斜面太阳辐射面计算</li>
                     </ul>
                 </div>
                 <div class="col-sm-9 right-aside">
@@ -191,6 +191,9 @@
                                 <div class="circle3"></div>
                                 <div class="circle4"></div>
                             </div>
+                            <div style="padding-top:85px;">
+                                <p>请稍等，平屋面计算过程需要大约1-2分钟...</p>
+                            </div>
                         </div>
                         <div class="col-sm-6" style="padding:20px 10px 20px 20px;height:400px;" id="PV-content"></div>
                         <div class="col-sm-6" style="padding:20px 10px 20px 20px;height:400px;" id="accumulator-content"></div>
@@ -209,8 +212,8 @@
                                 <span class="inline-block"></span>W/㎡；</p> -->
                         </div>
 
-                        <p class="alert alert-success" style="display:none">Pm&gt;Pn，满足自持化要求</p>
-                        <p class="alert alert-danger" style="display:none">Pm&lt;Pn，不满足自持化要求</p>
+                        <p class="alert alert-success" style="display:none"><img src="../img/picture55.png" style="height:28px;margin-bottom:2px;">&gt;<img src="../img/picture47.png" style="height:28px;margin-bottom:2px;">，满足自持化要求</p>
+                        <p class="alert alert-danger" style="display:none"><img src="../img/picture55.png" style="height:28px;margin-bottom:2px;">&lt;<img src="../img/picture47.png" style="height:28px;margin-bottom:2px;">，不满足自持化要求</p>
                     </div>
                 </div>
             </div>

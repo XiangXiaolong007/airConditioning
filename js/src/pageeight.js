@@ -4,7 +4,7 @@ $(function () {
     var longitude = sessionStorage.getItem("longitude");
     var latitude = sessionStorage.getItem("latitude");
     var city = sessionStorage.getItem("city");
-    var roofType = sessionStorage.getItem("roofType")
+    var roofType = sessionStorage.getItem("roofType");
     var typeRoof = sessionStorage.getItem("typeRoof");
     var calStatus = sessionStorage.getItem("calStatus");
     var days = sessionStorage.getItem("days");
@@ -14,7 +14,7 @@ $(function () {
     var monthbeginVal = +sessionStorage.getItem("monthbeginVal");
     var monthEndVal = +sessionStorage.getItem("monthEndVal");
     var kAssemble = JSON.parse(sessionStorage.getItem("kAssemble"));
-    var scale = sessionStorage.getItem("scale")
+    var scale = sessionStorage.getItem("scale");
     var zVal = sessionStorage.getItem("zVal");
     var COP = sessionStorage.getItem("COP");
     var dip = sessionStorage.getItem("dip");
@@ -26,9 +26,9 @@ $(function () {
     var DOD = sessionStorage.getItem("DOD");
     var safeEff = sessionStorage.getItem("safeEff")
     var HzAssemble = JSON.parse(sessionStorage.getItem("HzAssemble"));
-    var HsAssemble = JSON.parse(sessionStorage.getItem("HsAssemble"))
-    var HtAssemble = JSON.parse(sessionStorage.getItem("HtAssemble"))
-    var Hm = sessionStorage.getItem("Hm")
+    var HsAssemble = JSON.parse(sessionStorage.getItem("HsAssemble"));
+    var HtAssemble = JSON.parse(sessionStorage.getItem("HtAssemble"));
+    var Hm = sessionStorage.getItem("Hm");
     var bestDip = sessionStorage.getItem("bestDip");
     var Bn = +sessionStorage.getItem("Bn");
     var Pn = +sessionStorage.getItem("Pn");
@@ -38,6 +38,12 @@ $(function () {
     var nArray = [15, 46, 75, 106, 136, 167, 197, 228, 259, 289, 320, 350]; //各月日期序号
     var BnEchartArr = [];
     var PnEchartArr = [];
+    var Qk;
+    if (province && city) {
+        $(".location").append("<span>" + province + "</span><span style='margin-left:20px;'>" + city + "</span>");
+        $(".coordinate").append("<span>经度" + longitude + "°</span><span style='margin-left:20px;'>纬度" + latitude + "°</span>");
+    }
+    $("#roof-status").append("<p class='distance-top'><strong>建筑层数：</strong><span class='inline-block'>" + zVal + "</span>层</p><p><strong>屋面形式：</strong><span class='inline-block' style='width:60px;'>" + typeRoof + "</span></p><p><strong>制冷机组<img src='../img/picture17.png' style='height:28px;margin-bottom:1px'>=</strong><span class='inline-block'>" + COP + "</span></p><p><strong>蓄电池维持天数<img src='../img/picture37.png' style='height:28px;margin-bottom:1px'>=</strong><span class='inline-block'>" + days + "</span></p><p><strong>光伏方阵安装方式：</strong><span class='inline-block' style='width:150px;'>" + roofType + "</span></p><p><strong>光伏方阵倾角<img src='../img/picture22.png' style='height:28px;margin-bottom:1px'>=</strong><span class='inline-block'>" + bestDip + "°</span></p>")
     for (var h = 50; h <= 200; h += 10) {
         var Qmax = h * hVal * zVal * kVal * NmaxVal;
         var QAssemble = {};
@@ -51,23 +57,23 @@ $(function () {
         var dipMax = 90; //最佳倾角范围上线
         var Im;
         var HmArr = [];
+        var IminArr = [];
+        var IminAssemble = {};
         for (var i = +monthbeginVal; i <= +monthEndVal; i++) {
             QAssemble["Q" + i] = Qmax * kAssemble["k" + i];
             QcAssemble["Qc" + i] = QAssemble["Q" + i] / (380 * COP * scale);
             monthSum += monthArray[i - 1];
             QcSum += +QcAssemble["Qc" + i];
             arrHt.push(HtAssemble["Ht" + i])
-
+            IminAssemble["Imin" + i] = QcAssemble["Qc" + i] / (HtAssemble["Ht" + i] * monthArray[i - 1] * eff1 * eff2);
+            IminArr.push(IminAssemble["Imin" + i])
         }
-
-        var Ql = QcSum / monthSum;
-        var Imin = Ql / (Hm * eff1 * eff2);
+        var Imin = Math.min.apply(null, IminArr);
+        var Imax = Math.max.apply(null, IminArr);
         var HtMin = Math.min.apply(null, arrHt);
-        var Imax = Ql / (HtMin * eff1 * eff2);
-        var tmparr = getElectricity(Imin, Imax, QcAssemble, HtAssemble, days, monthbeginVal, monthEndVal, eff1, eff2, Ql, QgAssemble, lossAssemble)
+        var tmparr = getElectricity(Imin, Imax, QcAssemble, HtAssemble, days, monthbeginVal, monthEndVal, eff1, eff2, QgAssemble, lossAssemble, Qk)
         var electricity = tmparr[0];
-        var min = Math.abs(tmparr[1])
-        // console.log(electricity)
+        var min = Math.abs(tmparr[1].toFixed(2));
         if (roofStatus == 0) {
             Im = electricity;
         } else if (roofStatus == 1) {
@@ -102,6 +108,8 @@ $(function () {
                 var HtSum = 0;
                 var daySum = 0;
                 var arrHt = [];
+                var IminArr = [];
+                var IminAssemble = {};
                 for (var i = monthbeginVal; i <= monthEndVal; i++) {
                     sunangleAssemble["sunangle" + i] = 23.45 * Math.sin(Math.PI / 180 * (360 * (284 + nArray[i - 1]) / 365));
                     WsAssemble["Ws" + i] = Math.acos(-Math.tan(Math.PI / 180 * latitude) * Math.tan(Math.PI / 180 * sunangleAssemble["sunangle" + i])) * 180 / Math.PI;
@@ -137,25 +145,24 @@ $(function () {
                     HtSum += HtAssemble["Ht" + i] * monthArray[i - 1];
                     daySum += monthArray[i - 1]
                     arrHt.push(HtAssemble["Ht" + i])
+                    IminAssemble["Imin" + i] = QcAssemble["Qc" + i] / (HtAssemble["Ht" + i] * monthArray[i - 1] * eff1 * eff2);
+                    IminArr.push(IminAssemble["Imin" + i])
                 }
                 Hm = HtSum / daySum;
                 HmArr.push(Hm)
-                var Imin = Ql / (Hm * eff1 * eff2);
-                // console.log(Imin)
+                var Imin = Math.min.apply(null, IminArr);
+                var Imax = Math.max.apply(null, IminArr);
                 var HtMin = Math.min.apply(null, arrHt);
-                var Imax = Ql / (HtMin * eff1 * eff2);
-                var tmparr = getElectricity(Imin, Imax, QcAssemble, HtAssemble, days, monthbeginVal, monthEndVal, eff1, eff2, Ql, QgAssemble, lossAssemble)
-                if(tmparr){
+                var tmparr = getElectricity(Imin, Imax, QcAssemble, HtAssemble, days, monthbeginVal, monthEndVal, eff1, eff2, QgAssemble, lossAssemble, Qk);
+                if (tmparr) {
                     var numI = tmparr[0];
                 }
-                
+
                 if (numI !== undefined) {
                     arr.push(numI);
                     arrDip.push(j)
                 }
             }
-            //  console.log(arr)
-            //  console.log(arrDip)
             Im = Math.min.apply(null, arr);
         }
         var A = Math.cos(Math.PI / 180 * bestDip) + Math.tan(Math.PI / 180 * latitude) * Math.cos(Math.PI / 180 * azimuth) * Math.sin(Math.PI / 180 * bestDip);
@@ -186,6 +193,8 @@ $(function () {
         var HtSum = 0;
         var daySum = 0;
         var arrHt = [];
+        var IminArr = [];
+        var IminAssemble = {};
         for (var i = monthbeginVal; i <= monthEndVal; i++) {
             sunangleAssemble["sunangle" + i] = 23.45 * Math.sin(Math.PI / 180 * (360 * (284 + nArray[i - 1]) / 365));
             WsAssemble["Ws" + i] = Math.acos(-Math.tan(Math.PI / 180 * latitude) * Math.tan(Math.PI / 180 * sunangleAssemble["sunangle" + i])) * 180 / Math.PI;
@@ -220,38 +229,29 @@ $(function () {
             HtAssemble["Ht" + i] = RAssemble["R" + i] * HzAssemble["Hz" + i];
             HtSum += HtAssemble["Ht" + i] * monthArray[i - 1];
             daySum += monthArray[i - 1]
+            arrHt.push(HtAssemble["Ht" + i])
+            IminAssemble["Imin" + i] = QcAssemble["Qc" + i] / (HtAssemble["Ht" + i] * monthArray[i - 1] * eff1 * eff2);
+            IminArr.push(IminAssemble["Imin" + i])
         }
         Hm = HtSum / daySum;
         HmArr.push(Hm)
-        var Imin = Ql / (Hm * eff1 * eff2);
-        // console.log(Imin)
-        for (var i = monthbeginVal; i <= monthEndVal; i++) {
-            arrHt.push(HtAssemble["Ht" + i])
-        }
+        var Imin = Math.min.apply(null, IminArr);
+        var Imax = Math.max.apply(null, IminArr);
         var HtMin = Math.min.apply(null, arrHt);
-        var Imax = Ql / (HtMin * eff1 * eff2);
-        var tmparr = getElectricity(Imin, Imax, QcAssemble, HtAssemble, days, monthbeginVal, monthEndVal, eff1, eff2, Ql, QgAssemble, lossAssemble)
+        var tmparr = getElectricity(Imin, Imax, QcAssemble, HtAssemble, days, monthbeginVal, monthEndVal, eff1, eff2, QgAssemble, lossAssemble,Qk)
         var electricity = tmparr[0];
-        // console.log(electricity)
         var min = Math.abs(tmparr[1].toFixed(2))
-        // console.log(min);
         var BnEchart = (Math.abs(min.toFixed(5)) / (DOD * eff2)).toFixed(2);
-        //  console.log(BnEchart)
         var PnEchart = (safeEff * Im * 457).toFixed(2)
-        // console.log(PnEchart)
         BnEchartArr.push(BnEchart);
         PnEchartArr.push(PnEchart)
     }
-    if (province && city) {
-        $(".location").append("<span>" + province + "</span><span style='margin-left:20px;'>" + city + "</span>");
-        $(".coordinate").append("<span>经度" + longitude + "°</span><span style='margin-left:20px;'>纬度" + latitude + "°</span>");
-    }
-    $("#roof-status").append("<p class='distance-top'><strong>建筑层数：</strong><span class='inline-block'>" + zVal + "</span>层</p><p><strong>屋面形式：</strong><span class='inline-block' style='width:60px;'>" + typeRoof + "</span></p><p><strong>制冷机组COP=</strong><span class='inline-block'>" + COP + "</span></p><p><strong>蓄电池维持天数n=</strong><span class='inline-block'>" + days + "</span></p><p><strong>光伏方阵安装方式：</strong><span class='inline-block' style='width:150px;'>" + roofType + "</span></p><p><strong>光伏方阵倾角β=</strong><span class='inline-block'>" + bestDip + "°</span></p>")
+    
     if (calStatus == 0) {
         var qVal = sessionStorage.getItem("qVal")
-        $("#check-status").append("<p><strong>冷指标q=</strong><span class='inline-block'>" + qVal + "</span>W/㎡时：</p><p><strong>单位面积蓄电池容量Bn=</strong><span class='inline-block text-center' style='width:80px'>" + Bn.toFixed(2) + "</span>A·h/㎡；</p><p><strong>单位面积光伏方阵容量Pn=</strong><span class='inline-block text-center' style='width:80px'>" + Pn.toFixed(2) + "</span>W/㎡；</p><p><strong>单位面积光伏阵列最大安装容量Pm=</strong><span class='inline-block text-center' style='width:80px'>" + Pm.toFixed(2) + "</span>W/㎡；</p>")
+        $("#check-status").append("<p><strong>冷指标<img src='../img/picture6.png' style='height:28px;margin-bottom:1px'>=</strong><span class='inline-block'>" + qVal + "</span>W/㎡时：</p><p><strong>单位面积蓄电池容量<img src='../img/picture46.png' style='height:28px;margin-bottom:1px'>=</strong><span class='inline-block text-center' style='width:80px'>" + Bn.toFixed(2) + "</span><img src='../img/picture21.png' style='height:28px;margin-bottom:1px'>；</p><p><strong>单位面积光伏方阵容量<img src='../img/picture47.png' style='height:28px;margin-bottom:1px'>=</strong><span class='inline-block text-center' style='width:80px'>" + Pn.toFixed(2) + "</span><img src='../img/picture48.png' style='height:28px;margin-bottom:1px'>；</p><p><strong>单位面积光伏阵列最大安装容量<img src='../img/picture55.png' style='height:28px;margin-bottom:1px'>=</strong><span class='inline-block text-center' style='width:80px'>" + Pm.toFixed(2) + "</span><img src='../img/picture48.png' style='height:28px;margin-bottom:1px'>；</p>")
     } else {
-        $("#check-status").append("<p><strong>单位面积蓄电池容量Bn=</strong><span class='inline-block text-center' style='width:80px'>" + Bn.toFixed(2) + "</span>A·h/㎡；</p><p><strong>单位面积光伏方阵容量Pn=</strong><span class='inline-block text-center' style='width:80px'>" + Pn.toFixed(2) + "</span>W/㎡；</p><p><strong>单位面积光伏阵列最大安装容量Pm=</strong><span class='inline-block text-center' style='width:80px'>" + Pm.toFixed(2) + "</span>W/㎡；</p>")
+        $("#check-status").append("<p><strong>单位面积蓄电池容量<img src='../img/picture46.png' style='height:28px;margin-bottom:1px'>=</strong><span class='inline-block text-center' style='width:80px'>" + Bn.toFixed(2) + "</span><img src='../img/picture21.png' style='height:28px;margin-bottom:1px'>；</p><p><strong>单位面积光伏方阵容量<img src='../img/picture47.png' style='height:28px;margin-bottom:1px'>=</strong><span class='inline-block text-center' style='width:80px'>" + Pn.toFixed(2) + "</span><img src='../img/picture48.png' style='height:28px;margin-bottom:1px'>；</p><p><strong>单位面积光伏阵列最大安装容量<img src='../img/picture55.png' style='height:28px;margin-bottom:1px'>=</strong><span class='inline-block text-center' style='width:80px'>" + Pm.toFixed(2) + "</span><img src='../img/picture48.png' style='height:28px;margin-bottom:1px'>；</p>")
     }
     if (Pm >= Pn) {
         $(".alert-success").css("display", "block");
@@ -262,9 +262,6 @@ $(function () {
     }
 
 
-
-
-
     var oMyChart = echarts.init(document.getElementById("PV-content"));
     var option = {
         backgroundColor: "#FBFBFB",
@@ -272,7 +269,7 @@ $(function () {
             trigger: "axis"
         },
         legend: {
-            data: ["单位面积光伏方阵容量","光伏阵列最大安装容量"]
+            data: ["单位面积光伏方阵容量", "光伏阵列最大安装容量"]
         },
 
         calculable: true,
@@ -310,36 +307,36 @@ $(function () {
             }
         }],
         series: [{
-            name: "单位面积光伏方阵容量",
-            type: "line",
-            smooth: 0.2,
-            color: ["#66AEDE"],
-            data: PnEchartArr,
-            markLine: {
-                lineStyle: {
-                    normal: {
-                        color: '#dc143c',
-                        type:'solid'
-                    }
-                },
-                label: {
-                    show: true,
-                    position: 'right'
-                },
-                
-                data: [{
-                    value: Pm.toFixed(2),
-                    yAxis: Pm.toFixed(2),
-                }]
+                name: "单位面积光伏方阵容量",
+                type: "line",
+                smooth: 0.2,
+                color: ["#66AEDE"],
+                data: PnEchartArr,
+                markLine: {
+                    lineStyle: {
+                        normal: {
+                            color: '#dc143c',
+                            type: 'solid'
+                        }
+                    },
+                    label: {
+                        show: true,
+                        position: 'right'
+                    },
+
+                    data: [{
+                        value: Pm.toFixed(2),
+                        yAxis: Pm.toFixed(2),
+                    }]
+                }
+            },
+            {
+                name: "光伏阵列最大安装容量",
+                type: 'line',
+                color: ['#dc143c'],
+                data: []
             }
-        },
-        {
-            name: "光伏阵列最大安装容量",
-            type: 'line',
-            color: ['#dc143c'],
-            data:[]
-        }
-    ]
+        ]
     };
     oMyChart.setOption(option);
 

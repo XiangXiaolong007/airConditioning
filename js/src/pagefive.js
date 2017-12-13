@@ -268,7 +268,7 @@ $(function () {
             sessionStorage.setItem("Bn",Bn);
             sessionStorage.setItem("Pn",Pn)
             // console.log(Pn)
-            $("#pn-bn").append("<p class='distance-top' style='font-weight:700'>蓄电池容量Bn=<span class='inline-block text-center' style='width:100px;'>"+ Bn.toFixed(2) +"</span>A·h/㎡</p><p class='distance-top' style='font-weight:700'>方阵容量Pn=<span class='inline-block text-center' style='width:100px;'>"+ Pn.toFixed(2) +"</span>W/㎡</p>")
+            $("#pn-bn").append("<p class='distance-top' style='font-weight:700'>蓄电池容量<img src='../img/picture46.png' style='height:27px;margin-bottom:2px;'>=<span class='inline-block text-center' style='width:100px;'>"+ Bn.toFixed(2) +"</span><img src='../img/picture21.png' style='height:30px;margin-bottom:2px;'></p><p class='distance-top' style='font-weight:700'>方阵容量<img src='../img/picture47.png' style='height:27px;margin-bottom:2px;'>=<span class='inline-block text-center' style='width:100px;'>"+ Pn.toFixed(2) +"</span><img src='../img/picture7.png' style='height:30px;margin-bottom:2px;'></p>")
         })
     })
     $("#next-five").click(function(){

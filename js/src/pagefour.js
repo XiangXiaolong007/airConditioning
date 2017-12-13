@@ -52,7 +52,7 @@ $(function () {
 		var Imax = Math.max.apply(null, IminArr);
         var HtMin = Math.min.apply(null,arrHt);
         var tmparr = getElectricity(Imin,Imax,QcAssemble,HtAssemble,days,monthbeginVal,monthEndVal,eff1,eff2,QgAssemble,lossAssemble,Qk);
-        console.log(tmparr)
+        // console.log(tmparr)
         var electricity = tmparr[0];
         var min = Math.abs(tmparr[1].toFixed(2));
         Qk = tmparr[2].toFixed(2);

@@ -34,8 +34,6 @@ function getElectricity(Imi, Ima, QcAssemble, HtAssemble, days, monthbeginVal, m
                 NiSum += NiArr[s]
             }
         }
-
-        // console.log(lossArr)
         tmpArr = [];
         sum = 0;
         min = 0;
@@ -67,37 +65,28 @@ function getElectricity(Imi, Ima, QcAssemble, HtAssemble, days, monthbeginVal, m
         indexArr.push(index) //
         jArr.push(j); //电流值
         minArr.push(min)
-        //  if(QcSum == 24.8) {
-        //      console.log(QcArr)
-        //  }
     }
-    //console.log(QcArr)
-    //    console.log(n1Arr)
-    // console.log(lossArr)
     let indexMin = Math.min.apply(null, indexArr)
-    //  console.log(indexMin)
     lossArr = []
     for (var r = 0; r < indexArr.length; r++) {
         if (indexMin == indexArr[r]) {
-            // console.log(r)
             QcArr = [];
             NiArr = [];
             QcSum = 0;
             NiSum = 0;
-            // console.log(minArr[r])
             for (var h = monthbeginVal; h <= monthEndVal; h++) {
                 QgAssemble["Qg" + h] = monthArray[h - 1] * jArr[r] * HtAssemble["Ht" + h] * eff1 * eff2;
                 lossAssemble["loss" + h] = QgAssemble["Qg" + h] - QcAssemble["Qc" + h]
                 lossArr.push(lossAssemble["loss" + h])
                 if (lossAssemble["loss" + h] < 0) {
-                    QcArr.push(QcAssemble["Qc" + h]);
+                    QcArr.push(+QcAssemble["Qc" + h]);
                     NiArr.push(monthArray[h - 1])
                 }
             }
             // console.log(QcArr)
-            for (var t = 0; t < QcArr.length - 1; t++) {
-                QcSum += +QcArr[t];
-                NiSum += NiArr[t]
+            for (var t = 0; t <= QcArr.length - 1; t++) {
+                QcSum = QcSum + QcArr[t];
+                NiSum = NiSum + NiArr[t]
             }
             tmpArr = [];
             sum = 0;
@@ -123,14 +112,7 @@ function getElectricity(Imi, Ima, QcAssemble, HtAssemble, days, monthbeginVal, m
                 min = Math.min(sum, min)
             }
             Qk = QcSum / NiSum;
-            // console.log(Qk)
             n1 = Math.abs(min) / Qk
-            // debugger
-            //    console.log(n1)
-            // console.log(QgAssemble)
-            //  console.log(min)
-            //  console.log(sum)
-            //  console.log(Ql)
             return [jArr[r] + 0.00001, min, Qk];
             break;
         }
